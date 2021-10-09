@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  frontend:
+    build: frontend
+    ports:
+      - "8080:80"
+  backend:
+    build:
+      context: backend
+      dockerfile: CarRental/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+    networks:
+      - backend
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./sqlserver/data:/var/opt/mssql/data
+      - ./sqlserver/log:/var/opt/mssql/log
+    networks:
+      - backend
+networks:
+  backend:
