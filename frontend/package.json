@@ -7,7 +7,9 @@
     "build": "ng build",
     "install-puppeteer": "cd node_modules/puppeteer && npm run install",
     "test": "npm run install-puppeteer && ng test",
-    "lint": "tsc --noEmit && eslint src --ext js,ts,json --quiet"
+    "lint": "tsc --noEmit && eslint src --ext js,ts,json --quiet",
+    "cy:run": "cypress run",
+    "cy:verify": "cypress verify"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "cypress": "^8.6.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.2",
