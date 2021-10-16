@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "install-puppeteer": "cd node_modules/puppeteer && npm run install",
-    "test": "npm run install-puppeteer && ng test"
+    "test": "npm run install-puppeteer && ng test",
+    "lint": "tsc --noEmit && eslint src --ext js,ts,json --quiet"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,12 @@
     "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "jasmine-core": "~3.8.0",
     "jasmine-reporters": "^2.5.0",
     "karma": "~6.3.0",
