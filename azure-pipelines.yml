@@ -81,7 +81,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'dotnetrulez/carrentalbackend'
         command: 'buildAndPush'
-        Dockerfile: 'backend/CarRental/Dockerfile'
+        Dockerfile: 'backend/Dockerfile'
         buildContext: 'backend'
   - job: BuildFrontend
     displayName: Build fontend image

@@ -1,3 +1,10 @@
 .idea
 .DS_Store
 sqlserver
+coverage
+junit
+**/obj
+**/debug
+**/bin
+frontend/cypress/videos
+frontend/cypress/screenshots
