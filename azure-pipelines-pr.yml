@@ -1,0 +1,78 @@
+pr:
+  branches:
+    include:
+      - master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: BuildAndTest
+  displayName: 'Build & Test'
+  jobs:
+  - job: Backend
+    displayName: Backend
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: 'build'
+        workingDirectory: backend
+        configuration: $(buildConfiguration)
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet test'
+      inputs:
+        command: 'test'
+        workingDirectory: backend
+        arguments: '--collect "Code coverage"'
+    - task: PublishTestResults@2
+      displayName: Publish .NET Core test results and coverage
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
+  - job: Frontend
+    displayName: Frontend
+    steps:
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        command: install
+        workingDir: frontend
+    - task: Npm@1
+      displayName: 'ng run lint'
+      inputs:
+        command: custom
+        workingDir: frontend
+        customCommand: 'run lint'
+    - task: Npm@1
+      displayName: 'npm build'
+      inputs:
+        command: custom
+        workingDir: frontend
+        customCommand: 'build'
+    - task: Npm@1
+      displayName: 'npm run test'
+      inputs:
+        command: custom
+        customCommand: run test -- --watch=false --code-coverage
+        workingDir: frontend
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish Angular code coverage'
+      condition: succeededOrFailed()
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: 'coverage/cobertura-coverage.xml'
+        reportDirectory: coverage
+        failIfCoverageEmpty: true
+    - task: PublishTestResults@2
+      displayName: 'Publish Angular test results'
+      condition: succeededOrFailed()
+      inputs:
+        searchFolder: $(System.DefaultWorkingDirectory)/junit
+        testRunTitle: Angular
+        testResultsFormat: JUnit
+        testResultsFiles: "**/TESTS*.xml"
