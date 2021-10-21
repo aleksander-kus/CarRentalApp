@@ -11,10 +11,14 @@ services:
     ports:
       - "5000:5000"
     environment:
-      SA_PASSWORD: ${SA_PASSWORD}
+      ASPNETCORE_ENVIRONMENT: "DockerCompose"
+      "DevelopDB:Login": sa
+      "DevelopDB:Password": ${SA_PASSWORD}
+    depends_on:
+      - sql
     networks:
       - backend
-  database:
+  sql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
