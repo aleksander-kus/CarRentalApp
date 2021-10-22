@@ -6,8 +6,24 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  major: 1
+  minor: 1
+
+name: $(major).$(minor)$(Rev:.r)
 
 stages:
+- stage:
+  displayName: Build_Branch_Version_Number
+  condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+  jobs:
+  - job: Build_Branch_Version_Number
+    variables:
+       brpatch: $[counter(variables['build.sourcebranchname'], 0)]
+    steps:
+      - bash: |
+           echo "##vso[build.updatebuildnumber]$(major).$(minor)-$(Build.SourceBranchName).$(brpatch)"
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        name: SetBranchBuildName
 - stage: BuildAndTest
   displayName: Build & Test
   jobs:
