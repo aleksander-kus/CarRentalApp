@@ -1,5 +1,6 @@
 using System;
 using CarRental.Infrastructure.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,69 +8,75 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
 namespace CarRental
 {
     public class Startup
     {
-         private IWebHostEnvironment CurrentEnvironment{ get; set; } 
-        public IConfiguration Configuration { get; }
-
+        private readonly ConfigurationManager _configurationManager;
         public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
-            CurrentEnvironment = env;
-            Configuration = configuration;
+            _configurationManager = new ConfigurationManager(env, configuration);
         }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var envName = CurrentEnvironment.EnvironmentName;
-            var dbConfig = Configuration.GetSection("DataBase");
-            var connectionString = envName switch
-            {
-                "Production" => GetConnectionString(dbConfig.GetSection("Production")),
-                "Development" => GetConnectionString(dbConfig.GetSection("Development")),
-                "DockerCompose" => GetConnectionString(dbConfig.GetSection("DockerCompose"))
-            };
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(options => {
+                    _configurationManager.AzureAdConfig.Bind(options);
+                    
+                    options.TokenValidationParameters.NameClaimType = "name";
+                }, options => 
+                    _configurationManager.AzureAdConfig.Bind(options));
 
+            services.AddAuthorization();
+            
             services.AddControllers();
-            services.AddSwaggerGen();
-            services.AddDbContext<CarRentalContext>(options => options.UseSqlServer(connectionString));
-        }
+            
+            services.AddDbContext<CarRentalContext>(options => 
+                options.UseSqlServer(_configurationManager.DatabaseConnectionString));
 
-        private string GetConnectionString(IConfiguration config)
-        {
-            var server = config["server"];
-            var dbName = config["DatabaseName"];
-            var userName = Configuration[config["SecretLogin"]];
-            var password = Configuration[config["SecretPassword"]];
-            var connectionString = $"Server={server}; Database={dbName}; User Id={userName}; Password={password}; Trusted_Connection=false;";
-            return connectionString;
+            services.AddCors(o => o.AddPolicy("default", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+            
+            if (_configurationManager.UseSwagger)
+            {
+                services.AddSwaggerGen();
+            }
         }
-        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            CurrentEnvironment = env;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+                app.UseHttpsRedirection();
+            }
+
+            if (_configurationManager.UseSwagger)
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRental v1"));
             }
 
-            app.UseRouting();
+            app.UseCors("default");
 
+            app.UseRouting();
+            // app.UseAuthentication();
+            // app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000'
+  apiUrl: 'http://localhost:5000',
+  azureADClientId: '7ceb0184-5a19-470b-83ac-22b635c03602',
+  azureADTenantId: 'c86be5ce-4cbf-4086-8d66-d55d50619e17',
+  azureADRedirectUrl: 'http://localhost:4200/auth/complete'
 };
 
 /*
