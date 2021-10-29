@@ -1,23 +1,14 @@
-pr:
-  branches:
-    include:
-      - master
-
 resources:
 - repo: self
-
-variables:
-  major: 1
-  minor: 1
 
 name: $(major).$(minor)$(Rev:.r)
 
 stages:
 - stage:
-  displayName: Build_Branch_Version_Number
+  displayName: Version
   condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
   jobs:
-  - job: Build_Branch_Version_Number
+  - job: Version
     variables:
        prpatch: $[counter(variables['system.pullrequest.pullrequestid'], 0)]
        brpatch: $[counter(variables['build.sourcebranchname'], 0)]
@@ -29,7 +20,7 @@ stages:
       - bash: |
            echo "##vso[build.updatebuildnumber]$(major).$(minor)-$(Build.SourceBranchName).$(brpatch)"
         condition: ne(variables['Build.Reason'], 'PullRequest')
-        name: SetBranchBuildName
+        name: SetBranchBuildNam
 - stage: BuildAndTest
   displayName: 'Build & Test'
   jobs:
