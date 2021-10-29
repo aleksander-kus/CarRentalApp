@@ -4,36 +4,21 @@ trigger:
 resources:
 - repo: self
 
-variables:
-  major: 1
-  minor: 1
-
 name: $(major).$(minor)$(Rev:.r)
+
+variables:
+  patch: $[counter(variables['minor'], 0)]
+  imageTag: $(major).$(minor).$(patch)
 
 stages:
 - stage:
-  displayName: Build_Master_Version_Number
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  displayName: Version
   jobs:
-  - job: Build_Master_Version_Number
-    variables:
-       patch: $[counter(variables['minor'], 0)]
+  - job: Version
     steps:
       - bash: |
            echo "##vso[build.updatebuildnumber]$(major).$(minor).$(patch)"
         name: SetMasterBuildName
-- stage:
-  displayName: Build_Branch_Version_Number
-  condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
-  jobs:
-  - job: Build_Branch_Version_Number
-    variables:
-       brpatch: $[counter(variables['build.sourcebranchname'], 0)]
-    steps:
-      - bash: |
-           echo "##vso[build.updatebuildnumber]$(major).$(minor)-$(Build.SourceBranchName).$(brpatch)"
-        condition: ne(variables['Build.Reason'], 'PullRequest')
-        name: SetBranchBuildName
 - stage: BuildAndTest
   displayName: Build & Test
   jobs:
@@ -107,10 +92,11 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'dotnetrulez/carrentalbackend'
         command: 'buildAndPush'
+        tags: $(imageTag)
         Dockerfile: 'backend/Dockerfile'
         buildContext: 'backend'
   - job: BuildFrontend
-    displayName: Build fontend image
+    displayName: Build frontend image
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -119,4 +105,5 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'dotnetrulez/carrentalfrontend'
         command: 'buildAndPush'
+        tags: $(imageTag)
         Dockerfile: 'frontend/Dockerfile'
