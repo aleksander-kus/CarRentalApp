@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { protectedResources } from "../auth.config";
 
 @Component({
   selector: 'app-root',

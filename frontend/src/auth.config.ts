@@ -39,7 +39,7 @@ export const msalConfig: Configuration = {
 
 export const protectedResources = {
   userDetailsApi: {
-    endpoint: `${environment.apiUrl}/api/user`,
+    endpoint: `${environment.apiUrl}/api/test`,
     scopes: ['https://dotnetrulezcarrental.onmicrosoft.com/e24648ec-e7b0-497b-b82f-80e5d521073e/access_as_user']
   }
 }

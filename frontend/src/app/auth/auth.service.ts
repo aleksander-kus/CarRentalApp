@@ -4,6 +4,8 @@ import { Observable, Subject } from "rxjs";
 import { InteractionStatus, RedirectRequest } from "@azure/msal-browser";
 import { filter, takeUntil } from "rxjs/operators";
 import { User } from "./user/user.interface";
+import { TokenClaims } from "./user/token-claims.interface";
+import { Role } from "./user/role.enum";
 
 @Injectable()
 export class AuthService {
@@ -47,11 +49,12 @@ export class AuthService {
   private refresh(): void {
     if (this.msalService.instance.getAllAccounts().length > 0) {
       const account = this.msalService.instance.getAllAccounts()[0];
-
-      console.log(account);
+      const tokenClaims = account.idTokenClaims as TokenClaims;
 
       const user: User = {
-        username: 'aaaa'
+        familyName: tokenClaims.family_name,
+        givenName: tokenClaims.given_name,
+        role: Role[tokenClaims.extension_Role as keyof typeof Role]
       };
 
       this.userSubject.next(user);

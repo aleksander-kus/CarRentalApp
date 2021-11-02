@@ -35,7 +35,7 @@ export class VisibleForDirective implements OnInit, OnDestroy {
   private initSubscription(): void {
     this.subscription = this.authService.user$.subscribe(
       user => {
-        if (!!user && (this.roles.length === 0)) {
+        if (!!user && (this.roles.length === 0 || this.roles.indexOf(user.role) != -1)) {
           if (!this.hasView) {
             this.viewContainer.createEmbeddedView(this.templateRef);
             this.hasView = true;

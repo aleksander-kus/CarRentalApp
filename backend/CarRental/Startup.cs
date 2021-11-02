@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CarRental
@@ -26,8 +27,12 @@ namespace CarRental
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(options => {
                     _configurationManager.AzureAdConfig.Bind(options);
-                    
-                    options.TokenValidationParameters.NameClaimType = "name";
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        RoleClaimType = "extension_Role"
+                    };
+
                 }, options => 
                     _configurationManager.AzureAdConfig.Bind(options));
 
@@ -71,8 +76,8 @@ namespace CarRental
             app.UseCors("default");
 
             app.UseRouting();
-            // app.UseAuthentication();
-            // app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>
             {
