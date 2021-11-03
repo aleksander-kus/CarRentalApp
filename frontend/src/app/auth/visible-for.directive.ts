@@ -1,5 +1,5 @@
 import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Role } from "./user/role.enum";
+import { Role } from "./model/role.enum";
 import { AuthService } from "./auth.service";
 import { Subscription } from "rxjs";
 

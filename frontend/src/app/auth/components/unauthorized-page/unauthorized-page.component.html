@@ -1,0 +1,12 @@
+<div class="container">
+  <div>
+    <h2>You don't have access to this page</h2>
+    <div class="container-mini">
+      <button *ngIf="isLogged$ | async; else loginBtn" mat-raised-button color="accent" (click)="logout()">Logout and login again</button>
+      <ng-template #loginBtn>
+        <button mat-raised-button color="accent" (click)="login()">Login</button>
+      </ng-template>
+      <button mat-raised-button color="primary" (click)="home()">Home page</button>
+    </div>
+  </div>
+</div>

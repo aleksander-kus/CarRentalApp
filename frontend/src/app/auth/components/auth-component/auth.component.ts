@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { AuthService } from "../auth.service";
-import { MsalBroadcastService } from "@azure/msal-angular";
+import { AuthService } from "../../auth.service";
+import { UserDetailsService } from "../../user-details.service";
 
 @Component({
   selector: 'app-auth',
@@ -8,10 +8,11 @@ import { MsalBroadcastService } from "@azure/msal-angular";
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  user$ = this.authService.user$;
+  user$ = this.userDetailsService.user$;
 
   constructor(
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private userDetailsService: UserDetailsService) { }
 
   public login(): void {
     this.authService.login();

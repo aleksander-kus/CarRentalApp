@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+
+.container-mini {
+  display: flex;
+  padding: 10px;
+  justify-content: space-evenly;
+}
+
+h2 {
+  font-size: 32px;
+}

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from "./auth.service";
-import { AuthComponent } from './auth-component/auth.component';
+import { AuthComponent } from './components/auth-component/auth.component';
 import { MatButtonModule } from "@angular/material/button";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { AuthGuard } from "./auth.guard";
-import { ClientGuard } from "./client.guard";
+import { AuthGuard } from "./guards/auth.guard";
+import { ClientGuard } from "./guards/client.guard";
 import { VisibleForDirective } from './visible-for.directive';
-import { EmployeeGuard } from "./employee.guard";
-import { MenubarComponent } from "./menubar-component/menubar.component";
+import { EmployeeGuard } from "./guards/employee.guard";
+import { MenubarComponent } from "./components/menubar-component/menubar.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
@@ -21,6 +21,9 @@ import {
 } from "@azure/msal-angular";
 import { InteractionType, IPublicClientApplication, PublicClientApplication } from "@azure/msal-browser";
 import { loginRequest, msalConfig, protectedResources } from "../../auth.config";
+import { UnauthorizedPageComponent } from './components/unauthorized-page/unauthorized-page.component';
+import { UserDetailsService } from "./user-details.service";
+import { MatCardModule } from "@angular/material/card";
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -50,7 +53,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   declarations: [
     AuthComponent,
     MenubarComponent,
-    VisibleForDirective
+    VisibleForDirective,
+    UnauthorizedPageComponent
   ],
   providers: [
     {
@@ -74,6 +78,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalBroadcastService,
     MsalGuard,
     AuthService,
+    UserDetailsService,
     AuthGuard,
     ClientGuard,
     EmployeeGuard
@@ -89,7 +94,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ]
 })
 export class AuthModule { }

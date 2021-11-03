@@ -1,5 +1,7 @@
 using System;
+using CarRental.Domain.Ports;
 using CarRental.Infrastructure.Database;
+using CarRental.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Graph;
+using Microsoft.Graph.Auth;
+using Microsoft.Identity.Client;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -35,7 +40,19 @@ namespace CarRental
 
                 }, options => 
                     _configurationManager.AzureAdConfig.Bind(options));
+            
+            services.AddSingleton<IAuthenticationProvider>(o =>
+            {
+                IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
+                    .Create(_configurationManager.AzureAdConfig["ClientId"])
+                    .WithTenantId(_configurationManager.AzureAdConfig["tenantId"])
+                    .WithClientSecret(_configurationManager.AzureAdConfig["Secret"])
+                    .Build();
 
+                return new ClientCredentialProvider(confidentialClientApplication);
+            });
+            services.AddSingleton<IGetUserDetailsUseCase, UserDetailsService>();
+            
             services.AddAuthorization();
             
             services.AddControllers();

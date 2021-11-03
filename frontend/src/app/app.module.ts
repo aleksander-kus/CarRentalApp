@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from "./auth/auth.module";
 import { CarSearchModule } from "./car-search/car-search.module";
 
+
 @NgModule({
   declarations: [
     AppComponent

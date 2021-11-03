@@ -3,9 +3,10 @@ import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalSe
 import { Observable, Subject } from "rxjs";
 import { InteractionStatus, RedirectRequest } from "@azure/msal-browser";
 import { filter, takeUntil } from "rxjs/operators";
-import { User } from "./user/user.interface";
-import { TokenClaims } from "./user/token-claims.interface";
-import { Role } from "./user/role.enum";
+import { User } from "./model/user.interface";
+import { TokenClaims } from "./model/token-claims.interface";
+import { Role } from "./model/role.enum";
+import { UserDetailsService } from "./user-details.service";
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
   public user$: Observable<User | null> = this.userSubject.asObservable();
 
   constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
+              private userDetailsService: UserDetailsService,
               private msalService: MsalService,
               private msalBroadcastService: MsalBroadcastService) { }
 
@@ -57,6 +59,7 @@ export class AuthService {
         role: Role[tokenClaims.extension_Role as keyof typeof Role]
       };
 
+      this.userDetailsService.loadUserDetails();
       this.userSubject.next(user);
     } else {
       this.userSubject.next(null);
