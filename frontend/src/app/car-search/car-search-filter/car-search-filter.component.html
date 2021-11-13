@@ -1,0 +1,56 @@
+<mat-card class="container" fxLayout="column" fxLayoutGap="5%" style="border-bottom: 0">
+  <div fxLayout="row">
+    <mat-card-title>Filters</mat-card-title>
+    <span fxFlex></span>
+    <button type="button" mat-raised-button color="primary" fxFlexAlign="flex-end">Clear</button>
+  </div>
+  <!-- Transmission filter section -->
+  <mat-card class="transmission-filter mat-elevation-z0">
+    <mat-card-title class="category-title">Transmission</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="2%">
+      <mat-checkbox class="filter-checkbox" color="primary">Manual</mat-checkbox>
+      <mat-checkbox class="filter-checkbox" color="primary">Automatic</mat-checkbox>
+    </mat-card-content>
+  </mat-card>
+  <!-- Brand and model filter section -->
+  <mat-card class="brand-and-model-filter mat-elevation-z0">
+    <mat-card-title class="category-title">Brand and model</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="2%">
+      <div class="brand-filter-group" *ngFor="let brand of modelsByBrand | keyvalue">
+        <mat-checkbox class="filter-checkbox" color="primary">{{brand.key}}</mat-checkbox>
+        <ul class="model-list">
+          <li *ngFor="let model of brand.value">
+            <mat-checkbox class="filter-checkbox" color="primary">{{model}}</mat-checkbox>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <!-- Production year filter section -->
+  <mat-card class="production-year-filter mat-elevation-z0">
+    <mat-card-title class="category-title">Production year</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="2%">
+      <div class="custom-ngx-slider">
+        <ngx-slider [(value)]="this.productionYearSliderConfig.value" [(highValue)]="this.productionYearSliderConfig.highValue" [options]="this.productionYearSliderConfig.options"></ngx-slider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <!-- Capacity filter section -->
+  <mat-card class="capacity-filter mat-elevation-z0">
+    <mat-card-title class="category-title">Capacity</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="2%">
+      <div class="custom-ngx-slider">
+        <ngx-slider [(value)]="capacitySliderConfig.value" [(highValue)]="capacitySliderConfig.highValue" [options]="capacitySliderConfig.options"></ngx-slider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <!-- Category filter section -->
+  <mat-card class="category-filter mat-elevation-z0" style="border-bottom: 0px">
+    <mat-card-title class="category-title">Category</mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutGap="2%">
+      <div *ngFor="let type of uniqueCarCategories">
+        <mat-checkbox class="filter-checkbox" color="primary">{{type}}</mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-card>

@@ -1,0 +1,17 @@
+h2{
+  vertical-align: middle;
+}
+
+mat-card-title.category-title{
+  font-size: 15px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0 0 0 -20px;
+}
+
+mat-card{
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+}
