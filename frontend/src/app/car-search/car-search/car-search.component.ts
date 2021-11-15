@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
-import { Car } from "../model/car.interface";
-import { CarDataService } from "../cardata.service";
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {Car} from "../model/car.interface";
+import {CarDataService} from "../cardata.service";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatSort, MatSortable} from "@angular/material/sort";
+import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {CarDetailsComponent} from "../car-details/car-details.component";
+import {CarSearchFilterComponent} from "../car-search-filter/car-search-filter.component";
 
 @Component({
   selector: 'app-car-search',
@@ -15,19 +16,30 @@ import {CarDetailsComponent} from "../car-details/car-details.component";
 
 
 export class CarSearchComponent implements AfterViewInit{
-  displayedColumns: string[] = ['brand', 'model', 'productionYear', 'capacity', 'category', 'providerCompany', 'showDetails'];
+  displayedColumns: string[] = ['brand', 'model', 'productionYear', 'capacity', 'horsePower', 'category', 'providerCompany', 'showDetails'];
   dataSource: MatTableDataSource<Car> = new MatTableDataSource<Car>();
 
   @ViewChild(MatSort) sort: MatSort
+  @ViewChild(CarSearchFilterComponent) filterComponent : CarSearchFilterComponent;
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort
+    this.getDataFromService()
   }
 
   getDataFromService(){
-    this.dservice.getData().subscribe(cars => this.dataSource.data = cars);
+    console.log(this.filterComponent.getFilter())
+    this.carDataService.getData(this.filterComponent.getFilter()).subscribe(cars =>
+    {
+      this.dataSource.data = cars
+      if(this.filterComponent.cars == null || this.filterComponent.cars.length == 0)
+      {
+        this.filterComponent.cars = cars
+        this.filterComponent.parseCarData()
+      }
+    });
   }
-  constructor(private dservice: CarDataService, private detailsDialog : MatDialog) {}
+  constructor(private carDataService: CarDataService, private detailsDialog : MatDialog) {}
 
   openDetailsDialog(car : Car) {
     this.detailsDialog.open(CarDetailsComponent, {

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using CarRental.Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using CarRental.Domain.CarList;
@@ -18,9 +17,11 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCarList()
+        //public async Task<ActionResult> GetCarList([FromBody] CarListFiler filter)
+        public async Task<ActionResult> GetCarList([FromQuery] CarListFilter filter)
         {
-            return Ok(await _carRepository.GetAllCars());
+            filter.Validate();
+            return Ok(await _carRepository.GetCarsAsync(filter));
         }
     }
 }

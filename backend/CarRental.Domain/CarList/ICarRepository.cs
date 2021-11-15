@@ -5,6 +5,6 @@ namespace CarRental.Domain.CarList
 {
     public interface ICarRepository
     {
-        Task<Car[]> GetAllCars();
+        Task<Car[]> GetCarsAsync(CarListFilter filter);
     }
 }

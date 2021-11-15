@@ -1,4 +1,3 @@
-
 using CarRental.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,8 +8,13 @@ namespace CarRental.Infrastructure.Database
         public CarRentalContext(DbContextOptions<CarRentalContext> options) : base(options)
         {
         }
+
+        public CarRentalContext()
+        {
+            
+        }
         
-        public DbSet<Car> Cars { get; set; }
+        public virtual DbSet<Car> Cars { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

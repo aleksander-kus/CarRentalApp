@@ -1,12 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CarSearchFilterComponent} from './car-search-filter.component';
-import {CarDataService} from "../cardata.service";
-import {Car} from "../model/car.interface";
 import {MatCardModule} from "@angular/material/card";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
-import {Observable, of} from "rxjs";
 
 const testCarList = [{id: 0, brand: "Opel", model: "Astra", productionYear: 2020, category: "Medium",
   capacity: 5, horsePower: 34, providerCompany: "A"},
@@ -26,28 +23,19 @@ const testCarList = [{id: 0, brand: "Opel", model: "Astra", productionYear: 2020
 describe('CarSearchFilterComponent brand and model filter checkboxes', () => {
   let component: CarSearchFilterComponent;
   let fixture: ComponentFixture<CarSearchFilterComponent>;
-  let carDataService: CarDataService;
   let element: HTMLElement;
   let filterSection: HTMLElement | null;
   let brandFilterGroups: NodeListOf<HTMLElement> | undefined;
 
-  let carDataServiceStub: Partial<CarDataService>;
-
   beforeEach(() => {
-    // create a stub data provider
-    carDataServiceStub = {
-      getData(): Observable<Car[]> {
-        return of(testCarList)
-      }
-    };
     TestBed.configureTestingModule({
       declarations: [CarSearchFilterComponent],
       imports: [MatCardModule, MatCheckboxModule, NgxSliderModule],
-      providers: [{provide: CarDataService, useValue: carDataServiceStub}],
     });
     fixture = TestBed.createComponent(CarSearchFilterComponent);
     component = fixture.componentInstance;
-    carDataService = TestBed.inject(CarDataService);
+    component.cars = testCarList;
+    component.parseCarData();
     element = fixture.nativeElement;
     fixture.detectChanges();
     filterSection = element.querySelector(".brand-and-model-filter");
@@ -55,7 +43,7 @@ describe('CarSearchFilterComponent brand and model filter checkboxes', () => {
   });
 
   it('should get data about cars from data provider', function () {
-    carDataService.getData().subscribe(data => expect(component.cars).toEqual(data));
+    expect(component.cars).toEqual(testCarList);
   });
 
   it('should properly detect unique car categories', function () {
@@ -106,5 +94,14 @@ describe('CarSearchFilterComponent brand and model filter checkboxes', () => {
       }
       expect(modelNames.sort()).toEqual(component.modelsByBrand.get(brandName!)!.sort());
     });
+  });
+
+  it('should have slider values according to min and max values of car properties', () => {
+    expect(component.productionYearSliderConfig.value).toEqual(2014)
+    expect(component.productionYearSliderConfig.highValue).toEqual(2020)
+    expect(component.capacitySliderConfig.value).toEqual(4)
+    expect(component.capacitySliderConfig.highValue).toEqual(7)
+    expect(component.horsePowerSliderConfig.value).toEqual(34)
+    expect(component.horsePowerSliderConfig.highValue).toEqual(324)
   });
 });
