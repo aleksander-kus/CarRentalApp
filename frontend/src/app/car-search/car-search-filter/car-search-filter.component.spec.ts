@@ -2,18 +2,18 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CarSearchFilterComponent} from './car-search-filter.component';
 import {CarDataService} from "../cardata.service";
-import {CarCategory} from "../model/carcategory.enum";
 import {Car} from "../model/car.interface";
 import {MatCardModule} from "@angular/material/card";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import {Observable, of} from "rxjs";
 
-const testCarList = [{Brand: "Opel", Model: "Astra", ProductionDate: new Date(2020, 1), Category: CarCategory.Medium, Capacity: 5},
-  {Brand: "Honda", Model: "Civic", ProductionDate: new Date(2019, 2), Category: CarCategory.Small, Capacity: 4},
-  {Brand: "Seat", Model: "Ibiza", ProductionDate: new Date(2014, 1), Category: CarCategory.Big, Capacity: 6},
-  {Brand: "Honda", Model: "Escapado", ProductionDate: new Date(2019, 2), Category: CarCategory.XXL, Capacity: 7},
-  {Brand: "Opel", Model: "Insignia", ProductionDate: new Date(2019, 2), Category: CarCategory.Big, Capacity: 6},
-  {Brand: "Opel", Model: "Insignia", ProductionDate: new Date(2019, 2), Category: CarCategory.Big, Capacity: 6},
+const testCarList = [{ID: 0, Brand: "Opel", Model: "Astra", ProductionYear: 2020, Category: "Medium", Capacity: 5},
+  {ID: 1, Brand: "Honda", Model: "Civic", ProductionYear: 2019, Category: "Small", Capacity: 4},
+  {ID: 2, Brand: "Seat", Model: "Ibiza", ProductionYear: 2014, Category: "Big", Capacity: 6},
+  {ID: 3, Brand: "Honda", Model: "Escapado", ProductionYear: 2019, Category: "XXL", Capacity: 7},
+  {ID: 4, Brand: "Opel", Model: "Insignia", ProductionYear: 2019, Category: "Big", Capacity: 6},
+  {ID: 5, Brand: "Opel", Model: "Insignia", ProductionYear: 2019, Category: "Big", Capacity: 6},
 ]
 
 
@@ -30,8 +30,8 @@ describe('CarSearchFilterComponent brand and model filter checkboxes', () => {
   beforeEach(() => {
     // create a stub data provider
     carDataServiceStub = {
-      getData(): Car[] {
-        return testCarList
+      getData(): Observable<Car[]> {
+        return of(testCarList)
       }
     };
     TestBed.configureTestingModule({
@@ -49,7 +49,7 @@ describe('CarSearchFilterComponent brand and model filter checkboxes', () => {
   });
 
   it('should get data about cars from data provider', function () {
-    expect(component.cars).toEqual(carDataService.getData());
+    carDataService.getData().subscribe(data => expect(component.cars).toEqual(data));
   });
 
   it('should properly detect unique car categories', function () {

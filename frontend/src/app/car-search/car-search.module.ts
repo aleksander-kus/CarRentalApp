@@ -10,6 +10,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatCardModule} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
     MatCheckboxModule,
     MatCardModule,
     FormsModule,
-    NgxSliderModule
+    NgxSliderModule,
+    HttpClientModule
   ]
 })
 export class CarSearchModule {

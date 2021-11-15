@@ -1,4 +1,6 @@
 using System;
+using CarRental.Domain.CarList;
+using CarRental.Domain.Entity;
 using CarRental.Domain.Ports;
 using CarRental.Infrastructure.Database;
 using CarRental.Infrastructure.Services;
@@ -59,7 +61,7 @@ namespace CarRental
             
             services.AddDbContext<CarRentalContext>(options => 
                 options.UseSqlServer(_configurationManager.DatabaseConnectionString));
-
+            services.AddScoped<ICarRepository, CarRepository>();
             services.AddCors(o => o.AddPolicy("default", builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();

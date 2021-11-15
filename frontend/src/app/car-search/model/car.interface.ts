@@ -1,9 +1,8 @@
-import { CarCategory } from "./carcategory.enum";
-
 export interface Car {
+    ID: number;
     Brand: string;
     Model: string;
-    ProductionDate: Date;
+    ProductionYear: number;
     Capacity: number;
-    Category: CarCategory;
+    Category: string;
 }

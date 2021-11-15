@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {OnInit, Component} from '@angular/core';
 import {CarDataService} from "../cardata.service";
 import {Car} from "../model/car.interface";
 
@@ -7,7 +7,7 @@ import {Car} from "../model/car.interface";
   templateUrl: './car-search-filter.component.html',
   styleUrls: ['./car-search-filter.component.css']
 })
-export class CarSearchFilterComponent {
+export class CarSearchFilterComponent implements OnInit {
   productionYearSliderConfig = {value : 2000, highValue : 2021, options : {floor : 2000, ceil : 2021}};
   capacitySliderConfig = {value : 2, highValue : 7, options : {floor : 2, ceil : 7}};
   modelsByBrand: Map<string, string[]> = new Map<string, string[]>();
@@ -39,12 +39,19 @@ export class CarSearchFilterComponent {
   }
 
   getDataFromService(){
-    this.cars = this.dservice.getData();
-    this.getUniqueCarBrands();
-    this.uniqueBrands.forEach(brand => {
-      this.modelsByBrand.set(brand, this.getUniqueCarModelsOfBrand(brand));
-    })
-    this.getUniqueCarCategories();
+    this.dservice.getData().subscribe(cars =>
+    {
+      this.cars = cars;
+      this.getUniqueCarBrands();
+      this.uniqueBrands.forEach(brand => {
+        this.modelsByBrand.set(brand, this.getUniqueCarModelsOfBrand(brand));
+      })
+      this.getUniqueCarCategories();
+    });
   }
-  constructor(private dservice: CarDataService) { this.getDataFromService() }
+  constructor(private dservice: CarDataService) { }
+
+  ngOnInit() {
+    this.getDataFromService()
+  }
 }
