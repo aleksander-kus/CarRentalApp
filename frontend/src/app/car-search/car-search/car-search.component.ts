@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import { Car } from "../model/car.interface";
 import { CarDataService } from "../cardata.service";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSort, MatSortable} from "@angular/material/sort";
 
 @Component({
   selector: 'app-car-search',
@@ -11,12 +12,18 @@ import {MatTableDataSource} from "@angular/material/table";
 })
 
 
-export class CarSearchComponent {
-  displayedColumns: string[] = ['brand', 'model', 'productionYear', 'capacity', 'category', 'showdetails'];
+export class CarSearchComponent implements AfterViewInit{
+  displayedColumns: string[] = ['Brand', 'Model', 'ProductionYear', 'Capacity', 'Category', 'ShowDetails'];
   dataSource: MatTableDataSource<Car> = new MatTableDataSource<Car>();
 
-  getDataFromService(){
-    this.dservice.getData().subscribe(cars => this.dataSource.data = cars)
+  @ViewChild(MatSort) sort: MatSort
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort
   }
-  constructor(private dservice: CarDataService) { this.getDataFromService() }
+
+  getDataFromService(){
+    this.dservice.getData().subscribe(cars => this.dataSource.data = cars);
+  }
+  constructor(private dservice: CarDataService) { }
 }

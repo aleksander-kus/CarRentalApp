@@ -11,6 +11,7 @@ import {MatCardModule} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import { HttpClientModule } from '@angular/common/http';
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     FormsModule,
     NgxSliderModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSortModule
   ]
 })
 export class CarSearchModule {
