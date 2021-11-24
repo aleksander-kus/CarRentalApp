@@ -8,12 +8,18 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import {Observable, of} from "rxjs";
 
-const testCarList = [{ID: 0, Brand: "Opel", Model: "Astra", ProductionYear: 2020, Category: "Medium", Capacity: 5},
-  {ID: 1, Brand: "Honda", Model: "Civic", ProductionYear: 2019, Category: "Small", Capacity: 4},
-  {ID: 2, Brand: "Seat", Model: "Ibiza", ProductionYear: 2014, Category: "Big", Capacity: 6},
-  {ID: 3, Brand: "Honda", Model: "Escapado", ProductionYear: 2019, Category: "XXL", Capacity: 7},
-  {ID: 4, Brand: "Opel", Model: "Insignia", ProductionYear: 2019, Category: "Big", Capacity: 6},
-  {ID: 5, Brand: "Opel", Model: "Insignia", ProductionYear: 2019, Category: "Big", Capacity: 6},
+const testCarList = [{id: 0, brand: "Opel", model: "Astra", productionYear: 2020, category: "Medium",
+  capacity: 5, horsePower: 34, providerCompany: "A"},
+  {id: 1, brand: "Honda", model: "Civic", productionYear: 2019, category: "Small", capacity: 4,
+    horsePower: 134, providerCompany: "B"},
+  {id: 2, brand: "Seat", model: "Ibiza", productionYear: 2014, category: "Big", capacity: 6, horsePower: 34,
+    providerCompany: "A"},
+  {id: 3, brand: "Honda", model: "Escapado", productionYear: 2019, category: "XXL", capacity: 7,
+    horsePower: 104, providerCompany: "C"},
+  {id: 4, brand: "Opel", model: "Insignia", productionYear: 2019, category: "Big", capacity: 6,
+    horsePower: 314, providerCompany: "D"},
+  {id: 5, brand: "Opel", model: "Insignia", productionYear: 2019, category: "Big", capacity: 6,
+    horsePower: 324, providerCompany: "A"},
 ]
 
 

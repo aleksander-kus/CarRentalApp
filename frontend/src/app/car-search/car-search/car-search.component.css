@@ -18,3 +18,7 @@ button.search-button {
   vertical-align: center;
   height: 5%;
 }
+
+.check-price {
+  align-self: center;
+}

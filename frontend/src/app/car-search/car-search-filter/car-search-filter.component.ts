@@ -17,24 +17,24 @@ export class CarSearchFilterComponent implements OnInit {
 
   private getUniqueCarBrands() {
     this.cars.forEach(car => {
-      if(this.uniqueBrands.indexOf(car.Brand) == -1)
-        this.uniqueBrands.push(car.Brand);
+      if(this.uniqueBrands.indexOf(car.brand) == -1)
+        this.uniqueBrands.push(car.brand);
     });
   }
 
   private getUniqueCarModelsOfBrand(brand: string): string[] {
     const models: string[] = [];
     this.cars.forEach(car => {
-      if(car.Brand == brand && models.indexOf(car.Model) == -1)
-        models.push(car.Model);
+      if(car.brand == brand && models.indexOf(car.model) == -1)
+        models.push(car.model);
     });
     return models;
   }
 
   private getUniqueCarCategories() {
     this.cars.forEach(car => {
-      if(this.uniqueCarCategories.indexOf(car.Category) == -1)
-        this.uniqueCarCategories.push(car.Category);
+      if(this.uniqueCarCategories.indexOf(car.category) == -1)
+        this.uniqueCarCategories.push(car.category);
     })
   }
 

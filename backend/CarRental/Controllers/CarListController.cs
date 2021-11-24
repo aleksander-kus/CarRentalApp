@@ -20,7 +20,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCarList()
         {
-            return Ok(JsonSerializer.Serialize(await _carRepository.GetAllCars()));
+            return Ok(await _carRepository.GetAllCars());
         }
     }
 }

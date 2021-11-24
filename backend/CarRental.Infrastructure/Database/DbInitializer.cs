@@ -9,10 +9,10 @@ namespace CarRental.Infrastructure.Database
         {
             context.Database.EnsureCreated();
 
-            if (context.Cars.Any())
-            {
-                return; // DB has been seeded
-            }
+             if (context.Cars.Any())
+             {
+                 return; // DB has been seeded
+             }
 
             var cars = new Car[]
             {
@@ -22,7 +22,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Insignia",
                     Capacity = 5,
                     Category = "Big",
-                    ProductionYear = 2020
+                    ProductionYear = 2020,
+                    HorsePower = 190,
+                    ProviderCompany = "ExtraCompany"
                 },
                 new Car
                 {
@@ -30,7 +32,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Astra",
                     Capacity = 4,
                     Category = "Medium",
-                    ProductionYear = 2020
+                    ProductionYear = 2020,
+                    HorsePower = 90,
+                    ProviderCompany = "ExtraCompany"
                 },
                 new Car
                 {
@@ -38,7 +42,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Civic",
                     Capacity = 3,
                     Category = "Small",
-                    ProductionYear = 2017
+                    ProductionYear = 2017,
+                    HorsePower = 120,
+                    ProviderCompany = "SuperCompany"
                 },
                 new Car
                 {
@@ -46,7 +52,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Escapado",
                     Capacity = 7,
                     Category = "XXL",
-                    ProductionYear = 2015
+                    ProductionYear = 2015,
+                    HorsePower = 160,
+                    ProviderCompany = "ExtraCompany"
                 },
                 new Car
                 {
@@ -54,7 +62,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Insignia",
                     Capacity = 5,
                     Category = "Big",
-                    ProductionYear = 2020
+                    ProductionYear = 2020,
+                    HorsePower = 200,
+                    ProviderCompany = "SuperCompany"
                 },
                 new Car
                 {
@@ -62,7 +72,9 @@ namespace CarRental.Infrastructure.Database
                     Model = "Ibiza",
                     Capacity = 6,
                     Category = "Big",
-                    ProductionYear = 2021
+                    ProductionYear = 2021,
+                    HorsePower = 130,
+                    ProviderCompany = "GreatCompany"
                 },
             };
             context.Cars.AddRange(cars);

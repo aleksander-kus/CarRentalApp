@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-pane.details-dialog {
+  position: relative!important;
+}
+.close.mat-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px;
+  line-height: 14px;
+  min-width: auto;
+}

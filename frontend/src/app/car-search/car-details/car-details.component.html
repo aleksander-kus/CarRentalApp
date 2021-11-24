@@ -1,0 +1,45 @@
+<div class="container" xmlns="">
+  <mat-list>
+    <button mat-icon-button mat-button class="close" [mat-dialog-close]="true">
+      <mat-icon class="close-icon" color="black">close</mat-icon>
+    </button>
+    <h3 matSubheader>Car Details</h3>
+    <mat-list-item datasrc="car">
+      <h1 style="font-size: 40px">{{car.brand}} {{car.model}}</h1>
+    </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>ProductionYear:</span>
+        <span>{{car.productionYear}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>Capacity:</span>
+        <span>{{car.capacity}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>Category:</span>
+        <span>{{car.category}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>Horse Power:</span>
+        <span>{{car.horsePower}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>Company:</span>
+        <span>{{car.providerCompany}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item>
+      <button class="check-price" mat-raised-button color="primary" (click)="openCheckPriceDialog()">Check Price</button>
+    </mat-list-item>
+  </mat-list>
+
+</div>
