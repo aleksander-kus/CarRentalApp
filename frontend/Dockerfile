@@ -11,7 +11,6 @@ COPY ./ /usr/local/app/
 RUN npm install
 
 # Generate the build of the application
-ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 

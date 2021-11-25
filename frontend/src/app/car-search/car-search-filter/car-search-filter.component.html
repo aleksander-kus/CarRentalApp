@@ -9,7 +9,7 @@
     <mat-card-title class="category-title">Brand and model</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
         <div class="brand-filter-group" *ngFor="let brand of modelsByBrand | keyvalue">
-          <mat-checkbox class="filter-checkbox" color="primary" [checked]="brandChecked.get(brand.key)" [indeterminate]="checkIfModelsChecked(brand.key)" (change)="brandCheckChanged($event.checked, brand.key)">{{brand.key}}</mat-checkbox>
+          <mat-checkbox class="filter-checkbox" color="primary" [checked]="brandChecked.get(brand.key) ?? false" [indeterminate]="checkIfModelsChecked(brand.key)" (change)="brandCheckChanged($event.checked, brand.key)">{{brand.key}}</mat-checkbox>
           <ul class="model-list">
             <li *ngFor="let model of brand.value">
               <mat-checkbox class="filter-checkbox" color="primary" [ngModel]="modelChecked.get(model)" (change)="modelChecked.set(model, $event.checked); updateBrandChecked()">{{model}}</mat-checkbox>
