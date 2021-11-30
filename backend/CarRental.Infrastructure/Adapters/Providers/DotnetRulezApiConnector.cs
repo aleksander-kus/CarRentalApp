@@ -44,7 +44,12 @@ namespace CarRental.Infrastructure.Adapters.Providers
             
             throw new CarProviderException();
         }
-        
+
+        public async Task<bool> TryBookCar(CarRentRequestDto carRentRequest)
+        {
+            return true;
+        }
+
         private class CarsListResponse
         {
             [JsonPropertyName("carCount")]

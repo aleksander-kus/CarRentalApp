@@ -8,7 +8,7 @@ using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
 {
-    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase
+    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase
     {
         private readonly ICarProviderFactory _carProviderFactory;
 
@@ -32,6 +32,18 @@ namespace CarRental.Domain.Services
             }
             
             return await provider.GetCarsAsync(filters);
+        }
+
+        public async Task<bool> TryBookCar(CarRentRequestDto carRentRequest)
+        {
+            var provider = await _carProviderFactory.GetProviderAsync(carRentRequest.ProviderId);
+
+            if (provider == null)
+            {
+                throw new UnknownCarProviderException();
+            }
+
+            return await provider.TryBookCar(carRentRequest);
         }
     }
 }

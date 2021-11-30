@@ -56,13 +56,15 @@ namespace CarRental
 
             services.AddHttpClient();
             services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
-                new CarProviderFactory(_configurationManager.CarProvidersConfig, (IConfiguration)conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
+                new CarProviderFactory(_configurationManager.CarProvidersConfig,
+                    (IConfiguration) conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
             services.AddSingleton<IUserRepository, UserGraphRepository>();
             services.AddSingleton<IGetUserDetailsUseCase, UserService>();
             services.AddSingleton<IGetCarProvidersUseCase, CarService>();
             services.AddSingleton<IGetCarsFromProviderUseCase, CarService>();
+            services.AddSingleton<IBookCarUseCase, CarService>();
+            
             services.AddResponseCaching();
-
             services.AddAuthorization();
             services.AddControllers();
             

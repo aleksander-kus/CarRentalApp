@@ -37,7 +37,7 @@ namespace CarRental.Infrastructure.Test.Util
         
         [Theory]
         [MemberData(nameof(TestFilters))]
-        public async Task ShouldReturnAllCarsMatchingFilterAsync(CarListFilter filter, int[] expectedCarIds)
+        public void ShouldReturnAllCarsMatchingFilterAsync(CarListFilter filter, int[] expectedCarIds)
         {
             var result = CarFilteringUtil.FilterCars(_cars.ToList(), filter);
             var actualCarIds = result.Select(car => car.Id).ToArray();

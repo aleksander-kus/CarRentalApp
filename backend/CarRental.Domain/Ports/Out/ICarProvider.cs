@@ -8,5 +8,7 @@ namespace CarRental.Domain.Ports.Out
     public interface ICarProvider
     {
         Task<List<CarDetails>> GetCarsAsync(CarListFilter filter);
+
+        Task<bool> TryBookCar(CarRentRequestDto carRentRequest);
     }
 }
