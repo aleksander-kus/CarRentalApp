@@ -12,15 +12,25 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import { HttpClientModule } from '@angular/common/http';
 import {MatSortModule} from "@angular/material/sort";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { CarSearchService } from "./car-search.service";
+import { CarDetailsComponent } from "./car-details/car-details.component";
+import { MatListModule } from "@angular/material/list";
+import { MatIconModule } from "@angular/material/icon";
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 @NgModule({
   declarations: [
     CarSearchComponent,
+    CarDetailsComponent,
     CarSearchFilterComponent,
   ],
   exports: [
     CarSearchComponent
+  ],
+  providers: [
+    CarSearchService
   ],
   imports: [
     CommonModule,
@@ -34,7 +44,11 @@ import {MatSortModule} from "@angular/material/sort";
     NgxSliderModule,
     HttpClientModule,
     MatSortModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatIconModule,
+    MatDialogModule
   ]
 })
 export class CarSearchModule {

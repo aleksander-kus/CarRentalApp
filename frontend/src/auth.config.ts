@@ -41,7 +41,15 @@ export const protectedResources = {
   userDetailsApi: {
     endpoint: `${environment.apiUrl}/api/User`,
     scopes: [environment.azureADApiScope]
-  }
+  },
+  carProvidersApi: {
+    endpoint: `${environment.apiUrl}/api/CarSearch/providers`,
+    scopes: [environment.azureADApiScope]
+  },
+  carSearchApi: (id: string) => ({
+    endpoint: `${environment.apiUrl}/api/CarSearch/${id}`,
+    scopes: [environment.azureADApiScope]
+  })
 }
 
 export const loginRequest = {

@@ -1,4 +1,3 @@
-using CarRental.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Database
@@ -11,14 +10,10 @@ namespace CarRental.Infrastructure.Database
 
         public CarRentalContext()
         {
-            
         }
-        
-        public virtual DbSet<Car> Cars { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Car>().ToTable("Car");
         }
     }
 }

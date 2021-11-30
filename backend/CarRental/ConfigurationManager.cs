@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using CarRental.Domain.Dto;
+using CarRental.Infrastructure.Util;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
@@ -49,6 +53,22 @@ namespace CarRental
         }
 
         public IConfigurationSection AzureAdConfig => GetEnvSection("AzureAdB2C");
+
+        public Dictionary<string, CarProviderConfig> CarProvidersConfig
+        {
+            get
+            {
+                return _configuration.GetSection("CarProviders").GetChildren()
+                    .ToDictionary(x => x.Key,
+                        x => new CarProviderConfig() {
+                            Id = x["Id"],
+                            Name = x["Name"],
+                            BaseUrl = x["BaseUrl"],
+                            Config = x.GetSection("Config").GetChildren()
+                                .ToDictionary(y => y.Key, y => y.Value)
+                        });
+            }
+        }
 
         private IConfigurationSection GetEnvSection(string key)
         {

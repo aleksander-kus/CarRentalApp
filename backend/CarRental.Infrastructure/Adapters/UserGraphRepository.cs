@@ -2,22 +2,22 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
-using CarRental.Domain.Ports;
+using CarRental.Domain.Ports.Out;
 using Microsoft.Graph;
 
-namespace CarRental.Infrastructure.Services
+namespace CarRental.Infrastructure.Adapters
 {
-    public class UserDetailsService: IGetUserDetailsUseCase
+    public class UserGraphRepository: IUserRepository
     {
         private readonly string _extensionPrefix = "extension_2d4ef52895db4c60b4c09f5bd807fd63_";
         private readonly IAuthenticationProvider _msGraphAuthenticationProvider;
 
-        public UserDetailsService(IAuthenticationProvider authenticationProvider)
+        public UserGraphRepository(IAuthenticationProvider authenticationProvider)
         {
             _msGraphAuthenticationProvider = authenticationProvider;
         }
 
-        public async Task<UserDetails> GetUserDetails(string userId)
+        public async Task<UserDetails> GetUserDetailsAsync(string userId)
         {
             var graphClient = new GraphServiceClient(_msGraphAuthenticationProvider);
 

@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
-using CarRental.Domain.Ports;
-using CarRental.Infrastructure.Services;
+using CarRental.Domain.Ports.In;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

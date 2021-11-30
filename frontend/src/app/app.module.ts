@@ -16,8 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    CarDetailsComponent
+    AppComponent
   ],
     imports: [
         AuthModule,

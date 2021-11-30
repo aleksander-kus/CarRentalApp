@@ -1,36 +1,21 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {protectedResources} from 'src/carsearch.config';
-import {Car} from './model/car.interface';
+import { Injectable } from '@angular/core';
+import { Car } from './model/car.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarDataService {
+  // A placeholder array for testing the list
+  private carList: Car[]=[
+    {brand:"Opel", model:"Astra", productionYear: 2020, category: "Medium", capacity: 5, horsePower: 100, id: 1, providerCompany: "AAA"},
+    {brand:"Honda", model:"Civic", productionYear: 2019, category: "Small", capacity: 4, horsePower: 100, id: 1, providerCompany: "AAA"},
+    {brand:"Seat", model:"Ibiza", productionYear: 2014, category: "Big", capacity: 6, horsePower: 100, id: 1, providerCompany: "AAA"},
+    {brand:"Honda", model:"Escapado", productionYear: 2019, category: "XXL", capacity: 7, horsePower: 100, id: 1, providerCompany: "AAA"},
+    {brand:"Opel", model:"Insignia", productionYear: 2019, category: "Big", capacity: 6, horsePower: 100, id: 1, providerCompany: "AAA"},
+    {brand:"Opel", model:"Insignia", productionYear: 2019, category: "Big", capacity: 6, horsePower: 100, id: 1, providerCompany: "AAA"},
+  ]
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
+  public getData():Car[]{
+    return this.carList;
   }
-
-  public getData(filter : any): Observable<Car[]> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    let httpParams = new HttpParams();
-
-    Object.keys(filter).forEach(function (key) {
-      httpParams = httpParams.append(key, filter[key]);
-    });
-    console.log(httpParams)
-    return this.http.get<Car[]>(protectedResources.carSearchEndpoint, {params: httpParams})
-    .pipe(
-      catchError(this.handleError<Car[]>('getData', []))
-    );
-  }
-
-  constructor(private http: HttpClient) { }
 }

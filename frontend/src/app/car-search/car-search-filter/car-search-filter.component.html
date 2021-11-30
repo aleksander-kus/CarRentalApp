@@ -5,14 +5,14 @@
     <button type="button" mat-raised-button color="primary" fxFlexAlign="flex-end" (click)="clearFilters()">Clear</button>
   </div>
   <!-- Brand and model filter section -->
-  <mat-card class="brand-and-model-filter mat-elevation-z0">
+  <mat-card *ngIf="brands$ | async; let brands" class="brand-and-model-filter mat-elevation-z0">
     <mat-card-title class="category-title">Brand and model</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
-        <div class="brand-filter-group" *ngFor="let brand of modelsByBrand | keyvalue">
-          <mat-checkbox class="filter-checkbox" color="primary" [checked]="brandChecked.get(brand.key) ?? false" [indeterminate]="checkIfModelsChecked(brand.key)" (change)="brandCheckChanged($event.checked, brand.key)">{{brand.key}}</mat-checkbox>
+        <div class="brand-filter-group" *ngFor="let brand of brands | keyvalue">
+          <mat-checkbox class="filter-checkbox" color="primary" [checked]="isBrandSelected(brand.key)" (change)="setBrandSelected(brand.key, $event.checked)">{{brand.key | titlecase}}</mat-checkbox>
           <ul class="model-list">
             <li *ngFor="let model of brand.value">
-              <mat-checkbox class="filter-checkbox" color="primary" [ngModel]="modelChecked.get(model)" (change)="modelChecked.set(model, $event.checked); updateBrandChecked()">{{model}}</mat-checkbox>
+              <mat-checkbox class="filter-checkbox" color="primary" [checked]="isModelSelected(model) || isBrandSelected(brand.key)" (change)="setModelSelected(model, brand.key, $event.checked)">{{model | titlecase}}</mat-checkbox>
             </li>
           </ul>
         </div>
@@ -23,7 +23,7 @@
     <mat-card-title class="category-title">Production year</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="this.productionYearSliderConfig.value" [(highValue)]="this.productionYearSliderConfig.highValue" [options]="this.productionYearSliderConfig.options"></ngx-slider>
+        <ngx-slider [(value)]="filters.productionYearMin" [(highValue)]="filters.productionYearMax" (userChangeEnd)="filterChanged()" [options]="productionYearSliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
@@ -32,7 +32,7 @@
     <mat-card-title class="category-title">Capacity</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="capacitySliderConfig.value" [(highValue)]="capacitySliderConfig.highValue" [options]="capacitySliderConfig.options"></ngx-slider>
+        <ngx-slider [(value)]="filters.capacityMin" [(highValue)]="filters.capacityMax" (userChangeEnd)="filterChanged()" [options]="capacitySliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
@@ -41,7 +41,7 @@
     <mat-card-title class="category-title">Horse power</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="horsePowerSliderConfig.value" [(highValue)]="horsePowerSliderConfig.highValue" [options]="horsePowerSliderConfig.options"></ngx-slider>
+        <ngx-slider [(value)]="filters.horsePowerMin" [(highValue)]="filters.horsePowerMax" (userChangeEnd)="filterChanged()" [options]="horsePowerSliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
@@ -49,8 +49,8 @@
   <mat-card class="category-filter mat-elevation-z0" style="border-bottom: 0px">
     <mat-card-title class="category-title">Category</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
-      <div *ngFor="let category of uniqueCarCategories">
-        <mat-checkbox class="filter-checkbox" color="primary" [ngModel]="categoryChecked.get(category)" (change)="categoryChecked.set(category, $event.checked)">{{category}}</mat-checkbox>
+      <div *ngFor="let category of categories$ | async">
+        <mat-checkbox class="filter-checkbox" color="primary" [ngModel]="isCategorySelected(category)" (change)="setCategorySelected(category, $event.checked)">{{category | titlecase}}</mat-checkbox>
       </div>
     </mat-card-content>
   </mat-card>

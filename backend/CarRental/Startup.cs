@@ -1,13 +1,13 @@
 using System;
-using CarRental.Domain.CarList;
-using CarRental.Domain.Entity;
-using CarRental.Domain.Ports;
+using System.Net.Http;
+using CarRental.Domain.Ports.In;
+using CarRental.Domain.Ports.Out;
+using CarRental.Domain.Services;
+using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
-using CarRental.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,15 +53,22 @@ namespace CarRental
 
                 return new ClientCredentialProvider(confidentialClientApplication);
             });
-            services.AddSingleton<IGetUserDetailsUseCase, UserDetailsService>();
-            
+
+            services.AddHttpClient();
+            services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
+                new CarProviderFactory(_configurationManager.CarProvidersConfig, (IConfiguration)conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
+            services.AddSingleton<IUserRepository, UserGraphRepository>();
+            services.AddSingleton<IGetUserDetailsUseCase, UserService>();
+            services.AddSingleton<IGetCarProvidersUseCase, CarService>();
+            services.AddSingleton<IGetCarsFromProviderUseCase, CarService>();
+            services.AddResponseCaching();
+
             services.AddAuthorization();
-            
             services.AddControllers();
             
             services.AddDbContext<CarRentalContext>(options => 
                 options.UseSqlServer(_configurationManager.DatabaseConnectionString));
-            services.AddScoped<ICarRepository, CarRepository>();
+            
             services.AddCors(o => o.AddPolicy("default", builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
@@ -97,6 +104,7 @@ namespace CarRental
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseResponseCaching();
             
             app.UseEndpoints(endpoints =>
             {
