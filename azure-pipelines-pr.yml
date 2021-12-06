@@ -70,7 +70,7 @@ stages:
       inputs:
         command: custom
         workingDir: frontend
-        customCommand: 'build'
+        customCommand: run build
     - task: Npm@1
       displayName: 'npm run test'
       inputs:
