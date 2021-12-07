@@ -1,18 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace CarRental.Domain.Dto
 {
-    public class CarRentRequestDto
+    public class CarRentRequest
     {
-        [JsonPropertyName("providerId")]
-        public string ProviderId { get; set; }
-        [JsonPropertyName("carId")]
-        public string CarId { get; set; }
+        [Required]
         [JsonPropertyName("rentFrom")]
         public DateTime RentFrom { get; set; }
+        [Required]
         [JsonPropertyName("rentTo")]
         public DateTime RentTo { get; set; }
+        [Required]
+        [JsonPropertyName("priceId")]
+        public string PriceId { get; set; }
         
     }
 }

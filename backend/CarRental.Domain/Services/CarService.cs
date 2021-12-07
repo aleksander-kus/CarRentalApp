@@ -8,13 +8,15 @@ using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
 {
-    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase
+    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase, ICheckPriceUseCase
     {
+        private readonly IGetUserDetailsUseCase _getUserDetailsUseCase;
         private readonly ICarProviderFactory _carProviderFactory;
 
-        public CarService(ICarProviderFactory carProviderFactory)
+        public CarService(ICarProviderFactory carProviderFactory, IGetUserDetailsUseCase getUserDetailsUseCase)
         {
             _carProviderFactory = carProviderFactory;
+            _getUserDetailsUseCase = getUserDetailsUseCase;
         }
 
         public Task<List<CarProvider>> GetCarProvidersAsync()
@@ -22,7 +24,7 @@ namespace CarRental.Domain.Services
             return _carProviderFactory.GetAvailableProvidersAsync();
         }
 
-        public async Task<List<CarDetails>> GetCarsAsync(string providerId, CarListFilter filters)
+        public async Task<ApiResponse<List<CarDetails>>> GetCarsAsync(string providerId, CarListFilter filters)
         {
             var provider = await _carProviderFactory.GetProviderAsync(providerId);
 
@@ -33,17 +35,30 @@ namespace CarRental.Domain.Services
             
             return await provider.GetCarsAsync(filters);
         }
-
-        public async Task<bool> TryBookCar(CarRentRequestDto carRentRequest)
+        
+        public async Task<ApiResponse<CarRentResponse>> TryBookCar(string carId, string providerId, CarRentRequest carRentRequest)
         {
-            var provider = await _carProviderFactory.GetProviderAsync(carRentRequest.ProviderId);
+            var provider = await _carProviderFactory.GetProviderAsync(providerId);
 
             if (provider == null)
             {
                 throw new UnknownCarProviderException();
             }
 
-            return await provider.TryBookCar(carRentRequest);
+            return await provider.TryBookCar(carId, carRentRequest);
+        }
+
+        public async Task<ApiResponse<CarPrice>> CheckPrice(CarCheckPrice carCheckPrice, string providerId, string carId, string userId)
+        {
+            var provider = await _carProviderFactory.GetProviderAsync(providerId);
+            var userData = await _getUserDetailsUseCase.GetUserDetails(userId);
+
+            if (provider == null)
+            {
+                throw new UnknownCarProviderException();
+            }
+
+            return await provider.CheckPrice(carId, carCheckPrice.DaysCount, userData);
         }
     }
 }

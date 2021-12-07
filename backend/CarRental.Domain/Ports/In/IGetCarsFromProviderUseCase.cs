@@ -6,6 +6,6 @@ namespace CarRental.Domain.Ports.In
 {
     public interface IGetCarsFromProviderUseCase
     {
-        Task<List<CarDetails>> GetCarsAsync(string providerId, CarListFilter filters);
+        Task<ApiResponse<List<CarDetails>>> GetCarsAsync(string providerId, CarListFilter filters);
     }
 }

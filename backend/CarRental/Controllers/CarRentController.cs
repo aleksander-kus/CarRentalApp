@@ -1,12 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
+using CarRental.Domain.Exceptions;
 using CarRental.Domain.Ports.In;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
 {
-    [Route("/api/[controller]")]
+    [Route("/api/cars")]
     [ApiController]
     public class CarRentController: Controller
     {
@@ -17,15 +18,19 @@ namespace CarRental.Controllers
             _bookCarUseCase = bookCarUseCase;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<string>> BookCar([FromBody] CarRentRequestDto carRentRequest)
+        [HttpPost("{providerId}/{carId}/rent")]
+        public async Task<ActionResult<ApiResponse<CarRentResponse>>> BookCar([FromBody] CarRentRequest carRentRequest,
+            string providerId, string carId)
         {
-            if (await _bookCarUseCase.TryBookCar(carRentRequest))
+            try
             {
-                return Ok("Car booked");
+                var response = await _bookCarUseCase.TryBookCar(carId, providerId, carRentRequest);
+                return response.Data != null ? Ok(response) : BadRequest(response);
             }
-            
-            return NotFound("Car not available");
+            catch (UnknownCarProviderException ex)
+            {
+                return NotFound(new ApiResponse<CarPrice>() {Error = "Unknown car provider"});
+            }
         }
     }
 }

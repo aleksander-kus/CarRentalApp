@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CarRental.Domain.Dto;
+using CarRental.Domain.Exceptions;
 using CarRental.Domain.Ports.In;
 
 namespace CarRental.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cars")]
     [ApiController]
     public class CarSearchController : Controller
     {
@@ -30,13 +31,19 @@ namespace CarRental.Controllers
         
         [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "*" })]
         [HttpGet("{providerId}")]
-        public async Task<ActionResult<List<CarDetails>>> GetCars([FromQuery] CarListFilter filter, [FromRoute] string providerId)
+        public async Task<ActionResult<ApiResponse<List<CarDetails>>>> GetCars([FromQuery] CarListFilter filter, [FromRoute] string providerId)
         {
             filter.Validate();
-
-            var result = await _getCarsFromProviderUseCase.GetCarsAsync(providerId, filter);
-
-            return Ok(result);
+            
+            try
+            {
+                var response = await _getCarsFromProviderUseCase.GetCarsAsync(providerId, filter);
+                return response.Data != null ? Ok(response) : BadRequest(response);
+            }
+            catch (UnknownCarProviderException ex)
+            {
+                return NotFound(new ApiResponse<CarPrice>() {Error = "Unknown car provider"});
+            }
         }
     }
 }

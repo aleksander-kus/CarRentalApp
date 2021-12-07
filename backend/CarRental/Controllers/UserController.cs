@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
 using CarRental.Domain.Ports.In;
@@ -9,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [Authorize]
     [ApiController]
     public class UserController : ControllerBase
@@ -22,22 +20,11 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public async Task<UserDetails> GetCurrentUser()
+        public async Task<ActionResult<UserDetails>> GetCurrentUser()
         {
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                var all = identity.Claims.ToList();
-                var userId = identity.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
+            var userId = HttpContext.User.GetUserId();
 
-                if (userId == null)
-                {
-                    throw new ArgumentException("userId not present");
-                }
-
-                return await _getUserDetailsUseCase.GetUserDetails(userId);
-            }
-
-            return null;
+            return userId != null ? Ok(await _getUserDetailsUseCase.GetUserDetails(userId)) : NoContent();
         }
     }
 }

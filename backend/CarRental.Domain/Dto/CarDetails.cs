@@ -5,7 +5,7 @@ namespace CarRental.Domain.Dto
     public class CarDetails
     {
         [JsonPropertyName(("id"))]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [JsonPropertyName(("brand"))]
         public string Brand { get; set; }
         [JsonPropertyName(("model"))]

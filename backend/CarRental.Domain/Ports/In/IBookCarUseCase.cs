@@ -5,6 +5,6 @@ namespace CarRental.Domain.Ports.In
 {
     public interface IBookCarUseCase
     {
-        Task<bool> TryBookCar(CarRentRequestDto carRentRequest);
+        Task<ApiResponse<CarRentResponse>> TryBookCar(string carId, string providerId, CarRentRequest carRentRequest);
     }
 }

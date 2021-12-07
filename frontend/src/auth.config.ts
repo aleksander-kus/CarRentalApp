@@ -39,15 +39,15 @@ export const msalConfig: Configuration = {
 
 export const protectedResources = {
   userDetailsApi: {
-    endpoint: `${environment.apiUrl}/api/User`,
+    endpoint: `${environment.apiUrl}/api/user`,
     scopes: [environment.azureADApiScope]
   },
   carProvidersApi: {
-    endpoint: `${environment.apiUrl}/api/CarSearch/providers`,
+    endpoint: `${environment.apiUrl}/api/cars/providers`,
     scopes: [environment.azureADApiScope]
   },
   carSearchApi: (id: string) => ({
-    endpoint: `${environment.apiUrl}/api/CarSearch/${id}`,
+    endpoint: `${environment.apiUrl}/api/cars/${id}`,
     scopes: [environment.azureADApiScope]
   })
 }

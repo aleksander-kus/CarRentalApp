@@ -7,8 +7,10 @@ namespace CarRental.Domain.Ports.Out
 {
     public interface ICarProvider
     {
-        Task<List<CarDetails>> GetCarsAsync(CarListFilter filter);
+        Task<ApiResponse<List<CarDetails>>> GetCarsAsync(CarListFilter filter);
 
-        Task<bool> TryBookCar(CarRentRequestDto carRentRequest);
+        Task<ApiResponse<CarRentResponse>> TryBookCar(string carId, CarRentRequest carRentRequest);
+
+        Task<ApiResponse<CarPrice>> CheckPrice(string carId, int daysCount, UserDetails userDetails);
     }
 }

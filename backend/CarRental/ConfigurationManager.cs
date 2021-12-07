@@ -24,11 +24,11 @@ namespace CarRental
         {
             get
             {
-                var config = GetEnvSection("Database");
-                var server = config["server"];
-                var dbName = config["DatabaseName"];
-                var userName = _configuration[config["SecretLogin"]];
-                var password = _configuration[config["SecretPassword"]];
+                var config = _configuration.GetSection("Database");
+                var server = _configuration[config["Server"]];
+                var dbName = _configuration[config["DatabaseName"]];
+                var userName = _configuration[config["Login"]];
+                var password = _configuration[config["Password"]];
                 var connectionString =
                     $"Server={server}; Database={dbName}; User Id={userName}; Password={password}; Trusted_Connection=false;";
 

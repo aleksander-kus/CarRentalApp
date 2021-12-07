@@ -62,6 +62,7 @@ namespace CarRental
             services.AddSingleton<IGetUserDetailsUseCase, UserService>();
             services.AddSingleton<IGetCarProvidersUseCase, CarService>();
             services.AddSingleton<IGetCarsFromProviderUseCase, CarService>();
+            services.AddSingleton<ICheckPriceUseCase, CarService>();
             services.AddSingleton<IBookCarUseCase, CarService>();
             
             services.AddResponseCaching();

@@ -6,6 +6,7 @@ import { CarProvider } from "./model/car-provider.interface";
 import { protectedResources } from "../../auth.config";
 import { finalize, map, mergeAll } from "rxjs/operators";
 import { CarFilter } from "./model/car-filter.interface";
+import { ApiResponse } from "../common/api-response.interface";
 
 @Injectable()
 export class CarSearchService {
@@ -30,14 +31,16 @@ export class CarSearchService {
     this.http.get<CarProvider[]>(protectedResources.carProvidersApi.endpoint)
       .pipe(
         map(providers => providers
-          .map(p => this.http.get<Car[]>(protectedResources.carSearchApi(p.id).endpoint, {params: httpParams}))),
+          .map(p => this.http.get<ApiResponse<Car[]>>(protectedResources.carSearchApi(p.id).endpoint, {params: httpParams}))),
         mergeAll(),
         mergeAll(),
         finalize(() => this.isLoadingSubject.next(false)),
       ).subscribe(
       part => {
-          cars = [...cars, ...(part as Car[])];
-          this.carsSubject.next(cars);
+          if (part.data) {
+            cars = [...cars, ...(part.data)];
+            this.carsSubject.next(cars);
+          }
         },
         error => console.error(error)
     );
