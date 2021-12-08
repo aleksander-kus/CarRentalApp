@@ -52,7 +52,7 @@ namespace CarRental.Infrastructure.Test.Util
                 new object[] {new CarListFilter {Brands = new[] {"Volkswagen"}}, new[] {"0", "1", "4"}},
                 new object[] {new CarListFilter {CapacityMin = 6}, new[] {"0", "1", "4"}},
                 new object[] {new CarListFilter {CapacityMax = 5}, new[] {"2", "3"}},
-                new object[] {new CarListFilter {Models = new[] {"Passat", "Transporter", "Panamera"}, CapacityMax = 5}, new[] {"3"}},
+                new object[] {new CarListFilter {Brands = new[] {"Porsche", "Volkswagen"}, Models = new[] {"Passat", "Transporter", "Panamera"}, CapacityMax = 5}, new[] {"3"}},
                 new object[]
                 {
                     new CarListFilter {Brands = new[] {"Volkswagen", "Ford"}, ProductionYearMin = 2010},

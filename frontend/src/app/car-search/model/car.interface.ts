@@ -1,5 +1,5 @@
 export interface Car {
-    id: number;
+    id: string;
     brand: string;
     model: string;
     productionYear: number;
@@ -7,4 +7,5 @@ export interface Car {
     category: string;
     horsePower: number,
     providerCompany: string
+    providerId: string;
 }

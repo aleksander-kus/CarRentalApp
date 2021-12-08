@@ -17,3 +17,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   line-height: 14px;
   min-width: auto;
 }
+
+
+.snack-success {
+  background-color: #04AA6D;
+  color: white;
+}
+.snack-fail {
+  background-color: crimson;
+  color: white;
+}

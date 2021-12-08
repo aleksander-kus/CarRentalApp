@@ -37,8 +37,8 @@
         <span>{{car?.providerCompany}}</span>
       </div>
     </mat-list-item>
-    <mat-list-item>
-      <button class="check-price" mat-raised-button color="primary" (click)="openCheckPriceDialog()">Check Price</button>
+    <mat-list-item *ngIf="car">
+      <app-check-price style="width: 100%;" *appVisibleFor="[Client, null]" [car]="car"></app-check-price>
     </mat-list-item>
   </mat-list>
 

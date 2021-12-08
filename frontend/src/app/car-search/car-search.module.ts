@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CarSearchComponent} from './car-search/car-search.component';
-import {CarSearchFilterComponent} from './car-search-filter/car-search-filter.component';
+import {CarSearchComponent} from './components/car-search/car-search.component';
+import {CarSearchFilterComponent} from './components/car-search-filter/car-search-filter.component';
 import {MatButtonModule} from '@angular/material/button';
-import {MatTableModule} from '@angular/material/table';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -13,29 +12,46 @@ import {NgxSliderModule} from "@angular-slider/ngx-slider";
 import { HttpClientModule } from '@angular/common/http';
 import {MatSortModule} from "@angular/material/sort";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { CarSearchService } from "./car-search.service";
-import { CarDetailsComponent } from "./car-details/car-details.component";
+import { CheckPriceService } from "./data/check-price.service";
+import { CarSearchService } from "./data/car-search.service";
+import { CarDetailsComponent } from "./components/car-details/car-details.component";
+import { MatTableModule } from "@angular/material/table";
 import { MatListModule } from "@angular/material/list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatInputModule } from "@angular/material/input";
+import { CheckPriceComponent } from "./components/check-price/check-price.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { CarBookService } from "./data/car-book.service";
+import { MatNativeDateModule } from "@angular/material/core";
+import { CarReservationPeriodComponent } from "./components/car-reservation-period/car-reservation-period.component";
+import { AuthModule } from "../auth/auth.module";
 
 
 @NgModule({
   declarations: [
+    CarDetailsComponent,
     CarSearchComponent,
     CarDetailsComponent,
     CarSearchFilterComponent,
+    CarReservationPeriodComponent,
+    CheckPriceComponent,
   ],
   exports: [
     CarSearchComponent
   ],
   providers: [
-    CarSearchService
+    CarSearchService,
+    CarBookService,
+    CheckPriceService
   ],
   imports: [
     CommonModule,
     MatButtonModule,
+    MatNativeDateModule,
     MatTableModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     MatSelectModule,
     MatCheckboxModule,
@@ -47,8 +63,11 @@ import { MatDialogModule } from "@angular/material/dialog";
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatDialogModule,
     MatIconModule,
-    MatDialogModule
+    MatInputModule,
+    MatDatepickerModule,
+    AuthModule
   ]
 })
 export class CarSearchModule {

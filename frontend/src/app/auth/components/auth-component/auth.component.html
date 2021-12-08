@@ -1,9 +1,9 @@
-<div>
+ <div>
   <div *ngIf="user$ | async; let user; else loginButton">
     <button [matMenuTriggerFor]="menu" id="user-button" mat-button><mat-icon>person</mat-icon>{{ user.firstName }} {{ user.lastName }}</button>
   </div>
   <ng-template #loginButton>
-    <button mat-button (click)="login()" id="login-button">
+    <button [disabled]="loading$ | async" mat-button (click)="login()" id="login-button">
       <mat-icon>person</mat-icon>
       Login
     </button>

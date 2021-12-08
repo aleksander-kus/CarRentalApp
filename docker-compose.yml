@@ -4,6 +4,8 @@ services:
     build: frontend
     ports:
       - "8080:80"
+    environment:
+      API_URL: backend:6000
   backend:
     build:
       context: backend

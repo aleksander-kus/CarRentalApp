@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import {Car} from "../model/car.interface";
+import {Car} from "../../model/car.interface";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {CarDetailsComponent} from "../car-details/car-details.component";
-import { CarSearchService } from "../car-search.service";
-import { CarFilter } from "../model/car-filter.interface";
+import { CarSearchService } from "../../data/car-search.service";
+import { CarFilter } from "../../model/car-filter.interface";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
@@ -14,7 +14,7 @@ import { takeUntil } from "rxjs/operators";
   templateUrl: './car-search.component.html',
   styleUrls: ['./car-search.component.css']
 })
-export class CarSearchComponent implements AfterViewInit, OnDestroy, OnInit {
+export class CarSearchComponent implements  OnDestroy, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['brand', 'model', 'productionYear', 'capacity', 'horsePower', 'category', 'providerCompany', 'showDetails'];
@@ -29,7 +29,6 @@ export class CarSearchComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-    this.getDataFromService();
   }
 
   getDataFromService(): void {
@@ -56,6 +55,7 @@ export class CarSearchComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.getDataFromService();
     this.cars$.pipe(takeUntil(this._ngUnsubscribe)).subscribe(cars => this.dataSource.data = cars);
   }
 

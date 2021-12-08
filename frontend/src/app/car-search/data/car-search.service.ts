@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { Car } from "./model/car.interface";
+import { Car } from "../model/car.interface";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { CarProvider } from "./model/car-provider.interface";
-import { protectedResources } from "../../auth.config";
-import { finalize, map, mergeAll } from "rxjs/operators";
-import { CarFilter } from "./model/car-filter.interface";
-import { ApiResponse } from "../common/api-response.interface";
+import { CarProvider } from "../model/car-provider.interface";
+import { finalize, map, mergeAll, tap } from "rxjs/operators";
+import { CarFilter } from "../model/car-filter.interface";
+import { environment } from "../../../environments/environment";
+import { ApiResponse } from "../../common/api-response.interface";
 
 @Injectable()
 export class CarSearchService {
@@ -26,15 +26,23 @@ export class CarSearchService {
         return total.append(key, value as string);
       }, new HttpParams());
 
+    this.carsSubject.next([]);
     let cars: Car[] = [];
+    let stillLoading = 0;
 
-    this.http.get<CarProvider[]>(protectedResources.carProvidersApi.endpoint)
+    this.http.get<CarProvider[]>(`${environment.apiUrl}/api/cars/providers`)
       .pipe(
         map(providers => providers
-          .map(p => this.http.get<ApiResponse<Car[]>>(protectedResources.carSearchApi(p.id).endpoint, {params: httpParams}))),
+          .map(p => this.http.get<ApiResponse<Car[]>>(`${environment.apiUrl}/api/cars/${p.id}`, {params: httpParams}))),
+        tap(p => stillLoading = p.length),
         mergeAll(),
         mergeAll(),
-        finalize(() => this.isLoadingSubject.next(false)),
+        finalize(() => {
+          stillLoading--;
+          if (stillLoading === 0) {
+            this.isLoadingSubject.next(false);
+          }
+        }),
       ).subscribe(
       part => {
           if (part.data) {

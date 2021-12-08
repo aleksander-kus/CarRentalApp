@@ -24,6 +24,8 @@ import { loginRequest, msalConfig, protectedResources } from "../../auth.config"
 import { UnauthorizedPageComponent } from './components/unauthorized-page/unauthorized-page.component';
 import { UserDetailsService } from "./user-details.service";
 import { MatCardModule } from "@angular/material/card";
+import { LoginAskModalComponent } from './components/login-ask-modal/login-ask-modal.component';
+import { MatDialogModule } from "@angular/material/dialog";
 import { RouterModule } from "@angular/router";
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -34,6 +36,8 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
 
   protectedResourceMap.set(protectedResources.userDetailsApi.endpoint, protectedResources.userDetailsApi.scopes);
+  protectedResourceMap.set(protectedResources.carCheckPriceApi("*", "*").endpoint, protectedResources.carCheckPriceApi("*", "*").scopes);
+  protectedResourceMap.set(protectedResources.carRentApi("*", "*").endpoint, protectedResources.carRentApi("*", "*").scopes);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -55,7 +59,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AuthComponent,
     MenubarComponent,
     VisibleForDirective,
-    UnauthorizedPageComponent
+    UnauthorizedPageComponent,
+    LoginAskModalComponent
   ],
   providers: [
     {
@@ -98,6 +103,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatMenuModule,
     MatIconModule,
     MatCardModule,
+    MatDialogModule,
     RouterModule
   ]
 })

@@ -9,6 +9,7 @@ import { UserDetailsService } from "../../user-details.service";
 })
 export class AuthComponent implements OnInit, OnDestroy {
   user$ = this.userDetailsService.user$;
+  loading$ = this.userDetailsService.isLoading$;
 
   constructor(
     private authService: AuthService,

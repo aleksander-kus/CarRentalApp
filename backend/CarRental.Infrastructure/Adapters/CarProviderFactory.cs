@@ -16,6 +16,7 @@ namespace CarRental.Infrastructure.Adapters
         private readonly Dictionary<string, CarProviderConfig> _providerConfigs;
 
         private readonly Dictionary<string, ICarProvider> _carProviders;
+
         public CarProviderFactory(Dictionary<string, CarProviderConfig> providerConfigs, IConfiguration configuration, IHttpClientFactory factory)
         {
             _providerConfigs = providerConfigs;

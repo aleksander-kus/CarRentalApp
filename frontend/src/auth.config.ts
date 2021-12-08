@@ -42,14 +42,14 @@ export const protectedResources = {
     endpoint: `${environment.apiUrl}/api/user`,
     scopes: [environment.azureADApiScope]
   },
-  carProvidersApi: {
-    endpoint: `${environment.apiUrl}/api/cars/providers`,
+  carCheckPriceApi: (providerId: string, carId: string) => ({
+    endpoint: `${environment.apiUrl}/api/cars/${providerId}/${carId}/price`,
     scopes: [environment.azureADApiScope]
-  },
-  carSearchApi: (id: string) => ({
-    endpoint: `${environment.apiUrl}/api/cars/${id}`,
+  }),
+  carRentApi: (providerId: string, carId: string) => ({
+    endpoint: `${environment.apiUrl}/api/cars/${providerId}/${carId}/rent`,
     scopes: [environment.azureADApiScope]
-  })
+  }),
 }
 
 export const loginRequest = {

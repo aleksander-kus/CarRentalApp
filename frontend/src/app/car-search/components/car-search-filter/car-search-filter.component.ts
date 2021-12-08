@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import {Car} from "../model/car.interface";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import {Car} from "../../model/car.interface";
 import { Options } from "@angular-slider/ngx-slider";
-import { CarFilter } from "../model/car-filter.interface";
+import { CarFilter } from "../../model/car-filter.interface";
 import { Observable } from "rxjs";
 import { CarSearchFilterPresenter } from "./car-search-filter.presenter";
 
@@ -28,33 +28,43 @@ export class CarSearchFilterComponent {
   categories$: Observable<string[]>;
   brands$: Observable<Map<string, string[]>>;
 
-  constructor(public presenter: CarSearchFilterPresenter) { }
+  constructor(
+    private presenter: CarSearchFilterPresenter,
+    private changeDetector: ChangeDetectorRef) { }
 
   isBrandSelected(brand: string): boolean {
     return this.filters.brands.indexOf(brand) !== -1;
   }
 
-  setBrandSelected(brand: string, value: boolean): void {
+  setBrandSelected(brand: string, models: string[], value: boolean): void {
     this.filters.brands = [...this.filters.brands, brand].filter(v => v !== brand || value);
+
+    if (value) {
+      this.filters.models = [...this.filters.models, ...models];
+    } else {
+      this.filters.models = this.filters.models.filter(m => models.indexOf(m) === -1);
+    }
+
+    this.changeDetector.detectChanges();
     this.filterChanged();
   }
 
   isModelSelected(model: string): boolean {
-    return this.filters.brands.indexOf(model) !== -1;
+    return this.filters.models.indexOf(model) !== -1;
   }
 
   setModelSelected(model: string, brand: string, value: boolean): void {
     this.filters.models = [...this.filters.models, model].filter(v => v !== model || value);
 
-    if (!value) {
-      this.setBrandSelected(brand, false);
+    if (value) {
+      this.setBrandSelected(brand, [], true);
     }
 
     this.filterChanged();
   }
 
   isCategorySelected(category: string): boolean {
-    return this.filters.brands.indexOf(category) !== -1;
+    return this.filters.categories.indexOf(category) !== -1;
   }
 
   setCategorySelected(category: string, value: boolean): void {

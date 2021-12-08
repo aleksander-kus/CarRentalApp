@@ -8,4 +8,8 @@
       <Folder Include="Entity" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0-rc.2.20475.5" />
+    </ItemGroup>
+
 </Project>

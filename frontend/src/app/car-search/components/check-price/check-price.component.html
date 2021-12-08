@@ -1,0 +1,17 @@
+<div style="margin-top: 10px">
+  <div *ngIf="carPrice === null" style="display: flex; width: 100%; align-items: center; justify-content: center">
+    <mat-form-field >
+      <mat-label>Days count</mat-label>
+      <input matInput min="1" [formControl]="daysCountControl" [disabled]="(loadingPrice$ | async) ?? false"/>
+    </mat-form-field>
+    <button mat-raised-button style="margin-left: 10px" color="primary" [disabled]="(loadingPrice$ | async) ?? false" (click)="checkCarPrice()">Check price</button>
+    <mat-spinner *ngIf="(loadingBooking$ | async) || (loadingPrice$ | async)" [diameter]="30"></mat-spinner>
+  </div>
+  <button *ngIf="carPrice !== null"
+          mat-raised-button
+          color="primary"
+          [disabled]="loadingBooking$ | async"
+          (click)="tryRentCar()">
+    Rent this car for {{ carPrice.price }} {{ carPrice.currency }}
+  </button>
+</div>

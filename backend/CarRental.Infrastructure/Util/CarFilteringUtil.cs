@@ -8,8 +8,9 @@ namespace CarRental.Infrastructure.Util
     {
         public static List<CarDetails> FilterCars(IEnumerable<CarDetails> cars, CarListFilter filter)
         {
-            return cars.Where(car => ((filter.Brands.Contains(car.Brand) || filter.Models.Contains(car.Model)) ||
-                                     (filter.Brands.Length == 0 && filter.Models.Length == 0)) &&
+            return cars.Where(car => ((filter.Brands.Contains(car.Brand) && filter.Models.Contains(car.Model)) ||
+                                     (filter.Brands.Length == 0 && filter.Models.Length == 0) ||
+                                     (filter.Models.Length == 0 && filter.Brands.Contains(car.Brand))) &&
                                      (filter.Categories.Contains(car.Category) || filter.Categories.Length == 0) &&
                                      car.Capacity >= filter.CapacityMin &&
                                      car.Capacity <= filter.CapacityMax &&

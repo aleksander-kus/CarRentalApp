@@ -43,7 +43,8 @@ namespace CarRental.Infrastructure.Adapters.Providers
                     Id = dnz.Id.ToString(),
                     Model = dnz.Model,
                     ProductionYear = dnz.ProductionYear,
-                    ProviderCompany = dnz.ProviderCompany
+                    ProviderCompany = dnz.ProviderCompany,
+                    ProviderId = _config.Id
                 }).ToList();
                 
                 return new ApiResponse<List<CarDetails>>() {Data = CarFilteringUtil.FilterCars(mapped, filter)};
@@ -90,7 +91,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
                 DaysCount = daysCount
             };
 
-            var response = await SendPostAsync<DNZCarPrice, DNZCheckPriceRequest>($"/cars/{carId}/price", dnzRequest);
+            var response = await SendPostAsync<DNZCarPrice, DNZCheckPriceRequest>($"/api/cars/{carId}/price", dnzRequest);
 
             if (response.Data != null)
             {

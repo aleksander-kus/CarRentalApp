@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CarFilter } from "../model/car-filter.interface";
+import { CarFilter } from "../../model/car-filter.interface";
 import { Observable } from "rxjs";
-import { Car } from "../model/car.interface";
+import { Car } from "../../model/car.interface";
 import { filter, first, map, take, tap } from "rxjs/operators";
 
 @Injectable()

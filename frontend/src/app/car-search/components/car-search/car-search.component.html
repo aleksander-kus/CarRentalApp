@@ -58,5 +58,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-spinner *ngIf="loading$ | async"></mat-spinner>
+    </div>
   </div>
 </div>
