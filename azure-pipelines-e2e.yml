@@ -1,0 +1,30 @@
+schedules:
+- cron: "0 3 * * *"
+  displayName: Night E2E tests
+  branches:
+    include:
+      - master
+
+
+name: E2E
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        command: install
+        workingDir: frontend
+    - task: CmdLine@2
+      displayName: 'Run cypress tests'
+      inputs:
+        workingDirectory: frontend
+        script: 'npx cypress run --env APP_URL=$(appUrl)'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/reports/junit/results-*.xml'
+        testRunTitle: 'E2E results'
+    
