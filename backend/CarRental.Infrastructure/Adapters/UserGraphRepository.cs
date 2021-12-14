@@ -23,18 +23,20 @@ namespace CarRental.Infrastructure.Adapters
 
             var user = await graphClient.Users[userId].Request()
                 .Select($"{_extensionPrefix}Age,{_extensionPrefix}YearsOfHavingDrivingLicense," +
-                        $"City,Country,PostalCode,StreetAddress,GivenName,Surname,otherMails")
+                        $"City,Mail,Country,PostalCode,StreetAddress,GivenName,Surname,otherMails")
                 .GetAsync();
 
             var age = ((JsonElement)user.AdditionalData[$"{_extensionPrefix}Age"]).GetInt32();
             var yearsD = ((JsonElement)user.AdditionalData[$"{_extensionPrefix}YearsOfHavingDrivingLicense"]).GetInt32();
 
+            var mail = user.OtherMails.Any() ? user.OtherMails.First() : user.Mail;
+            
             var userDetails = new UserDetails()
             {
                 Address = user.StreetAddress,
                 Age = age,
                 City = user.City,
-                Email = user.OtherMails.ToList().ToList()[0],
+                Email = mail,
                 FirstName = user.GivenName,
                 LastName = user.Surname,
                 PostalCode = user.PostalCode,

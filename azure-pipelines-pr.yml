@@ -60,12 +60,6 @@ stages:
         workingDir: frontend
         customCommand: 'run lint'
     - task: Npm@1
-      displayName: 'ng run cy:run'
-      inputs:
-        command: custom
-        workingDir: frontend
-        customCommand: 'run cy:run'
-    - task: Npm@1
       displayName: 'npm build'
       inputs:
         command: custom
