@@ -22,3 +22,8 @@ COPY --from=build /usr/local/app/dist/frontend /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
+
+CMD ["/bin/bash", "-c", \
+"echo API_URL=[$API_URL], && \
+sed -i s#APP_API_URL#$API_URL#g /usr/share/nginx/html/main.*.js && \
+nginx -g 'daemon off;'"]

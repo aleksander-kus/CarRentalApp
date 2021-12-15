@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
   selector: '[appVisibleFor]'
 })
 export class VisibleForDirective implements OnInit, OnDestroy {
-  private roles: Role[] = [];
+  private roles: (Role | null)[] = [];
   private hasView = false;
   private subscription: Subscription | null = null;
 
@@ -17,7 +17,7 @@ export class VisibleForDirective implements OnInit, OnDestroy {
     private viewContainer: ViewContainerRef) { }
 
   @Input()
-  public set appVisibleFor(roles: Role[]) {
+  public set appVisibleFor(roles: (Role | null)[]) {
     this.roles = roles;
     this.destroySubscription();
     this.initSubscription();
