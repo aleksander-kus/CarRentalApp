@@ -1,14 +1,16 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button>
+  <button mat-icon-button [routerLink]="''">
     <mat-icon>home</mat-icon>
   </button>
-  <h1>Car Rentals</h1>
+  <button class="main-title" mat-button [routerLink]="''">
+    <h1 >Car Rentals</h1>
+  </button>
   <span class="menu-spacer"></span>
   <button *appVisibleFor="[]" mat-button>
     <mat-icon>history</mat-icon>
     Account history
   </button>
-  <button *appVisibleFor="[]" mat-button>
+  <button *appVisibleFor="[]" mat-button [routerLink]="'currentlyRented'">
     <mat-icon>directions_car</mat-icon>
     Currently rented cars
   </button>

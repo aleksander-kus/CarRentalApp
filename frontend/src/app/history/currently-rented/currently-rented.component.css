@@ -1,0 +1,11 @@
+table {
+  width: 100%;
+}
+
+tr{
+  vertical-align: middle;
+}
+
+div.container{
+  padding: 50px;
+}

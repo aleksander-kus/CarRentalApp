@@ -24,6 +24,7 @@ import { loginRequest, msalConfig, protectedResources } from "../../auth.config"
 import { UnauthorizedPageComponent } from './components/unauthorized-page/unauthorized-page.component';
 import { UserDetailsService } from "./user-details.service";
 import { MatCardModule } from "@angular/material/card";
+import { RouterModule } from "@angular/router";
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -85,7 +86,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   ],
   exports: [
     AuthComponent,
-    MenubarComponent
+    MenubarComponent,
+    VisibleForDirective
   ],
   imports: [
     CommonModule,
@@ -95,7 +97,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    RouterModule
   ]
 })
 export class AuthModule { }
