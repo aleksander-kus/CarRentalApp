@@ -69,8 +69,6 @@ context('Authentication', () => {
   });
 
   it('should allow to log out', () => {
-    cy.get('#login-button').click();
-
     cy.get('#user-button').click();
 
     cy.get('#logout-button').click();
