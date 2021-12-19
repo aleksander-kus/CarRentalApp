@@ -20,7 +20,7 @@
     "CarRental": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
@@ -28,8 +28,11 @@
         "DNZ_API_KEY": "ApiDotnetrulez11",
         "SQL_SERVER": "localhost",
         "SQL_DATABASE": "CarRentalApp",
-        "SQL_USER": "sa",
-        "SQL_PASSWORD": "Test1234!"
+        "SQL_USER": "CarRentalApp",
+        "SQL_PASSWORD": "CarRentalApp",
+        "SENDGRID_API_KEY": "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",
+        "SENDGRID_FROM_ADDRESS": "alex.qs234@gmail.com",
+        "SENDGRID_FROM_NAME": "DotnetRulez"
       }
     }
   }

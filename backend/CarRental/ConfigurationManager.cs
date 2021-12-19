@@ -54,6 +54,8 @@ namespace CarRental
 
         public IConfigurationSection AzureAdConfig => GetEnvSection("AzureAdB2C");
 
+        public IConfigurationSection SendgridConfig => _configuration.GetSection("Sendgrid");
+
         public Dictionary<string, CarProviderConfig> CarProvidersConfig
         {
             get

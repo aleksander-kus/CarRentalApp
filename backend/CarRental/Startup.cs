@@ -5,6 +5,7 @@ using CarRental.Domain.Ports.Out;
 using CarRental.Domain.Services;
 using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
+using CarRental.Infrastructure.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,12 +59,17 @@ namespace CarRental
             services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
                 new CarProviderFactory(_configurationManager.CarProvidersConfig,
                     (IConfiguration) conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
+            var c = _configurationManager.SendgridConfig;
+            var k = c["Api-key"];
+            services.AddSingleton<IEmailApi, SendgridApi>(_ =>
+                new SendgridApi(_configurationManager.SendgridConfig));
             services.AddSingleton<IUserRepository, UserGraphRepository>();
             services.AddSingleton<IGetUserDetailsUseCase, UserService>();
             services.AddSingleton<IGetCarProvidersUseCase, CarService>();
             services.AddSingleton<IGetCarsFromProviderUseCase, CarService>();
             services.AddSingleton<ICheckPriceUseCase, CarService>();
             services.AddSingleton<IBookCarUseCase, CarService>();
+            services.AddSingleton<INotifyUserAfterCarRent, EmailService>();
             
             services.AddResponseCaching();
             services.AddAuthorization();
