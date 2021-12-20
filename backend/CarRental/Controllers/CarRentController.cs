@@ -30,7 +30,7 @@ namespace CarRental.Controllers
             try
             {
                 var response = await _bookCarUseCase.TryBookCar(carId, providerId, carRentRequest);
-                if(response == null) return BadRequest(null);
+                if(response.Data == null) return BadRequest(response);
                 await _notifyUserAfterCarRent.NotifyUserAfterCarRent(
                     await _getUserDetailsUseCase.GetUserDetails(userId), carRentRequest);
                 return Ok(response);
