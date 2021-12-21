@@ -1,47 +1,47 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CurrentlyRentedService } from "../currently-rented.service";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { HistoryEntry } from "../model/history-entry.interface";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { AuthService } from "../../auth/auth.service";
-import { Role } from "../../auth/model/role.enum";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {CurrentlyRentedService} from "../currently-rented.service";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
+import {HistoryEntry} from "../model/history-entry.interface";
+import {AuthService} from "../../auth/auth.service";
+import {Role} from "../../auth/model/role.enum";
 
 @Component({
   selector: 'app-currently-rented',
   templateUrl: './currently-rented.component.html',
   styleUrls: ['./currently-rented.component.css']
 })
-export class CurrentlyRentedComponent implements AfterViewInit, OnInit, OnDestroy {
+export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'provider', 'returnMe'];
+  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'returnMe'];
   dataSource: MatTableDataSource<HistoryEntry> = new MatTableDataSource<HistoryEntry>();
-  entries$ = this.currentlyRented.entries$;
   public Employee = Role.Employee;
-
-  private _ngUnsubscribe = new Subject();
+  loading$ = this.currentlyRented.loading$;
 
   constructor(private currentlyRented: CurrentlyRentedService,
               private authService: AuthService) {
   }
 
+  ngOnInit(): void {
+    // if the user is an employee, return cars from all users, else just for the current user
+    this.authService.user$.subscribe(user => this.getHistoryEntriesFromService(!!user && user.role === this.Employee));
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-    this.getDataFromService()
   }
 
-  getDataFromService(): void {
-    this.currentlyRented.getEntries()
+  getHistoryEntriesFromService(all: boolean): void {
+    this.currentlyRented.loadEntries(all).subscribe(entries => this.dataSource.data = entries);
   }
 
-  ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+  formatDate(date: string): string
+  {
+    return new Date(Date.parse(date)).toLocaleString('pl');
   }
 
-  ngOnInit(): void {
-    this.entries$.pipe(takeUntil(this._ngUnsubscribe)).subscribe(entries => this.dataSource.data = entries);
+  test(): void {
+  console.log(this.dataSource.data);
   }
 }

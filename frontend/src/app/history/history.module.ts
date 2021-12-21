@@ -7,6 +7,9 @@ import { MatSortModule } from "@angular/material/sort";
 import { CurrentlyRentedService } from "./currently-rented.service";
 import { MatButtonModule } from "@angular/material/button";
 import { AuthModule } from "../auth/auth.module";
+import {FlexModule} from "@angular/flex-layout";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -19,12 +22,15 @@ import { AuthModule } from "../auth/auth.module";
   providers: [
     CurrentlyRentedService
   ],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    AuthModule
-  ]
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatSortModule,
+        MatButtonModule,
+        AuthModule,
+        FlexModule,
+        MatProgressSpinnerModule,
+        RouterModule
+    ]
 })
 export class HistoryModule { }

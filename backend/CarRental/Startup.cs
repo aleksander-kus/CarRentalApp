@@ -70,7 +70,11 @@ namespace CarRental
             services.AddSingleton<ICheckPriceUseCase, CarService>();
             services.AddSingleton<IBookCarUseCase, CarService>();
             services.AddSingleton<INotifyUserAfterCarRent, EmailService>();
-            
+            services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
+            services.AddScoped<IRegisterCarRentUseCase, CarHistoryService>();
+            services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
+            services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
+
             services.AddResponseCaching();
             services.AddAuthorization();
             services.AddControllers();

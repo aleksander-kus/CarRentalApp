@@ -27,7 +27,7 @@ namespace CarRental.Controllers
                 var response = await _checkPriceUseCase.CheckPrice(carCheckPrice, providerId, carId, userId);
                 return response.Data != null ? Ok(response) : BadRequest(response);
             }
-            catch (UnknownCarProviderException ex)
+            catch (UnknownCarProviderException)
             {
                 return NotFound(new ApiResponse<CarPrice>() {Error = "Unknown car provider"});
             }

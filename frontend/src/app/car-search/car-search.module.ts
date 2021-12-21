@@ -27,6 +27,7 @@ import { CarBookService } from "./data/car-book.service";
 import { MatNativeDateModule } from "@angular/material/core";
 import { CarReservationPeriodComponent } from "./components/car-reservation-period/car-reservation-period.component";
 import { AuthModule } from "../auth/auth.module";
+import {HistoryModule} from "../history/history.module";
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { AuthModule } from "../auth/auth.module";
     MatIconModule,
     MatInputModule,
     MatDatepickerModule,
-    AuthModule
+    AuthModule,
+    HistoryModule
   ]
 })
 export class CarSearchModule {

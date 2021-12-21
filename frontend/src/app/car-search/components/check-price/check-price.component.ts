@@ -1,17 +1,16 @@
-import { Component, Input } from "@angular/core";
-import { AuthService } from "../../../auth/auth.service";
-import { CarPrice } from "../../model/car-price.interface";
-import { Car } from "../../model/car.interface";
-import { CheckPriceService } from "../../data/check-price.service";
-import { filter, map, switchAll } from "rxjs/operators";
-import { MatDialog } from "@angular/material/dialog";
-import { CarBookService } from "../../data/car-book.service";
-import { CarReservationPeriodComponent } from "../car-reservation-period/car-reservation-period.component";
-import { CarReservationPeriod } from "../car-reservation-period/car-reservation-period.interface";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { FormControl } from "@angular/forms";
-import { ApiResponse } from "../../../common/api-response.interface";
-import { HttpErrorResponse } from "@angular/common/http";
+import {Component, Input} from "@angular/core";
+import {AuthService} from "../../../auth/auth.service";
+import {CarPrice} from "../../model/car-price.interface";
+import {Car} from "../../model/car.interface";
+import {CheckPriceService} from "../../data/check-price.service";
+import {filter, map, switchAll} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {CarBookService} from "../../data/car-book.service";
+import {CarReservationPeriodComponent} from "../car-reservation-period/car-reservation-period.component";
+import {CarReservationPeriod} from "../car-reservation-period/car-reservation-period.interface";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-check-price',
@@ -56,7 +55,9 @@ export class CheckPriceComponent {
         map((v: CarReservationPeriod) => this.bookCar.tryBookCar(this.car.id, this.car.providerId, {
           rentFrom: v.from,
           rentTo: v.to,
-          priceId: this.carPrice?.id as string
+          priceId: this.carPrice?.id as string,
+          carBrand: this.car.brand,
+          carModel: this.car.model
         })),
         switchAll()
       ).subscribe(res => {

@@ -1,11 +1,8 @@
-import { CarProvider } from "../../car-search/model/car-provider.interface";
+import {CurrentlyRentedCar} from "./currently-rented-car.interface";
 
 export interface HistoryEntry
 {
-  rentDate: Date,
-  returnDate: Date | null,
-  carId: number,
-  brand: string,
-  model: string,
-  provider: CarProvider
+  rentDate: string,
+  returnDate: string,
+  car: CurrentlyRentedCar
 }

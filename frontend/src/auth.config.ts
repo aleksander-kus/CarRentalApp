@@ -50,6 +50,10 @@ export const protectedResources = {
     endpoint: `${environment.apiUrl}/api/cars/${providerId}/${carId}/rent`,
     scopes: [environment.azureADApiScope]
   }),
+  currentlyRentedApi: (all: boolean) => ({
+    endpoint: all ? `${environment.apiUrl}/api/cars/currentlyRented` : `${environment.apiUrl}/api/cars/currentlyRentedByUser`,
+    scopes: [environment.azureADApiScope]
+  })
 }
 
 export const loginRequest = {

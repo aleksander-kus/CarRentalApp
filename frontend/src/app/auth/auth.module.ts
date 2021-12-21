@@ -38,6 +38,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   protectedResourceMap.set(protectedResources.userDetailsApi.endpoint, protectedResources.userDetailsApi.scopes);
   protectedResourceMap.set(protectedResources.carCheckPriceApi("*", "*").endpoint, protectedResources.carCheckPriceApi("*", "*").scopes);
   protectedResourceMap.set(protectedResources.carRentApi("*", "*").endpoint, protectedResources.carRentApi("*", "*").scopes);
+  protectedResourceMap.set(protectedResources.currentlyRentedApi(false).endpoint, protectedResources.currentlyRentedApi(false).scopes);
 
   return {
     interactionType: InteractionType.Redirect,
