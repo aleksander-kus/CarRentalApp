@@ -28,8 +28,7 @@ namespace CarRental.Infrastructure.Database
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId)
         {
             return await _context.CarHistory
-                .Where(entry => entry.UserId.Equals(userId) && entry.StartDate <= DateTime.Now &&
-                                entry.EndDate >= DateTime.Now)
+                .Where(entry => entry.UserId.Equals(userId) && entry.EndDate >= DateTime.Now)
                 .Include(entry => entry.Car).ToListAsync();
         }
 
