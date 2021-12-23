@@ -2,15 +2,17 @@
   <div fxLayout="row">
     <mat-card-title>Filters</mat-card-title>
     <span fxFlex></span>
-    <button type="button" mat-raised-button color="primary" fxFlexAlign="flex-end" (click)="clearFilters()">Clear</button>
+    <button [attr.cy-id]="'clear-filters-button'" type="button" mat-raised-button color="primary" fxFlexAlign="flex-end" (click)="clearFilters()">Clear</button>
   </div>
   <!-- Brand and model filter section -->
   <mat-card *ngIf="brands$ | async; let brands" class="brand-and-model-filter mat-elevation-z0">
-    <mat-card-title class="category-title">Brand and model</mat-card-title>
+    <mat-card-title class="filter-title">Brand and model</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
         <div class="brand-filter-group" *ngFor="let brand of brands | keyvalue">
           <mat-checkbox class="filter-checkbox"
                         color="primary"
+                        [attr.cy-id]="'brand-filter-checkbox'"
+                        [attr.data-value]="brand.key"
                         [checked]="isBrandSelected(brand.key)"
                         (change)="setBrandSelected(brand.key, brand.value, $event.checked)"
           >{{brand.key | titlecase}}</mat-checkbox>
@@ -18,6 +20,8 @@
             <li *ngFor="let model of brand.value">
               <mat-checkbox class="filter-checkbox"
                             color="primary"
+                            [attr.cy-id]="'model-filter-checkbox'"
+                            [attr.data-value]="model"
                             [checked]="isModelSelected(model) && isBrandSelected(brand.key)"
                             (change)="setModelSelected(model, brand.key, $event.checked)"
               >{{model | titlecase}}</mat-checkbox>
@@ -28,37 +32,55 @@
   </mat-card>
   <!-- Production year filter section -->
   <mat-card class="production-year-filter mat-elevation-z0">
-    <mat-card-title class="category-title">Production year</mat-card-title>
+    <mat-card-title class="filter-title">Production year</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="filters.productionYearMin" [(highValue)]="filters.productionYearMax" (userChangeEnd)="filterChanged()" [options]="productionYearSliderConfig"></ngx-slider>
+        <ngx-slider
+          [(value)]="filters.productionYearMin"
+          [(highValue)]="filters.productionYearMax"
+          (userChangeEnd)="filterChanged()"
+          [options]="productionYearSliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
   <!-- Capacity filter section -->
-  <mat-card class="capacity-filter mat-elevation-z0">
-    <mat-card-title class="category-title">Capacity</mat-card-title>
+  <mat-card class="mat-elevation-z0">
+    <mat-card-title class="filter-title">Capacity</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="filters.capacityMin" [(highValue)]="filters.capacityMax" (userChangeEnd)="filterChanged()" [options]="capacitySliderConfig"></ngx-slider>
+        <ngx-slider
+          [attr.cy-id]="'capacity-filter-slider'"
+          [(value)]="filters.capacityMin"
+          [(highValue)]="filters.capacityMax"
+          (userChangeEnd)="filterChanged()"
+          [options]="capacitySliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
   <!-- Capacity filter section -->
-  <mat-card class="capacity-filter mat-elevation-z0">
-    <mat-card-title class="category-title">Horse power</mat-card-title>
+  <mat-card class="mat-elevation-z0">
+    <mat-card-title class="filter-title">Horse power</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div class="custom-ngx-slider">
-        <ngx-slider [(value)]="filters.horsePowerMin" [(highValue)]="filters.horsePowerMax" (userChangeEnd)="filterChanged()" [options]="horsePowerSliderConfig"></ngx-slider>
+        <ngx-slider
+          [(value)]="filters.horsePowerMin"
+          [(highValue)]="filters.horsePowerMax"
+          (userChangeEnd)="filterChanged()"
+          [options]="horsePowerSliderConfig"></ngx-slider>
       </div>
     </mat-card-content>
   </mat-card>
   <!-- Category filter section -->
-  <mat-card class="category-filter mat-elevation-z0" style="border-bottom: 0px">
-    <mat-card-title class="category-title">Category</mat-card-title>
+  <mat-card class="mat-elevation-z0" style="border-bottom: 0px">
+    <mat-card-title class="filter-title">Category</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutGap="2%">
       <div *ngFor="let category of categories$ | async">
-        <mat-checkbox class="filter-checkbox" color="primary" [ngModel]="isCategorySelected(category)" (change)="setCategorySelected(category, $event.checked)">{{category | titlecase}}</mat-checkbox>
+        <mat-checkbox
+          class="filter-checkbox"
+          [attr.cy-id]="'category-filter-checkbox'"
+          [attr.data-value]="category | titlecase" color="primary"
+          [ngModel]="isCategorySelected(category)"
+          (change)="setCategorySelected(category, $event.checked)">{{category | titlecase}}</mat-checkbox>
       </div>
     </mat-card-content>
   </mat-card>

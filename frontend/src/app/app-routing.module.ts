@@ -6,6 +6,7 @@ import { UnauthorizedPageComponent } from "./auth/components/unauthorized-page/u
 import { CurrentlyRentedComponent } from "./history/currently-rented/currently-rented.component";
 import { CarSearchComponent } from "./car-search/components/car-search/car-search.component";
 import { ClientGuard } from "./auth/guards/client.guard";
+import { AuthGuard } from "./auth/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -15,12 +16,12 @@ const routes: Routes = [
   {
     path: 'history',
     component: RentalHistoryComponent,
-    canActivate: [EmployeeGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'currentlyRented',
     component: CurrentlyRentedComponent,
-    canActivate: [ClientGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'unauthorized',

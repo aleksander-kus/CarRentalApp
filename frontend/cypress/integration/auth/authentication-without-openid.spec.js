@@ -6,13 +6,13 @@ context('Authentication', () => {
   });
 
   it('should redirect when login button is clicked', () => {
-    cy.get('#login-button').click();
+    cy.get('button[cy-id="login-button"]').click();
 
-    cy.url().should('include', 'https://dotnetrulezcarrental.b2clogin.com/');
+    cy.url().should('include', '.b2clogin.com/');
   });
 
   it('should ask for age, driving license years and postal code on registration', () => {
-    cy.get('#login-button').click();
+    cy.get('button[cy-id="login-button"]').click();
 
     cy.get('a#createAccount').click();
 
@@ -22,7 +22,7 @@ context('Authentication', () => {
   });
 
   it('should validate age, driving license years and postal code on registration', () => {
-    cy.get('#login-button').click();
+    cy.get('button[cy-id="login-button"]').click();
 
     cy.get('a#createAccount').click();
 
@@ -48,7 +48,7 @@ context('Authentication', () => {
   });
 
   it('should allow to login with Azure B2C', () => {
-    cy.get('#login-button').click();
+    cy.get('button[cy-id="login-button"]').click();
 
     cy.fixture('user-credentials').then(c => {
       cy.get('input#email').type(c.email);
@@ -61,18 +61,18 @@ context('Authentication', () => {
   });
 
   it('should display user information', () => {
-    cy.get('#login-button').click();
+    cy.get('button[cy-id="login-button"]').click();
 
-    cy.get('#user-button').click();
+    cy.get('button[cy-id="user-button"]').click();
 
-    cy.get('#user-name-field').should('contain.text', 'Kot Ala');
+    cy.get('h3[cy-id="current-user-name"]').should('contain.text', 'Kot Ala');
   });
 
   it('should allow to log out', () => {
-    cy.get('#user-button').click();
+    cy.get('button[cy-id="user-button"]').click();
 
-    cy.get('#logout-button').click();
+    cy.get('button[cy-id="logout-button"]').click();
 
-    cy.get('#login-button').should('be.visible');
+    cy.get('button[cy-id="login-button"]').should('be.visible');
   });
 });

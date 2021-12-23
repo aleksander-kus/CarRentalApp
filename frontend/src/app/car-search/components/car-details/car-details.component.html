@@ -1,40 +1,40 @@
 <div class="container" xmlns="">
   <mat-list>
-    <button mat-icon-button mat-button class="close" [mat-dialog-close]="true">
+    <button mat-icon-button [attr.cy-id]="'details-close'" mat-button class="close" [mat-dialog-close]="true">
       <mat-icon class="close-icon" color="black">close</mat-icon>
     </button>
     <h3 matSubheader>Car Details</h3>
     <mat-list-item datasrc="car">
-      <h1 style="font-size: 40px">{{car?.brand}} {{car?.model}}</h1>
+      <h1 style="font-size: 40px" [attr.cy-id]="'details-title'">{{car?.brand}} {{car?.model}}</h1>
     </mat-list-item>
     <mat-list-item datasrc="car">
       <div class="div-detail">
         <span>ProductionYear:</span>
-        <span>{{car?.productionYear}}</span>
+        <span [attr.cy-id]="'details-production'">{{car?.productionYear}}</span>
       </div>
     </mat-list-item>
     <mat-list-item datasrc="car">
       <div class="div-detail">
         <span>Capacity:</span>
-        <span>{{car?.capacity}}</span>
+        <span [attr.cy-id]="'details-capacity'">{{car?.capacity}}</span>
       </div>
     </mat-list-item>
     <mat-list-item datasrc="car">
       <div class="div-detail">
         <span>Category:</span>
-        <span>{{car?.category}}</span>
+        <span [attr.cy-id]="'details-category'">{{car?.category | titlecase}}</span>
       </div>
     </mat-list-item>
     <mat-list-item datasrc="car">
       <div class="div-detail">
         <span>Horse Power:</span>
-        <span>{{car?.horsePower}}</span>
+        <span [attr.cy-id]="'details-power'">{{car?.horsePower}}</span>
       </div>
     </mat-list-item>
     <mat-list-item datasrc="car">
       <div class="div-detail">
         <span>Company:</span>
-        <span>{{car?.providerCompany}}</span>
+        <span [attr.cy-id]="'details-company'">{{car?.providerCompany}}</span>
       </div>
     </mat-list-item>
     <mat-list-item *ngIf="car">

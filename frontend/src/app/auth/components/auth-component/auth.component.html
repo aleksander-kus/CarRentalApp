@@ -1,16 +1,16 @@
  <div>
   <div *ngIf="user$ | async; let user; else loginButton">
-    <button [matMenuTriggerFor]="menu" id="user-button" mat-button><mat-icon>person</mat-icon>{{ user.firstName }} {{ user.lastName }}</button>
+    <button [matMenuTriggerFor]="menu" [attr.cy-id]="'user-button'" mat-button><mat-icon>person</mat-icon>{{ user.firstName }} {{ user.lastName }}</button>
   </div>
   <ng-template #loginButton>
-    <button [disabled]="loading$ | async" mat-button (click)="login()" id="login-button">
+    <button [disabled]="loading$ | async" mat-button (click)="login()" [attr.cy-id]="'login-button'">
       <mat-icon>person</mat-icon>
       Login
     </button>
   </ng-template>
   <mat-menu #menu="matMenu">
     <div *ngIf="user$ | async; let user" class="auth-data">
-      <h3 id="user-name-field" class="m-0">{{ user.firstName }} {{ user.lastName }}</h3>
+      <h3 [attr.cy-id]="'current-user-name'" class="m-0">{{ user.firstName }} {{ user.lastName }}</h3>
       <h6 class="m-0">Email</h6>
       <h5 class="m-0">{{ user.email }}</h5>
       <h6 class="m-0">Age / Years having driving license</h6>
@@ -19,6 +19,6 @@
       <h5 class="m-0">{{ user.address }}</h5>
       <h5 class="m-0">{{ user.city }} / {{ user.postalCode }}</h5>
     </div>
-    <button mat-menu-item id="logout-button" (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
+    <button mat-menu-item [attr.cy-id]="'logout-button'" (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
   </mat-menu>
 </div>
