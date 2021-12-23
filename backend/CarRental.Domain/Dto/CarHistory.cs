@@ -14,9 +14,9 @@ namespace CarRental.Domain.Dto
         [JsonPropertyName("carProvider")]
         public string CarProvider { get; set; }
         [JsonPropertyName("rentDate")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [JsonPropertyName("returnDate")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }
     }

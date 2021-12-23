@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
@@ -10,6 +11,7 @@ namespace CarRental.Domain.Ports.Out
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync();
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId);
         Task AddHistoryEntryAsync(CarHistoryEntry entry);
+        Task MarkHistoryEntryAsConfirmed(string priceId, string providerId, string rentId, DateTime rentFrom, DateTime renTo);
         Task<List<CarHistoryEntry>> GetHistoryEntriesAsync();
         Task<List<CarHistoryEntry>> GetHistoryEntriesOfUserAsync(string userId);
     }

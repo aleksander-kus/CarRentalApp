@@ -13,7 +13,7 @@ namespace CarRental.Domain.Dto
         [JsonPropertyName(("productionYear"))]
         public int ProductionYear { get; set; }
         [JsonPropertyName(("capacity"))]
-        public int Capacity { get; set; }
+        public int? Capacity { get; set; }
         [JsonPropertyName(("category"))]
         public string Category { get; set; }
         [JsonPropertyName("horsePower")]

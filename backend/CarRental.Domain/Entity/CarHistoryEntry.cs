@@ -13,8 +13,11 @@ namespace CarRental.Domain.Entity
         public string CarModel { get; set; }
         public string CarBrand { get; set; }
         public string CarProvider { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public bool IsRentConfirmed { get; set; }
+        public string PriceId { get; set; }
+        public string RentId { get; set; }
         public bool Returned { get; set; } = false;
         
         public CarHistory ToDto()

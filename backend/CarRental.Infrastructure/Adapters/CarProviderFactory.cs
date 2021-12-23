@@ -23,7 +23,8 @@ namespace CarRental.Infrastructure.Adapters
             
             _carProviders = new Dictionary<string, ICarProvider>()
             {
-                {"DNR", new DotnetRulezApiConnector(factory, providerConfigs["DNR"], configuration)}
+                {"DNR", new DotnetRulezApiConnector(factory, providerConfigs.GetValueOrDefault("DNR", null), configuration)},
+                {"OT", new OtherTeamApiConnector(factory, providerConfigs.GetValueOrDefault("OT", null), configuration)}
             };
         }
 

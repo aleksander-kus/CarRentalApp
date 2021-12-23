@@ -66,7 +66,7 @@ namespace CarRental.Domain.Services
 
             var userDetails = await _getUserDetailsUseCase.GetUserDetailsAsync(userId);
             await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest);
-            await _carHistoryService.RegisterCarRentAsync(userDetails, car, carRentRequest);
+            await _carHistoryService.MarkHistoryEntryAsConfirmed(providerId, carRentRequest.PriceId, result.Data.RentId, carRentRequest.RentFrom, carRentRequest.RentTo);
 
             return result;
         }
@@ -81,7 +81,17 @@ namespace CarRental.Domain.Services
                 throw new UnknownCarProviderException();
             }
 
-            return await provider.CheckPrice(carId, carCheckPrice.DaysCount, userData);
+            var cars = await provider.GetCarsAsync(CarListFilter.All);
+            var car = cars.Data.First(c => c.Id == carId);
+            
+            var response = await provider.CheckPrice(carId, carCheckPrice.DaysCount, userData);
+
+            if (response.Data != null)
+            {
+                await _carHistoryService.RegisterCarRentProcessStartAsync(userId, car, userData, response.Data.Id);
+            }
+            
+            return response;
         }
         
         public async Task SendNewCars()

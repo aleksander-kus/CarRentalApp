@@ -20,9 +20,11 @@ namespace CarRental.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CarHistoryEntry>()
-                .HasIndex(p => p.UserId);
+                .HasIndex(p => new { p.IsRentConfirmed });
             modelBuilder.Entity<CarHistoryEntry>()
-                .HasIndex(p => new { p.StartDate, p.EndDate });
+                .HasIndex(p => new { p.UserId, p.IsRentConfirmed });
+            modelBuilder.Entity<CarHistoryEntry>()
+                .HasIndex(p => new { p.Returned, p.IsRentConfirmed });
         }
     }
 }

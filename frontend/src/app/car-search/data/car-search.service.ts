@@ -28,21 +28,13 @@ export class CarSearchService {
 
     this.carsSubject.next([]);
     let cars: Car[] = [];
-    let stillLoading = 0;
 
     this.http.get<CarProvider[]>(`${environment.apiUrl}/api/cars/providers`)
       .pipe(
         map(providers => providers
           .map(p => this.http.get<ApiResponse<Car[]>>(`${environment.apiUrl}/api/cars/${p.id}`, {params: httpParams}))),
-        tap(p => stillLoading = p.length),
         mergeAll(),
-        mergeAll(),
-        finalize(() => {
-          stillLoading--;
-          if (stillLoading === 0) {
-            this.isLoadingSubject.next(false);
-          }
-        }),
+        mergeAll()
       ).subscribe(
       part => {
           if (part.data) {
@@ -50,7 +42,8 @@ export class CarSearchService {
             this.carsSubject.next(cars);
           }
         },
-        error => console.error(error)
+        error => console.error(error),
+      () => this.isLoadingSubject.next(false)
     );
   }
 }

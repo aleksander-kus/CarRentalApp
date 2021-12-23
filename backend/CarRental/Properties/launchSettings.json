@@ -26,6 +26,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DNZ_API_KEY": "ApiDotnetrulez11",
+        "OT_API_KEY": "gyuerfyO8249834UitrfSdh4rHj-ksjFdf8Sfd#d",
         "SQL_SERVER": "localhost",
         "SQL_DATABASE": "CarRentalApp",
         "SQL_USER": "sa",

@@ -27,6 +27,7 @@ namespace CarRental.Infrastructure.Test.Database
                 CarBrand = "Astra",
                 CarProvider = "DNR",
                 StartDate = DateTime.Parse("2022-01-01"),
+                IsRentConfirmed = true,
                 EndDate = DateTime.Parse("2022-01-04"),
                 Returned = false
             },
@@ -40,6 +41,7 @@ namespace CarRental.Infrastructure.Test.Database
                 CarModel = "Opel",
                 CarBrand = "Astra",
                 CarProvider = "DNR",
+                IsRentConfirmed = true,
                 StartDate = DateTime.Parse("2022-01-01"),
                 EndDate = DateTime.Parse("2022-01-04"),
                 Returned = true
@@ -54,6 +56,7 @@ namespace CarRental.Infrastructure.Test.Database
                 CarModel = "Opel",
                 CarBrand = "Corsa",
                 CarProvider = "DNR",
+                IsRentConfirmed = true,
                 StartDate = DateTime.Parse("2022-01-01"),
                 EndDate = DateTime.Parse("2022-01-04"),
                 Returned = false

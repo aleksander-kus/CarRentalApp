@@ -1,9 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using CarRental.Domain.Ports.Out;
+using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
+using CarRental.Infrastructure.Util;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.IntegrationTest
@@ -25,6 +32,21 @@ namespace CarRental.IntegrationTest
                 {
                     options.UseInMemoryDatabase("CarRentalApp");
                 });
+                services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
+                    new CarProviderFactory(new Dictionary<string, CarProviderConfig>()
+                        {
+                            {"DNR", new CarProviderConfig()
+                            {
+                                Id = "DNR",
+                                Name = "DotnetRulez",
+                                BaseUrl = "https://dotnetrulez-car-rental-api.azurewebsites.net",
+                                Config = new Dictionary<string, string>()
+                                {
+                                    {"ApiKey", "DNZ_API_KEY"}
+                                }
+                            }}
+                        },
+                        (IConfiguration) conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
 
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();

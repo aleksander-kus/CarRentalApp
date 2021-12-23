@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +46,12 @@ namespace CarRental.Domain.Services
             return history.Select(h => h.ToDto()).ToList();
         }
 
-        public async Task RegisterCarRentAsync(UserDetails userDetails, CarDetails carDetails, CarRentRequest request)
+        public async Task MarkHistoryEntryAsConfirmed(string providerId, string priceId, string rentId, DateTime rentFrom, DateTime renTo)
+        {
+            await _carHistoryRepository.MarkHistoryEntryAsConfirmed(priceId, providerId, rentId, rentFrom, renTo);
+        }
+
+        public async Task RegisterCarRentProcessStartAsync(string userId, CarDetails carDetails, UserDetails userDetails, string priceId)
         {
             var entry = new CarHistoryEntry()
             {
@@ -54,10 +60,12 @@ namespace CarRental.Domain.Services
                 CarProvider = carDetails.ProviderCompany,
                 CarId = carDetails.Id,
                 ProviderId = carDetails.ProviderId,
-                UserId = userDetails.UserId,
                 UserEmail = userDetails.Email,
-                EndDate = request.RentTo,
-                StartDate = request.RentFrom
+                PriceId = priceId,
+                UserId = userId,
+                EndDate = null,
+                IsRentConfirmed = false,
+                StartDate = null
             };
 
             await _carHistoryRepository.AddHistoryEntryAsync(entry);

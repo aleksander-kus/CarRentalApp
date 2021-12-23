@@ -14,6 +14,9 @@ namespace CarRental.IntegrationTest
                 CarModel = "Supra",
                 CarProvider = "DNZ",
                 EndDate = DateTime.Now.AddDays(10),
+                IsRentConfirmed = true,
+                PriceId = "xxx",
+                RentId = "ddd",
                 StartDate = DateTime.Now,
                 UserId = "xxx-xxx"
             });
