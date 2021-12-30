@@ -6,6 +6,6 @@ namespace CarRental.Domain.Ports.In
 {
     public interface IGetUserDetailsUseCase
     {
-        Task<UserDetails> GetUserDetails(string userId);
+        Task<UserDetails> GetUserDetailsAsync(string userId);
     }
 }

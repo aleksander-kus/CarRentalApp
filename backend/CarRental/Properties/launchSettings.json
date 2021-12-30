@@ -28,8 +28,9 @@
         "DNZ_API_KEY": "ApiDotnetrulez11",
         "SQL_SERVER": "localhost",
         "SQL_DATABASE": "CarRentalApp",
-        "SQL_USER": "CarRentalApp",
-        "SQL_PASSWORD": "CarRentalApp",
+        "SQL_USER": "sa",
+        "EMAILS_CRON": "* * * * *",
+        "SQL_PASSWORD": "Test1234!",
         "SENDGRID_API_KEY": "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",
         "SENDGRID_FROM_ADDRESS": "alex.qs234@gmail.com",
         "SENDGRID_FROM_NAME": "DotnetRulez"

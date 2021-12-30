@@ -12,16 +12,10 @@ namespace CarRental.Controllers
     public class CarRentController: Controller
     {
         private readonly IBookCarUseCase _bookCarUseCase;
-        private readonly IRegisterCarRentUseCase _registerCarRentUseCase;
-        private readonly INotifyUserAfterCarRent _notifyUserAfterCarRent;
-        private readonly IGetUserDetailsUseCase _getUserDetailsUseCase;
 
-        public CarRentController(IBookCarUseCase bookCarUseCase, INotifyUserAfterCarRent notifyUserAfterCarRent, IGetUserDetailsUseCase getUserDetailsUseCase, IRegisterCarRentUseCase registerCarRentUseCase)
+        public CarRentController(IBookCarUseCase bookCarUseCase)
         {
             _bookCarUseCase = bookCarUseCase;
-            _registerCarRentUseCase = registerCarRentUseCase;
-            _notifyUserAfterCarRent = notifyUserAfterCarRent;
-            _getUserDetailsUseCase = getUserDetailsUseCase;
         }
 
         [HttpPost("{providerId}/{carId}/rent")]
@@ -31,11 +25,8 @@ namespace CarRental.Controllers
             var userId = HttpContext.User.GetUserId();
             try
             {
-                var response = await _bookCarUseCase.TryBookCar(carId, providerId, carRentRequest);
+                var response = await _bookCarUseCase.TryBookCar(carId, providerId, userId, carRentRequest);
                 if(response.Data == null) return BadRequest(response);
-                await _notifyUserAfterCarRent.NotifyUserAfterCarRent(
-                    await _getUserDetailsUseCase.GetUserDetails(userId), carRentRequest);
-                await _registerCarRentUseCase.RegisterCarRentAsync(userId, int.Parse(carId), providerId, carRentRequest);
                 return Ok(response);
             }
             catch (UnknownCarProviderException)

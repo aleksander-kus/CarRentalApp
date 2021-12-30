@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,21 +8,19 @@ using Microsoft.Graph;
 
 namespace CarRental.Infrastructure.Adapters
 {
-    public class UserGraphRepository: IUserRepository
+    public class UserGraphRepository : IUserRepository
     {
         private readonly string _extensionPrefix = "extension_2d4ef52895db4c60b4c09f5bd807fd63_";
-        private readonly IAuthenticationProvider _msGraphAuthenticationProvider;
+        private readonly GraphServiceClient _graphServiceClient;
 
-        public UserGraphRepository(IAuthenticationProvider authenticationProvider)
+        public UserGraphRepository(GraphServiceClient graphServiceClient)
         {
-            _msGraphAuthenticationProvider = authenticationProvider;
+            _graphServiceClient = graphServiceClient;
         }
 
         public async Task<UserDetails> GetUserDetailsAsync(string userId)
         {
-            var graphClient = new GraphServiceClient(_msGraphAuthenticationProvider);
-
-            var user = await graphClient.Users[userId].Request()
+            var user = await _graphServiceClient.Users[userId].Request()
                 .Select($"{_extensionPrefix}Age,{_extensionPrefix}YearsOfHavingDrivingLicense," +
                         $"City,Mail,Country,PostalCode,StreetAddress,GivenName,Surname,otherMails")
                 .GetAsync();
@@ -45,6 +44,28 @@ namespace CarRental.Infrastructure.Adapters
             };
 
             return userDetails;
+        }
+
+        public async Task<List<string>> GetAllEmailsAsync()
+        {
+            var emails = new LinkedList<string>();
+            
+            var users = await _graphServiceClient.Users.Request()
+                .Select("Mail,otherMails")
+                .GetAsync();
+            do
+            {
+                foreach (var user in users)
+                {
+                    var mail = user.OtherMails.Any() ? user.OtherMails.First() : user.Mail;
+                    
+                    if (mail != null)
+                        emails.AddLast(mail);
+                }
+            }
+            while (users.NextPageRequest != null && (users = await users.NextPageRequest.GetAsync()).Count > 0);
+
+            return emails.ToList();
         }
     }
 }

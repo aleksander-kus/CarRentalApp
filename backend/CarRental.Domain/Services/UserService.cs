@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
 using CarRental.Domain.Ports.In;
@@ -14,9 +15,14 @@ namespace CarRental.Domain.Services
             _userRepository = userRepository;
         }
 
-        public Task<UserDetails> GetUserDetails(string userId)
+        public Task<UserDetails> GetUserDetailsAsync(string userId)
         {
             return _userRepository.GetUserDetailsAsync(userId);
+        }
+
+        public Task<List<string>> GetAllEmails()
+        {
+            return _userRepository.GetAllEmailsAsync();
         }
     }
 }

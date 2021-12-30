@@ -24,7 +24,7 @@ namespace CarRental.Controllers
         {
             var userId = HttpContext.User.GetUserId();
 
-            return userId != null ? Ok(await _getUserDetailsUseCase.GetUserDetails(userId)) : NoContent();
+            return userId != null ? Ok(await _getUserDetailsUseCase.GetUserDetailsAsync(userId)) : NoContent();
         }
     }
 }

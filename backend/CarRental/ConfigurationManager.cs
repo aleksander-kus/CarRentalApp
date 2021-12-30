@@ -56,6 +56,8 @@ namespace CarRental
 
         public IConfigurationSection SendgridConfig => _configuration.GetSection("Sendgrid");
 
+        public string EmailsCronConfig => _configuration[_configuration["EmailsCron"]];
+        
         public Dictionary<string, CarProviderConfig> CarProvidersConfig
         {
             get

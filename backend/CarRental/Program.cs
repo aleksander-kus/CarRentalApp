@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Infrastructure.Database;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +28,9 @@ namespace CarRental
             try
             {
                 var context = services.GetRequiredService<CarRentalContext>();
+                
+                context.Database.Migrate();
+                
                 DbInitializer.Initialize(context);
             }
             catch (Exception ex)

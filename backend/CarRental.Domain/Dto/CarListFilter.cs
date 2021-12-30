@@ -38,5 +38,7 @@ namespace CarRental.Domain.Dto
                 return Array.Empty<string>();
             return array[0].Split(',');
         }
+
+        public static CarListFilter All = new CarListFilter();
     }
 }

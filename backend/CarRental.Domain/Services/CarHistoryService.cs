@@ -8,7 +8,7 @@ using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
 {
-    public class CarHistoryService : IGetCurrentlyRentedCarsUseCase, IRegisterCarRentUseCase
+    public class CarHistoryService : IGetCurrentlyRentedCarsUseCase
     {
         private readonly ICarHistoryRepository _carHistoryRepository;
         

@@ -5,7 +5,7 @@ using CarRental.Domain.Ports.Out;
 using CarRental.Domain.Services;
 using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
-using CarRental.Infrastructure.Email;
+using CarRental.Infrastructure.Jobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,22 +59,32 @@ namespace CarRental
             services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
                 new CarProviderFactory(_configurationManager.CarProvidersConfig,
                     (IConfiguration) conf.GetService(typeof(IConfiguration)), (IHttpClientFactory) conf.GetService(typeof(IHttpClientFactory))));
-            var c = _configurationManager.SendgridConfig;
-            var k = c["Api-key"];
             services.AddSingleton<IEmailApi, SendgridApi>(_ =>
                 new SendgridApi(_configurationManager.SendgridConfig));
+            services.AddSingleton(conf =>
+                new GraphServiceClient(conf.GetService<IAuthenticationProvider>()));
             services.AddSingleton<IUserRepository, UserGraphRepository>();
+            services.AddScoped<ICarEmailedEventRepository, CarEmailedEventRepository>();
             services.AddSingleton<IGetUserDetailsUseCase, UserService>();
-            services.AddSingleton<IGetCarProvidersUseCase, CarService>();
-            services.AddSingleton<IGetCarsFromProviderUseCase, CarService>();
-            services.AddSingleton<ICheckPriceUseCase, CarService>();
-            services.AddSingleton<IBookCarUseCase, CarService>();
-            services.AddSingleton<INotifyUserAfterCarRent, EmailService>();
+            services.AddScoped<IGetCarProvidersUseCase, CarService>();
+            services.AddScoped<IGetCarsFromProviderUseCase, CarService>();
+            services.AddScoped<ICheckPriceUseCase, CarService>();
+            services.AddScoped<IBookCarUseCase, CarService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
-            services.AddScoped<IRegisterCarRentUseCase, CarHistoryService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
             services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
+            services.AddScoped<ISendNewCarsEventUseCase, CarService>();
+            services.AddScoped<CarService>();
+            services.AddScoped<CarHistoryService>();
+            services.AddScoped<EmailService>();
+            services.AddScoped<UserService>();
 
+            services.AddCronJob<EmailBackgroundService>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = _configurationManager.EmailsCronConfig;
+            });
+            
             services.AddResponseCaching();
             services.AddAuthorization();
             services.AddControllers();
@@ -83,20 +93,15 @@ namespace CarRental
                 options.UseSqlServer(_configurationManager.DatabaseConnectionString));
             
             services.AddCors(o => o.AddPolicy("default", builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            }));
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             
             if (_configurationManager.UseSwagger)
-            {
                 services.AddSwaggerGen();
-            }
-            
+
             services.AddApplicationInsightsTelemetry();
             services.AddMvc();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -116,16 +121,11 @@ namespace CarRental
             }
 
             app.UseCors("default");
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseResponseCaching();
-            
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
