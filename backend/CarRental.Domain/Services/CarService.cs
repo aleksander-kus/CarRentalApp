@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
@@ -55,9 +56,16 @@ namespace CarRental.Domain.Services
             }
 
             var result = await provider.TryBookCar(carId, carRentRequest);
+            if (result.Error != null)
+                return result;
+            
+            var carsResult = await GetCarsAsync(providerId, CarListFilter.All);
+            var car = carsResult.Data.Find(c => c.Id == carId);
+            if (car == null)
+                throw new InvalidDataException();
             
             await _emailService.NotifyUserAfterCarRent(await _getUserDetailsUseCase.GetUserDetailsAsync(userId), carRentRequest);
-            await _carHistoryService.RegisterCarRentAsync(userId, int.Parse(carId), providerId, carRentRequest);
+            await _carHistoryService.RegisterCarRentAsync(userId, car, carRentRequest);
 
             return result;
         }

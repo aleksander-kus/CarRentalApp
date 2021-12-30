@@ -20,9 +20,18 @@ namespace CarRental.Controllers
         }
 
         [HttpGet("currentlyRented")]
-        public async Task<ActionResult<List<CarHistoryEntry>>> GetCurrentlyRented()
+        [Authorize(Roles = "Employee")]
+        public async Task<ActionResult<List<CarHistory>>> GetCurrentlyRented()
         {
             return Ok(await _getCurrentlyRentedCarsUse.GetCurrentlyRentedCarsAsync());
+        }
+        
+        [HttpGet("currentlyRentedByUser")]
+        [Authorize(Roles = "Client")]
+        public async Task<ActionResult<List<CarHistory>>> GetCurrentlyRentedByUser()
+        {
+            var userId = HttpContext.User.GetUserId();
+            return Ok(await _getCurrentlyRentedCarsUse.GetCurrentlyRentedCarsOfUserAsync(userId));
         }
     }
 }

@@ -29,7 +29,8 @@ namespace CarRental
             {
                 var context = services.GetRequiredService<CarRentalContext>();
                 
-                context.Database.Migrate();
+                if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    context.Database.Migrate();
                 
                 DbInitializer.Initialize(context);
             }

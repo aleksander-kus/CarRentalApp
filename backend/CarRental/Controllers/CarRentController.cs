@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
+using CarRental.Domain.Enum;
 using CarRental.Domain.Exceptions;
 using CarRental.Domain.Ports.In;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
@@ -19,6 +21,7 @@ namespace CarRental.Controllers
         }
 
         [HttpPost("{providerId}/{carId}/rent")]
+        [Authorize(Roles = "Client")]
         public async Task<ActionResult<ApiResponse<CarRentResponse>>> BookCar([FromBody] CarRentRequest carRentRequest,
             string providerId, string carId)
         {

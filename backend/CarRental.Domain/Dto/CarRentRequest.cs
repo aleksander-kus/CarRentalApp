@@ -15,11 +15,5 @@ namespace CarRental.Domain.Dto
         [Required]
         [JsonPropertyName("priceId")]
         public string PriceId { get; set; }
-        [Required]
-        [JsonPropertyName("carBrand")]
-        public string Brand { get; set; }
-        [Required]
-        [JsonPropertyName("carModel")]
-        public string Model { get; set; }
     }
 }

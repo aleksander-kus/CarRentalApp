@@ -14,14 +14,15 @@ namespace CarRental.Infrastructure.Database
         }
 
         public virtual DbSet<CarHistoryEntry> CarHistory { get; set; }
-        public virtual DbSet<Car> Cars { get; set; }
-        
+
         public virtual DbSet<CarEmailedEvent> CarEmailedEvents { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CarHistoryEntry>().ToTable("CarHistory");
-            modelBuilder.Entity<CarEmailedEvent>().ToTable("CarEmailedEvent");
+            modelBuilder.Entity<CarHistoryEntry>()
+                .HasIndex(p => p.UserId);
+            modelBuilder.Entity<CarHistoryEntry>()
+                .HasIndex(p => new { p.StartDate, p.EndDate });
         }
     }
 }

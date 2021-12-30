@@ -10,6 +10,7 @@ COPY CarRental.Domain/*.csproj ./CarRental.Domain/
 COPY CarRental.Infrastructure/*.csproj ./CarRental.Infrastructure/
 COPY CarRental.Domain.Test/*.csproj ./CarRental.Domain.Test/
 COPY CarRental.Infrastructure.Test/*.csproj ./CarRental.Infrastructure.Test/
+COPY CarRental.IntegrationTest/*.csproj ./CarRental.IntegrationTest/
 
 RUN dotnet restore
 COPY . .
@@ -26,6 +27,9 @@ WORKDIR /src/CarRental.Infrastructure
 RUN dotnet build -c Release -o /app
 
 WORKDIR /src/CarRental.Infrastructure.Test
+RUN dotnet build -c Release -o /app
+
+WORKDIR /src/CarRental.IntegrationTest
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish

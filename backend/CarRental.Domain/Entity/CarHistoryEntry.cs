@@ -1,35 +1,31 @@
 using System;
-using System.Text.Json.Serialization;
 using CarRental.Domain.Dto;
 
 namespace CarRental.Domain.Entity
 {
     public class CarHistoryEntry
     {
-        [JsonIgnore]
         public int ID { get; set; }
-        [JsonPropertyName("userId")]
         public string UserId { get; set; }
-        [JsonPropertyName("carId")]
-        public int CarID { get; set; }  // car id in our database
-        [JsonPropertyName("car")]
-        public Car Car { get; set; }
-        [JsonPropertyName("rentDate")]
+        public string ProviderId { get; set; }
+        public string CarId { get; set; }
+        public string CarModel { get; set; }
+        public string CarBrand { get; set; }
+        public string CarProvider { get; set; }
         public DateTime StartDate { get; set; }
-        [JsonPropertyName("returnDate")]
         public DateTime EndDate { get; set; }
 
-        public CarHistoryEntry()
+        public CarHistory ToDto()
         {
-            
-        }
-
-        public CarHistoryEntry(string userId, Car car, CarRentRequest carRentRequest)
-        {
-            UserId = userId;
-            CarID = car.Id;
-            StartDate = carRentRequest.RentFrom;
-            EndDate = carRentRequest.RentTo;
+            return new CarHistory()
+            {
+                Id = ID,
+                CarBrand = CarBrand,
+                CarModel = CarModel,
+                CarProvider = CarProvider,
+                StartDate = StartDate,
+                EndDate = EndDate
+            };
         }
     }
 }

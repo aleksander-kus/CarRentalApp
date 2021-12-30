@@ -79,12 +79,15 @@ namespace CarRental
             services.AddScoped<EmailService>();
             services.AddScoped<UserService>();
 
-            services.AddCronJob<EmailBackgroundService>(c =>
+            if (_configurationManager.EmailsCronConfig != null)
             {
-                c.TimeZoneInfo = TimeZoneInfo.Local;
-                c.CronExpression = _configurationManager.EmailsCronConfig;
-            });
-            
+                services.AddCronJob<EmailBackgroundService>(c =>
+                {
+                    c.TimeZoneInfo = TimeZoneInfo.Local;
+                    c.CronExpression = _configurationManager.EmailsCronConfig;
+                });
+            }
+
             services.AddResponseCaching();
             services.AddAuthorization();
             services.AddControllers();

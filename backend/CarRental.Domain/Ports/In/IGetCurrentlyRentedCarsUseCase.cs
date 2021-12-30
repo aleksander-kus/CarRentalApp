@@ -7,7 +7,7 @@ namespace CarRental.Domain.Ports.In
 {
     public interface IGetCurrentlyRentedCarsUseCase
     {
-        Task<List<CarHistoryEntry>> GetCurrentlyRentedCarsOfUserAsync(string userId);
-        Task<List<CarHistoryEntry>> GetCurrentlyRentedCarsAsync();
+        Task<List<CarHistory>> GetCurrentlyRentedCarsOfUserAsync(string userId);
+        Task<List<CarHistory>> GetCurrentlyRentedCarsAsync();
     }
 }

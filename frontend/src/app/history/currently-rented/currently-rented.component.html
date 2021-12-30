@@ -6,13 +6,13 @@
     <!-- Brand Column -->
     <ng-container matColumnDef="brand">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
-      <td mat-cell *matCellDef="let entry"> {{entry.car.brand | titlecase }} </td>
+      <td mat-cell *matCellDef="let entry"> {{entry.carBrand| titlecase }} </td>
     </ng-container>
 
     <!-- Model Column -->
     <ng-container matColumnDef="model">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Model </th>
-      <td mat-cell *matCellDef="let entry"> {{entry.car.model  | titlecase }} </td>
+      <td mat-cell *matCellDef="let entry"> {{entry.carModel  | titlecase }} </td>
     </ng-container>
 
     <!-- Production year Column -->
@@ -30,7 +30,7 @@
     <!-- ProviderCompany Column -->
     <ng-container matColumnDef="provider">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Provider Company </th>
-      <td mat-cell *matCellDef="let entry"> {{entry.car.provider}} </td>
+      <td mat-cell *matCellDef="let entry"> {{entry.carProvider}} </td>
     </ng-container>
 
     <!-- Show details column -->

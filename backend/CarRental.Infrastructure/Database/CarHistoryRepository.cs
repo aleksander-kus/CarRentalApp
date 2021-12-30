@@ -22,26 +22,14 @@ namespace CarRental.Infrastructure.Database
         {
             return await _context.CarHistory
                 .Where(entry => entry.StartDate <= DateTime.Now && entry.EndDate >= DateTime.Now)
-                .Include(entry => entry.Car).ToListAsync();
+                .ToListAsync();
         }
 
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId)
         {
             return await _context.CarHistory
                 .Where(entry => entry.UserId.Equals(userId) && entry.EndDate >= DateTime.Now)
-                .Include(entry => entry.Car).ToListAsync();
-        }
-
-        public async Task<Car> GetCarByProviderDataAsync(int providerCarId, string providerId)
-        {
-            return await _context.Cars.FirstOrDefaultAsync(car =>
-                car.ProviderCarId == providerCarId && car.ProviderId.Equals(providerId));
-        }
-
-        public async Task AddCarAsync(Car car)
-        {
-            await _context.Cars.AddAsync(car);
-            await _context.SaveChangesAsync();
+                .ToListAsync();
         }
 
         public async Task AddHistoryEntryAsync(CarHistoryEntry entry)
