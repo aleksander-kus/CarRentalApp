@@ -18,6 +18,18 @@ namespace CarRental.Infrastructure.Database
             _context = context;
         }
 
+        public async Task<List<CarHistoryEntry>> GetHistoryEntriesAsync()
+        {
+            return await _context.CarHistory.ToListAsync();
+        }
+
+        public async Task<List<CarHistoryEntry>> GetHistoryEntriesOfUserAsync(string userId)
+        {
+            return await _context.CarHistory
+                .Where(entry => entry.UserId.Equals(userId))
+                .ToListAsync();
+        }
+        
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync()
         {
             return await _context.CarHistory

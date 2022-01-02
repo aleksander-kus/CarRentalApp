@@ -10,5 +10,7 @@ namespace CarRental.Domain.Ports.Out
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync();
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId);
         Task AddHistoryEntryAsync(CarHistoryEntry entry);
+        Task<List<CarHistoryEntry>> GetHistoryEntriesAsync();
+        Task<List<CarHistoryEntry>> GetHistoryEntriesOfUserAsync(string userId);
     }
 }

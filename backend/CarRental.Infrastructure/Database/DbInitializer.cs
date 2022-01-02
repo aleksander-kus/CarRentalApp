@@ -9,7 +9,7 @@ namespace CarRental.Infrastructure.Database
         public static void Initialize(CarRentalContext context)
         {
             context.Database.EnsureCreated();
-            context.SaveChanges(); 
+            context.SaveChanges();
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
@@ -12,10 +11,11 @@ using Xunit;
 
 namespace CarRental.IntegrationTest
 {
-    public class CurrentlyRentedControllerTest: IClassFixture<TestingWebAppFactory>
+    public class RentalHistoryControllerTest: IClassFixture<TestingWebAppFactory>
     {
         private readonly HttpClient _client;
-        public CurrentlyRentedControllerTest(TestingWebAppFactory factory)
+        
+        public RentalHistoryControllerTest(TestingWebAppFactory factory)
         {
             _client = factory.WithWebHostBuilder(builder =>
             {
@@ -30,11 +30,11 @@ namespace CarRental.IntegrationTest
                 });
             }).CreateClient();
         }
-
-        [Fact]  
-        public async Task ShouldReturnListOfCurrentlyRentedByUser()
+        
+        [Fact]
+        public async Task ShouldReturnListOfRentalHistoryByUser()
         {
-            var response = await _client.GetAsync("/api/cars/currentlyRentedByUser");
+            var response = await _client.GetAsync("/api/cars/rentalHistoryByUser");
 
             response.EnsureSuccessStatusCode();
 
@@ -44,9 +44,9 @@ namespace CarRental.IntegrationTest
         }
         
         [Fact]
-        public async Task ShouldReturnListOfCurrentlyRented()
+        public async Task ShouldReturnListOfRentalHistory()
         {
-            var response = await _client.GetAsync("/api/cars/currentlyRented");
+            var response = await _client.GetAsync("/api/cars/rentalHistory");
 
             response.EnsureSuccessStatusCode();
 

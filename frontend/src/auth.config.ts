@@ -53,6 +53,10 @@ export const protectedResources = {
   currentlyRentedApi: (all: boolean) => ({
     endpoint: all ? `${environment.apiUrl}/api/cars/currentlyRented` : `${environment.apiUrl}/api/cars/currentlyRentedByUser`,
     scopes: [environment.azureADApiScope]
+  }),
+  rentalHistoryApi: (all: boolean) => ({
+    endpoint: all ? `${environment.apiUrl}/api/cars/rentalHistory` : `${environment.apiUrl}/api/cars/rentalHistoryByUser`,
+    scopes: [environment.azureADApiScope]
   })
 }
 

@@ -27,19 +27,17 @@ namespace CarRental.IntegrationTest
                 });
 
                 var sp = services.BuildServiceProvider();
-                using (var scope = sp.CreateScope())
-                using (var appContext = scope.ServiceProvider.GetRequiredService<CarRentalContext>())
+                using var scope = sp.CreateScope();
+                using var appContext = scope.ServiceProvider.GetRequiredService<CarRentalContext>();
+                try
                 {
-                    try
-                    {
-                        appContext.Database.EnsureCreated();
-                        SeedData.PopulateTestData(appContext);
-                    }
-                    catch (Exception ex)
-                    {
-                        //Log errors or do anything you think it's needed
-                        throw;
-                    }
+                    appContext.Database.EnsureCreated();
+                    SeedData.PopulateTestData(appContext);
+                }
+                catch (Exception ex)
+                {
+                    //Log errors or do anything you think it's needed
+                    throw;
                 }
             });
         }

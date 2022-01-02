@@ -36,12 +36,7 @@ export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
     this.currentlyRented.loadEntries(all).subscribe(entries => this.dataSource.data = entries);
   }
 
-  formatDate(date: string): string
-  {
+  formatDate(date: string): string {
     return new Date(Date.parse(date)).toLocaleString('pl');
-  }
-
-  test(): void {
-  console.log(this.dataSource.data);
   }
 }

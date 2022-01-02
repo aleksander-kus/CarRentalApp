@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+tr{
+  vertical-align: middle;
+}
+
+div.container{
+  padding: 50px;
+}
+
+h2{
+  margin-top: 20px;
+}

@@ -8,7 +8,7 @@ using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
 {
-    public class CarHistoryService : IGetCurrentlyRentedCarsUseCase
+    public class CarHistoryService : IGetCurrentlyRentedCarsUseCase, IGetRentalHistoryUseCase
     {
         private readonly ICarHistoryRepository _carHistoryRepository;
 
@@ -17,6 +17,20 @@ namespace CarRental.Domain.Services
             _carHistoryRepository = carHistoryRepository;
         }
 
+        public async Task<List<CarHistory>> GetRentalHistoryByUserAsync(string userId)
+        {
+            var history = await _carHistoryRepository.GetHistoryEntriesOfUserAsync(userId);
+
+            return history.Select(h => h.ToDto()).ToList();
+        }
+
+        public async Task<List<CarHistory>> GetRentalHistoryAsync()
+        {
+            var history = await _carHistoryRepository.GetHistoryEntriesAsync();
+
+            return history.Select(h => h.ToDto()).ToList();
+        }
+        
         public async Task<List<CarHistory>> GetCurrentlyRentedCarsOfUserAsync(string userId)
         {
             var history = await _carHistoryRepository.GetActiveHistoryEntriesOfUserAsync(userId);

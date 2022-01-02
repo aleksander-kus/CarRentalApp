@@ -71,7 +71,7 @@ namespace CarRental
             services.AddScoped<ICheckPriceUseCase, CarService>();
             services.AddScoped<IBookCarUseCase, CarService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
-            services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
+            services.AddScoped<IGetRentalHistoryUseCase, CarHistoryService>();
             services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
             services.AddScoped<ISendNewCarsEventUseCase, CarService>();
             services.AddScoped<CarService>();
