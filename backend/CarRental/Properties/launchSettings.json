@@ -34,7 +34,9 @@
         "SQL_PASSWORD": "Test1234!",
         "SENDGRID_API_KEY": "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",
         "SENDGRID_FROM_ADDRESS": "alex.qs234@gmail.com",
-        "SENDGRID_FROM_NAME": "DotnetRulez"
+        "SENDGRID_FROM_NAME": "DotnetRulez",
+        "L_CLIENT_ID": "team2a",
+        "L_CLIENT_SECRET": "54e0af5f-014a-434f-9f53-4c0f8cb512f0"
       }
     }
   }
