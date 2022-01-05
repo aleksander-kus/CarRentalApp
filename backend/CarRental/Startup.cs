@@ -93,7 +93,7 @@ namespace CarRental
             services.AddControllers();
             
             services.AddDbContext<CarRentalContext>(options => 
-                options.UseSqlServer(_configurationManager.DatabaseConnectionString));
+                options.UseSqlServer(_configurationManager.DatabaseConnectionString, b => b.MigrationsAssembly("CarRental.Infrastructure")));
             
             services.AddCors(o => o.AddPolicy("default", builder =>
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
