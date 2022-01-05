@@ -40,6 +40,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   protectedResourceMap.set(protectedResources.carRentApi("*", "*").endpoint, protectedResources.carRentApi("*", "*").scopes);
   protectedResourceMap.set(protectedResources.currentlyRentedApi(false).endpoint, protectedResources.currentlyRentedApi(false).scopes);
   protectedResourceMap.set(protectedResources.rentalHistoryApi(false).endpoint, protectedResources.rentalHistoryApi(false).scopes);
+  protectedResourceMap.set(protectedResources.rentalHistoryApi(false).endpoint, protectedResources.rentalHistoryApi(true).scopes);
 
   return {
     interactionType: InteractionType.Redirect,

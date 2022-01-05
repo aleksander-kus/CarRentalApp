@@ -33,14 +33,14 @@ namespace CarRental.Infrastructure.Database
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync()
         {
             return await _context.CarHistory
-                .Where(entry => entry.StartDate <= DateTime.Now && entry.EndDate >= DateTime.Now)
+                .Where(entry => entry.Returned == false)
                 .ToListAsync();
         }
 
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId)
         {
             return await _context.CarHistory
-                .Where(entry => entry.UserId.Equals(userId) && entry.EndDate >= DateTime.Now)
+                .Where(entry => entry.UserId.Equals(userId) && entry.Returned == false)
                 .ToListAsync();
         }
 

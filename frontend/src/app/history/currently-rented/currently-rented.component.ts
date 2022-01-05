@@ -14,7 +14,7 @@ import {Role} from "../../auth/model/role.enum";
 export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'returnMe'];
+  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'userEmail', 'returnMe'];
   dataSource: MatTableDataSource<HistoryEntry> = new MatTableDataSource<HistoryEntry>();
   public Employee = Role.Employee;
   loading$ = this.currentlyRented.loading$;

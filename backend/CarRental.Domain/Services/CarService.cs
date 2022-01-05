@@ -63,9 +63,10 @@ namespace CarRental.Domain.Services
             var car = carsResult.Data.Find(c => c.Id == carId);
             if (car == null)
                 throw new InvalidDataException();
-            
-            await _emailService.NotifyUserAfterCarRent(await _getUserDetailsUseCase.GetUserDetailsAsync(userId), carRentRequest);
-            await _carHistoryService.RegisterCarRentAsync(userId, car, carRentRequest);
+
+            var userDetails = await _getUserDetailsUseCase.GetUserDetailsAsync(userId);
+            await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest);
+            await _carHistoryService.RegisterCarRentAsync(userDetails, car, carRentRequest);
 
             return result;
         }

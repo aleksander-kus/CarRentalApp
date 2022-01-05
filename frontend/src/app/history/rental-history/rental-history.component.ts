@@ -3,7 +3,6 @@ import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {HistoryEntry} from "../model/history-entry.interface";
 import {Role} from "../../auth/model/role.enum";
-import {CurrentlyRentedService} from "../currently-rented.service";
 import {AuthService} from "../../auth/auth.service";
 import {RentalHistoryService} from "../rental-history.service";
 
@@ -15,7 +14,7 @@ import {RentalHistoryService} from "../rental-history.service";
 export class RentalHistoryComponent implements OnInit, AfterViewInit{
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'showDetails'];
+  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'userEmail', 'showDetails'];
   dataSource: MatTableDataSource<HistoryEntry> = new MatTableDataSource<HistoryEntry>();
   public Client = Role.Client;
   loading$ = this.rentalHistory.loading$;
@@ -34,7 +33,12 @@ export class RentalHistoryComponent implements OnInit, AfterViewInit{
   }
 
   getHistoryEntriesFromService(all: boolean): void {
-    this.rentalHistory.loadEntries(all).subscribe(entries => this.dataSource.data = entries);
+    this.rentalHistory.loadEntries(all).subscribe(entries =>
+    {
+      this.dataSource.data = entries;
+      console.log(entries);
+    });
+
   }
 
   formatDate(date: string): string {

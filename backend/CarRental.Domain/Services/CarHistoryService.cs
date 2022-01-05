@@ -45,7 +45,7 @@ namespace CarRental.Domain.Services
             return history.Select(h => h.ToDto()).ToList();
         }
 
-        public async Task RegisterCarRentAsync(string userId, CarDetails carDetails, CarRentRequest request)
+        public async Task RegisterCarRentAsync(UserDetails userDetails, CarDetails carDetails, CarRentRequest request)
         {
             var entry = new CarHistoryEntry()
             {
@@ -54,7 +54,8 @@ namespace CarRental.Domain.Services
                 CarProvider = carDetails.ProviderCompany,
                 CarId = carDetails.Id,
                 ProviderId = carDetails.ProviderId,
-                UserId = userId,
+                UserId = userDetails.UserId,
+                UserEmail = userDetails.Email,
                 EndDate = request.RentTo,
                 StartDate = request.RentFrom
             };

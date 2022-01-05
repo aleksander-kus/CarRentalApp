@@ -6,4 +6,5 @@ export interface HistoryEntry
   carBrand: string;
   carProvider: string;
   id: string;
+  userEmail: string;
 }

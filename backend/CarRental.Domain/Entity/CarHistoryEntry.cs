@@ -7,14 +7,16 @@ namespace CarRental.Domain.Entity
     {
         public int ID { get; set; }
         public string UserId { get; set; }
-        public string ProviderId { get; set; }
+        public string UserEmail { get; set; }
         public string CarId { get; set; }
+        public string ProviderId { get; set; }
         public string CarModel { get; set; }
         public string CarBrand { get; set; }
         public string CarProvider { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+        public bool Returned { get; set; } = false;
+        
         public CarHistory ToDto()
         {
             return new CarHistory()
@@ -24,7 +26,8 @@ namespace CarRental.Domain.Entity
                 CarModel = CarModel,
                 CarProvider = CarProvider,
                 StartDate = StartDate,
-                EndDate = EndDate
+                EndDate = EndDate,
+                UserEmail = UserEmail
             };
         }
     }
