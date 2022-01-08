@@ -61,5 +61,12 @@ namespace CarRental.Infrastructure.Database
             car.EndDate = renTo;
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateHistoryEntryToReturnedAsync(int historyEntryId)
+        {
+            var historyEntry = await _context.CarHistory.FindAsync(historyEntryId);
+            historyEntry.Returned = true;
+            await _context.SaveChangesAsync();
+        }
     }
 }

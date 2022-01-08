@@ -11,6 +11,8 @@ namespace CarRental.Domain.Ports.Out
 
         Task<ApiResponse<CarRentResponse>> TryBookCar(string carId, CarRentRequest carRentRequest);
 
+        Task<ApiResponse<CarReturnResponse>> TryReturnCar(string rentId);
+        
         Task<ApiResponse<CarPrice>> CheckPrice(string carId, int daysCount, UserDetails userDetails);
     }
 }

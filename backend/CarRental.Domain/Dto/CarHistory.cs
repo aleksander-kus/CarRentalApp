@@ -11,8 +11,13 @@ namespace CarRental.Domain.Dto
         public string CarBrand { get; set; }
         [JsonPropertyName("carModel")]
         public string CarModel { get; set; }
+
+        [JsonPropertyName("carId")] 
+        public string CarId { get; set; }
         [JsonPropertyName("carProvider")]
         public string CarProvider { get; set; }
+        [JsonPropertyName("rentId")]
+        public string RentId { get; set; }
         [JsonPropertyName("rentDate")]
         public DateTime? StartDate { get; set; }
         [JsonPropertyName("returnDate")]

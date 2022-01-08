@@ -36,6 +36,17 @@ namespace CarRental
             }
         }
 
+        public string StorageConnectionString
+        {
+            get
+            {
+                var config = _configuration.GetSection("BlobStorage");
+                return _configuration[config["ConnectionString"]];
+            }
+        }
+
+        public string StorageContainerName => _configuration.GetSection("BlobStorage")["Container"];
+
         public bool UseSwagger
         {
             get

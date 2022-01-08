@@ -78,6 +78,24 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return new ApiResponse<CarRentResponse>() {Error = result.Error};
         }
 
+        public async Task<ApiResponse<CarReturnResponse>> TryReturnCar(string rentId)
+        {
+            var response = await SendPostAsync<DNZReturnCarResponse>($"/api/reservations/{rentId}/return");
+
+            if (response.Data != null)
+            {
+                return new ApiResponse<CarReturnResponse>()
+                {
+                    Data = new CarReturnResponse()
+                    {
+                        Message = response.Data.Message
+                    }
+                };
+            }
+
+            return new ApiResponse<CarReturnResponse>() {Error = response.Error};
+        }
+
         public async Task<ApiResponse<CarPrice>> CheckPrice(string carId, int daysCount, UserDetails userDetails)
         {
             var dnzRequest = new DNZCheckPriceRequest()
@@ -112,6 +130,27 @@ namespace CarRental.Infrastructure.Adapters.Providers
         private async Task<ApiResponse<T>> SendGetAsync<T>(string url) where T: class
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"{_config.BaseUrl}{url}");
+            request.Headers.Add("x-api-key", _apiKey);
+            request.Headers.Add("Accept", "application/json");
+
+            var response = await _client.SendAsync(request);
+            var content = await response.Content.ReadAsStreamAsync();
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResponse<T>() {Data = await JsonSerializer.DeserializeAsync<T>(content)};
+            }
+            if ((int) response.StatusCode >= 500)
+            {
+                throw new CarProviderException();
+            }
+
+            return await JsonSerializer.DeserializeAsync<ApiResponse<T>>(content);
+        }
+        
+        private async Task<ApiResponse<T>> SendPostAsync<T>(string url) where T: class
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_config.BaseUrl}{url}");
             request.Headers.Add("x-api-key", _apiKey);
             request.Headers.Add("Accept", "application/json");
 
@@ -258,6 +297,13 @@ namespace CarRental.Infrastructure.Adapters.Providers
             [Required]
             [JsonPropertyName("endDate")]
             public DateTime EndDate { get; set; }
+        }
+        
+        private class DNZReturnCarResponse
+        {
+            [Required]
+            [JsonPropertyName("message")]
+            public string Message { get; set; }
         }
 
         private class DNZCarsListResponse

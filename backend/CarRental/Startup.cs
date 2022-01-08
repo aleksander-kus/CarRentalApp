@@ -70,14 +70,20 @@ namespace CarRental
             services.AddScoped<IGetCarsFromProviderUseCase, CarService>();
             services.AddScoped<ICheckPriceUseCase, CarService>();
             services.AddScoped<IBookCarUseCase, CarService>();
+            services.AddScoped<IReturnCarUseCase, CarService>();
+            services.AddScoped<IUploadFileUseCase, UploadFileService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
             services.AddScoped<IGetRentalHistoryUseCase, CarHistoryService>();
             services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
+            services.AddScoped<ICarReturnEntryRepository, CarReturnEntryRepository>();
             services.AddScoped<ISendNewCarsEventUseCase, CarService>();
+            services.AddScoped<IStorageClient, BlobStorageClient>(conf => 
+                new BlobStorageClient(_configurationManager.StorageConnectionString, _configurationManager.StorageContainerName));
             services.AddScoped<CarService>();
             services.AddScoped<CarHistoryService>();
             services.AddScoped<EmailService>();
             services.AddScoped<UserService>();
+            services.AddScoped<StorageService>();
 
             if (_configurationManager.EmailsCronConfig != null)
             {

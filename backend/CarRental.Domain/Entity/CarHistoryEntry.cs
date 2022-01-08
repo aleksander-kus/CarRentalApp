@@ -27,7 +27,9 @@ namespace CarRental.Domain.Entity
                 Id = ID,
                 CarBrand = CarBrand,
                 CarModel = CarModel,
+                CarId = CarId,
                 CarProvider = CarProvider,
+                RentId = RentId,
                 StartDate = StartDate,
                 EndDate = EndDate,
                 UserEmail = UserEmail

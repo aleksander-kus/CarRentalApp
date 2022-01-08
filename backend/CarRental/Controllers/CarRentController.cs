@@ -34,7 +34,7 @@ namespace CarRental.Controllers
             }
             catch (UnknownCarProviderException)
             {
-                return NotFound(new ApiResponse<CarPrice>() {Error = "Unknown car provider"});
+                return NotFound(new ApiResponse<CarRentResponse>() {Error = "Unknown car provider"});
             }
         }
     }

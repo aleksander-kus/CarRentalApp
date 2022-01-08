@@ -11,22 +11,27 @@ using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
 {
-    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase, ICheckPriceUseCase, ISendNewCarsEventUseCase
+    public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase, IReturnCarUseCase, ICheckPriceUseCase, ISendNewCarsEventUseCase
     {
         private readonly ICarEmailedEventRepository _carEmailedEventRepository;
+        private readonly ICarReturnEntryRepository _carReturnEntryRepository;
         private readonly IGetUserDetailsUseCase _getUserDetailsUseCase;
         private readonly ICarProviderFactory _carProviderFactory;
         private readonly EmailService _emailService;
         private readonly CarHistoryService _carHistoryService;
+        private readonly StorageService _storageService;
 
         public CarService(ICarProviderFactory carProviderFactory, IGetUserDetailsUseCase getUserDetailsUseCase,
-            CarHistoryService carHistoryService, EmailService emailService, ICarEmailedEventRepository carEmailedEventRepository)
+            CarHistoryService carHistoryService, EmailService emailService, ICarEmailedEventRepository carEmailedEventRepository,
+            ICarReturnEntryRepository carReturnEntryRepository, StorageService storageService)
         {
             _carProviderFactory = carProviderFactory;
             _getUserDetailsUseCase = getUserDetailsUseCase;
             _carHistoryService = carHistoryService;
             _emailService = emailService;
             _carEmailedEventRepository = carEmailedEventRepository;
+            _carReturnEntryRepository = carReturnEntryRepository;
+            _storageService = storageService;
         }
 
         public Task<List<CarProvider>> GetCarProvidersAsync()
@@ -68,6 +73,47 @@ namespace CarRental.Domain.Services
             await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest);
             await _carHistoryService.MarkHistoryEntryAsConfirmed(providerId, carRentRequest.PriceId, result.Data.RentId, carRentRequest.RentFrom, carRentRequest.RentTo);
 
+            return result;
+        }
+
+        public async Task<ApiResponse<CarReturnResponse>> TryReturnCar(string carId, string providerId, CarReturnRequest carReturnRequest)
+        {
+            var provider = await _carProviderFactory.GetProviderAsync(providerId);
+            if (provider == null)
+            {
+                throw new UnknownCarProviderException();
+            }
+
+            var fileExists = await _storageService.ExistsFile(carReturnRequest.PhotoFileId);
+            if (!fileExists)
+                return new ApiResponse<CarReturnResponse>() {Error = "Failed to obtain photo"};
+                
+            fileExists = await _storageService.ExistsFile(carReturnRequest.PdfFileId);
+            if (!fileExists)
+                return new ApiResponse<CarReturnResponse>() {Error = "Failed to obtain pdf file"};
+
+            var result = await provider.TryReturnCar(carReturnRequest.RentId);
+            if (result.Error != null)
+                return result;
+            
+            var historyEntryId = int.Parse(carReturnRequest.HistoryEntryId);
+            await _carReturnEntryRepository.AddReturnEntryAsync(new CarReturnEntry()
+            {
+                PdfFileId = carReturnRequest.PdfFileId,
+                PhotoFileId = carReturnRequest.PhotoFileId,
+                OdometerValue = carReturnRequest.OdometerValue,
+                CarCondition = carReturnRequest.CarCondition,
+                CarId = carId,
+                RentId = carReturnRequest.RentId,
+                RentDate = carReturnRequest.RentDate,
+                ReturnDate = carReturnRequest.ReturnDate,
+                UserEmail = carReturnRequest.UserEmail,
+                HistoryEntryId = historyEntryId
+            });
+
+            await _carHistoryService.UpdateCarToReturnedAsync(historyEntryId);
+            await _emailService.NotifyUserAfterCarReturn(carReturnRequest.UserEmail);
+            
             return result;
         }
 

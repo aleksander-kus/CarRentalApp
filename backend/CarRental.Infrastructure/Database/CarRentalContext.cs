@@ -16,7 +16,8 @@ namespace CarRental.Infrastructure.Database
         public virtual DbSet<CarHistoryEntry> CarHistory { get; set; }
 
         public virtual DbSet<CarEmailedEvent> CarEmailedEvents { get; set; }
-        
+        public virtual DbSet<CarReturnEntry> CarReturnEntries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CarHistoryEntry>()

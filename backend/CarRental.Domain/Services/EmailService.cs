@@ -28,6 +28,16 @@ namespace CarRental.Domain.Services
             }, userDetails.Email, $"{userDetails.FirstName} {userDetails.LastName}");
         }
 
+        public async Task NotifyUserAfterCarReturn(string userEmail)
+        {
+            await _emailApi.SendEmail(new Email
+            {
+                Subject = "Car returned confirmation",
+                PlainTextContent = "Your car was successfully returned.",
+                HtmlContent = null
+            }, userEmail, userEmail);
+        }
+        
         public async Task NotifyAboutNewCars(List<CarDetails> newCars)
         {
             var bodyHtml = GenerateNewCarsEmailBodyHtml(newCars);
