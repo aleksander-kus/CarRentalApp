@@ -12,6 +12,11 @@ namespace CarRental.Domain.Services
     {
         private readonly IStorageClient _storageClient;
 
+        public StorageService()
+        {
+            
+        }
+        
         public StorageService(IStorageClient storageClient)
         {
             _storageClient = storageClient;

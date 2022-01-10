@@ -9,7 +9,9 @@ import { CarReservationPeriod } from "./car-reservation-period.interface";
   styleUrls: ['./car-reservation-period.component.css']
 })
 export class CarReservationPeriodComponent {
-  start = new FormControl(new Date());
+  today = new Date();
+  minDate = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDay());
+  start = new FormControl(this.minDate);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { daysCount: number },

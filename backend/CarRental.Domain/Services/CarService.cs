@@ -63,14 +63,10 @@ namespace CarRental.Domain.Services
             var result = await provider.TryBookCar(carId, carRentRequest);
             if (result.Error != null)
                 return result;
-            
-            var carsResult = await GetCarsAsync(providerId, CarListFilter.All);
-            var car = carsResult.Data.Find(c => c.Id == carId);
-            if (car == null)
-                throw new InvalidDataException();
 
+            var historyEntry = await _carHistoryService.GetByProviderAndPriceId(providerId, carRentRequest.PriceId);
             var userDetails = await _getUserDetailsUseCase.GetUserDetailsAsync(userId);
-            await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest, car, result.Data.RentId);
+            await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest, historyEntry, result.Data.RentId);
             await _carHistoryService.MarkHistoryEntryAsConfirmed(providerId, carRentRequest.PriceId, result.Data.RentId, carRentRequest.RentFrom, carRentRequest.RentTo);
 
             return result;

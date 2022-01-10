@@ -9,6 +9,11 @@ namespace CarRental.Domain.Services
     {
         private readonly ICarReturnEntryRepository _carReturnRepository;
 
+        public CarReturnService()
+        {
+            
+        }
+        
         public CarReturnService(ICarReturnEntryRepository carReturnRepository)
         {
             _carReturnRepository = carReturnRepository;

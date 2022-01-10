@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
+using CarRental.Domain.Entity;
 using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
@@ -14,6 +15,10 @@ namespace CarRental.Domain.Services
         private readonly IPdfGenerator _pdfGenerator;
         private readonly StorageService _storageService;
 
+        public EmailService()
+        {
+        }
+        
         public EmailService(IEmailApi emailApi, UserService userService, IPdfGenerator pdfGenerator, StorageService storageService)
         {
             _emailApi = emailApi;
@@ -22,10 +27,10 @@ namespace CarRental.Domain.Services
             _storageService = storageService;
         }
 
-        public async Task NotifyUserAfterCarRent(UserDetails userDetails, CarRentRequest carRentRequest, CarDetails car, string rentId)
+        public virtual async Task NotifyUserAfterCarRent(UserDetails userDetails, CarRentRequest carRentRequest, CarHistoryEntry entry, string rentId)
         {
-            var pdfStream = await _pdfGenerator.GeneratePdf("Car rent confirmation",$"Car: {car.Brand} {car.Model}\n" +
-                                            $"Provider: {car.ProviderCompany}\n" +
+            var pdfStream = await _pdfGenerator.GeneratePdf("Car rent confirmation",$"Car: {entry.CarBrand} {entry.CarModel}\n" +
+                                            $"Provider: {entry.CarProvider}\n" +
                                             $"Person renting: {userDetails.FirstName} {userDetails.LastName}\n" +
                                             $"Rent date: {carRentRequest.RentFrom}\n" +
                                             $"Return date: {carRentRequest.RentTo}\n");
@@ -34,14 +39,14 @@ namespace CarRental.Domain.Services
             await _emailApi.SendEmail(new Email
             {
                 Subject = "Car rent confirmation",
-                PlainTextContent = $"Your {car.Brand} {car.Model} was booked from {carRentRequest.RentFrom} to {carRentRequest.RentTo}.\n\n" +
+                PlainTextContent = $"Your {entry.CarBrand} {entry.CarModel} was booked from {carRentRequest.RentFrom} to {carRentRequest.RentTo}.\n\n" +
                                    $"Car reservation confirmation (the link will expire after one hour from receiving this email)\n" +
                                    uri,
                 HtmlContent = null
             }, userDetails.Email, $"{userDetails.FirstName} {userDetails.LastName}");
         }
 
-        public async Task NotifyUserAfterCarReturn(string userEmail)
+        public virtual async Task NotifyUserAfterCarReturn(string userEmail)
         {
             await _emailApi.SendEmail(new Email
             {
@@ -51,7 +56,7 @@ namespace CarRental.Domain.Services
             }, userEmail, userEmail);
         }
         
-        public async Task NotifyAboutNewCars(List<CarDetails> newCars)
+        public virtual async Task NotifyAboutNewCars(List<CarDetails> newCars)
         {
             var bodyHtml = GenerateNewCarsEmailBodyHtml(newCars);
 

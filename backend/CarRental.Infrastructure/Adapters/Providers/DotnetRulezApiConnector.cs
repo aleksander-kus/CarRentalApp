@@ -24,7 +24,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
         public DotnetRulezApiConnector(IHttpClientFactory clientFactory, CarProviderConfig config, IConfiguration configuration)
         {
             _config = config;
-            _client = clientFactory.CreateClient();
+            _client = clientFactory.CreateClient("");
             _apiKey = configuration[_config.Config["ApiKey"]];
         }
 
@@ -179,7 +179,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
 
             var response = await _client.SendAsync(request);
             var content = await response.Content.ReadAsStreamAsync();
-
+                
             if (response.IsSuccessStatusCode)
             {
                 return new ApiResponse<T>() {Data = await JsonSerializer.DeserializeAsync<T>(content)};
@@ -192,63 +192,45 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return await JsonSerializer.DeserializeAsync<ApiResponse<T>>(content);
         }
 
-        private class DNZCarDetails
+        public class DNZCarDetails
         {
             [JsonPropertyName(("id"))]
-            [Required, Range(0, long.MaxValue)]
             public long Id { get; set; }
-            [Required]
             [JsonPropertyName(("brand"))]
             public string Brand { get; set; }
-            [Required]
             [JsonPropertyName(("model"))]
             public string Model { get; set; }
-            [Required]
             [JsonPropertyName(("productionYear"))]
-            [Range(1900, 2100)]
             public int ProductionYear { get; set; }
-            [Required]
             [JsonPropertyName(("capacity"))]
-            [Range(0, 10)]
             public int Capacity { get; set; }
-            [Required]
             [JsonPropertyName(("category"))]
             public string Category { get; set; }
-            [Required]
             [JsonPropertyName("horsePower")]
-            [Range(0, 1000)]
             public int HorsePower { get; set; }
-            [Required]
             [JsonPropertyName("providerCompany")]
             public string ProviderCompany { get; set; }
         }
         
-        private class DNZCheckPriceRequest
+        public class DNZCheckPriceRequest
         {
             [JsonPropertyName("yearsOfHavingLicense")]
-            [Required, Range(0, int.MaxValue)]
             public int YearsOfHavingLicense { get; set; }
             [JsonPropertyName("age")]
-            [Required, Range(0, int.MaxValue)]
             public int Age { get; set; }
             [JsonPropertyName("country")]
-            [Required, MinLength(2)]
             public string Country { get; set; }
             [JsonPropertyName("city")]
-            [Required]
             public string City { get; set; }
             [JsonPropertyName("currentlyRentedCount")]
-            [Required, Range(0, int.MaxValue)]
             public int CurrentlyRentedCount { get; set; }
             [JsonPropertyName("overallRentedCount")]
-            [Required, Range(0, int.MaxValue)]
             public int OverallRentedCount { get; set; }
             [JsonPropertyName("daysCount")]
-            [Required, Range(1, int.MaxValue)]
             public int DaysCount { get; set; }
         }
 
-        private class DNZCarPrice
+        public class DNZCarPrice
         {
             [Required, Range(0, long.MaxValue)]
             [JsonPropertyName("id")]
@@ -267,7 +249,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public DateTime ExpiredAt { get; set; }
         }
 
-        private class DNZRentCarResponse
+        public class DNZRentCarResponse
         {
             [Required, Range(0, long.MaxValue)]
             [JsonPropertyName("priceId")]
@@ -286,7 +268,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public DateTime EndDate { get; set; }
         }
 
-        private class DNZRentCarRequest
+        public class DNZRentCarRequest
         {
             [Required, Range(0, int.MaxValue)]
             [JsonPropertyName("priceId")]
@@ -306,7 +288,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public string Message { get; set; }
         }
 
-        private class DNZCarsListResponse
+        public class DNZCarsListResponse
         {
             [Required]
             [JsonPropertyName("carCount")]

@@ -171,7 +171,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return await JsonSerializer.DeserializeAsync<ApiResponse<T>>(content);
         }
 
-        private class OTCarDetails
+        public class OTCarDetails
         {
             [JsonPropertyName(("id"))]
             [Required, Range(0, long.MaxValue)]
@@ -196,7 +196,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public int HorsePower { get; set; }
         }
         
-        private class OTCheckPriceRequest
+        public class OTCheckPriceRequest
         {
             [JsonPropertyName("driverLicenceYears")]
             public int YearsOfHavingLicense { get; set; }
@@ -212,7 +212,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public int DaysCount { get; set; }
         }
 
-        private class OTCarPrice
+        public class OTCarPrice
         {
             [JsonPropertyName("quotaId")]
             public long Id { get; set; }
@@ -224,7 +224,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public DateTime ExpiredAt { get; set; }
         }
 
-        private class OTRentCarResponse
+        public class OTRentCarResponse
         {
             [JsonPropertyName("priceId")]
             public long PriceId { get; set; }

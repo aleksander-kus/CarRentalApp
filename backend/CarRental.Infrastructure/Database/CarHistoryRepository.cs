@@ -29,7 +29,13 @@ namespace CarRental.Infrastructure.Database
                 .Where(entry => entry.UserId.Equals(userId) && entry.IsRentConfirmed)
                 .ToListAsync();
         }
-        
+        public async Task<CarHistoryEntry> GetByProviderAndPriceId(string providerId, string priceId)
+        {
+            return await _context.CarHistory
+                .Where(p => p.ProviderId == providerId && p.PriceId == priceId)
+                .FirstAsync();
+        }
+
         public async Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync()
         {
             return await _context.CarHistory

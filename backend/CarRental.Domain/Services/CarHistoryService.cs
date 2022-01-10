@@ -14,6 +14,16 @@ namespace CarRental.Domain.Services
         private readonly ICarHistoryRepository _carHistoryRepository;
         private readonly CarReturnService _carReturnService;
 
+        public CarHistoryService()
+        {
+            _carHistoryRepository = null;
+        }
+
+        public virtual async Task<CarHistoryEntry> GetByProviderAndPriceId(string providerId, string priceId)
+        {
+            return await _carHistoryRepository.GetByProviderAndPriceId(providerId, priceId);
+        }
+        
         public CarHistoryService(ICarHistoryRepository carHistoryRepository, CarReturnService carReturnService)
         {
             _carHistoryRepository = carHistoryRepository;
@@ -67,12 +77,12 @@ namespace CarRental.Domain.Services
             return history.Select(h => h.ToDto()).ToList();
         }
 
-        public async Task MarkHistoryEntryAsConfirmed(string providerId, string priceId, string rentId, DateTime rentFrom, DateTime renTo)
+        public virtual async Task MarkHistoryEntryAsConfirmed(string providerId, string priceId, string rentId, DateTime rentFrom, DateTime renTo)
         {
             await _carHistoryRepository.MarkHistoryEntryAsConfirmed(priceId, providerId, rentId, rentFrom, renTo);
         }
 
-        public async Task RegisterCarRentProcessStartAsync(string userId, CarDetails carDetails, UserDetails userDetails, string priceId)
+        public virtual async Task RegisterCarRentProcessStartAsync(string userId, CarDetails carDetails, UserDetails userDetails, string priceId)
         {
             var entry = new CarHistoryEntry()
             {

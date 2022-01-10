@@ -8,6 +8,7 @@ namespace CarRental.Domain.Ports.Out
 {
     public interface ICarHistoryRepository
     {
+        Task<CarHistoryEntry> GetByProviderAndPriceId(string providerId, string priceId);
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesAsync();
         Task<List<CarHistoryEntry>> GetActiveHistoryEntriesOfUserAsync(string userId);
         Task AddHistoryEntryAsync(CarHistoryEntry entry);
