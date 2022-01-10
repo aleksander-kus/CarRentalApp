@@ -5,6 +5,9 @@ import {MatTableDataSource} from "@angular/material/table";
 import {HistoryEntry} from "../model/history-entry.interface";
 import {AuthService} from "../../auth/auth.service";
 import {Role} from "../../auth/model/role.enum";
+import {CarDetailsComponent} from "../../car-search/components/car-details/car-details.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ReturnCarComponent} from "../return-car/return-car.component";
 
 @Component({
   selector: 'app-currently-rented',
@@ -20,7 +23,8 @@ export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
   loading$ = this.currentlyRented.loading$;
 
   constructor(private currentlyRented: CurrentlyRentedService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private returnMeDialog : MatDialog) {
   }
 
   ngOnInit(): void {
@@ -38,5 +42,14 @@ export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
 
   formatDate(date: string): string {
     return new Date(Date.parse(date)).toLocaleString('pl');
+  }
+
+  openReturnMeDialog(entry: HistoryEntry): void {
+    this.returnMeDialog.open(ReturnCarComponent, {
+      data: {
+        historyEntry: entry
+      },
+      panelClass: 'return-me-dialog'
+    });
   }
 }

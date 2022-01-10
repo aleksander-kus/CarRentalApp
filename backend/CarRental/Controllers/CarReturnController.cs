@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CarRental.Domain.Dto;
 using CarRental.Domain.Exceptions;
 using CarRental.Domain.Ports.In;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
@@ -18,7 +19,7 @@ namespace CarRental.Controllers
         }
 
         [HttpPost("{providerId}/{carId}/return")]
-        //[Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee")]
         public async Task<ActionResult<ApiResponse<CarReturnResponse>>> ReturnCar([FromBody] CarReturnRequest carReturnRequest, 
             string providerId, string carId)
         {

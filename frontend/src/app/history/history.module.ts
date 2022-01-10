@@ -10,11 +10,18 @@ import { AuthModule } from "../auth/auth.module";
 import {FlexModule} from "@angular/flex-layout";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
+import { ReturnCarComponent } from './return-car/return-car.component';
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
     RentalHistoryComponent,
-    CurrentlyRentedComponent
+    CurrentlyRentedComponent,
+    ReturnCarComponent
   ],
   exports: [
     CurrentlyRentedComponent
@@ -30,7 +37,13 @@ import {RouterModule} from "@angular/router";
         AuthModule,
         FlexModule,
         MatProgressSpinnerModule,
-        RouterModule
+        RouterModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatToolbarModule,
+        FormsModule,
+        MatProgressBarModule
     ]
 })
 export class HistoryModule { }

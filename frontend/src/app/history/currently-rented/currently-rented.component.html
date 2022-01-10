@@ -42,7 +42,14 @@
     <!-- Show details column -->
     <ng-container matColumnDef="returnMe">
       <th mat-header-cell *matHeaderCellDef> Return me </th>
-      <td mat-cell *matCellDef="let entry"> <button type="button" mat-raised-button color="primary" *appVisibleFor="[Employee]">Return me</button> </td>
+      <td mat-cell *matCellDef="let entry">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          *appVisibleFor="[Employee]"
+          (click)="openReturnMeDialog(entry)">Return me</button>
+      </td>
     </ng-container>
 
     <!-- Row definitions -->

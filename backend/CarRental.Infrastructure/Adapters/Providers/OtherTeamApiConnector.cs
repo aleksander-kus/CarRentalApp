@@ -71,6 +71,11 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return new ApiResponse<CarRentResponse>() {Error = result.Error};
         }
 
+        public Task<ApiResponse<CarReturnResponse>> TryReturnCar(string rentId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResponse<CarPrice>> CheckPrice(string carId, int daysCount, UserDetails userDetails)
         {
             var dnzRequest = new OTCheckPriceRequest()

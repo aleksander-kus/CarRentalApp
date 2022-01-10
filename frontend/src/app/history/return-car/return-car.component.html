@@ -1,0 +1,35 @@
+<div class="container" xmlns="" style="display: flex;flex-direction: column;align-items: flex-start;">
+  <mat-form-field >
+    <mat-label>Car Condition</mat-label>
+    <input matInput min="1" [formControl]="carConditionControl"/>
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>Odometer Status</mat-label>
+    <input matInput min="1" [formControl]="odometerValueControl"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label *ngIf="selectedPhotoFile; else newPhotoFile">{{selectedPhotoFile}}</mat-label>
+    <ng-template #newPhotoFile>
+      <mat-label>Choose photo</mat-label>
+    </ng-template>
+    <input matInput disabled>
+    <button mat-icon-button matSuffix (click)="photoInput.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <input hidden (change)="selectPhotoFile($event)" #photoInput type="file" id="photoFile" accept=".gif,.jpg,.jpeg,.png">
+    <mat-progress-bar mode="determinate" [value]="photoProgress"></mat-progress-bar>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label *ngIf="selectedPdfFile; else newPdfFile">{{selectedPdfFile}}</mat-label>
+    <ng-template #newPdfFile>
+      <mat-label>Choose pdf file</mat-label>
+    </ng-template>
+    <input matInput disabled>
+    <button mat-icon-button matSuffix (click)="pdfInput.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <input hidden (change)="selectPdfFile($event)" #pdfInput type="file" id="pdfFile" accept=".pdf">
+    <mat-progress-bar mode="determinate" [value]="pdfProgress"></mat-progress-bar>
+  </mat-form-field>
+  <button mat-raised-button style="margin-left: 10px" color="primary" (click)="tryReturnCar()">Return Car</button>
+</div>

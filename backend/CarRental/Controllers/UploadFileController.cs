@@ -20,7 +20,7 @@ namespace CarRental.Controllers
         }
 
         [HttpPost("upload")]
-        //[Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee")]
         public async Task<ActionResult<UploadFileResponse>> UploadFile()
         {
             var file = Request.Form.Files[0];

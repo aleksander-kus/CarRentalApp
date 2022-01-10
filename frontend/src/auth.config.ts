@@ -50,6 +50,14 @@ export const protectedResources = {
     endpoint: `${environment.apiUrl}/api/cars/${providerId}/${carId}/rent`,
     scopes: [environment.azureADApiScope]
   }),
+  carReturnApi: (providerId: string, carId: string) => ({
+    endpoint: `${environment.apiUrl}/api/cars/${providerId}/${carId}/return`,
+    scopes: [environment.azureADApiScope]
+  }),
+  uploadFileApi: () => ({
+    endpoint: `${environment.apiUrl}/api/files/upload`,
+    scopes: [environment.azureADApiScope]
+  }),
   currentlyRentedApi: (all: boolean) => ({
     endpoint: all ? `${environment.apiUrl}/api/cars/currentlyRented` : `${environment.apiUrl}/api/cars/currentlyRentedByUser`,
     scopes: [environment.azureADApiScope]
