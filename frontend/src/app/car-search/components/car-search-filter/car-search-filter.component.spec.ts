@@ -9,17 +9,17 @@ import { Car } from "../../model/car.interface";
 import { fromArray } from "rxjs/internal/observable/fromArray";
 
 const testCarList: Car[] = [{id: "0", brand: "Opel", model: "Astra", productionYear: 2020, category: "Medium",
-  capacity: 5, horsePower: 34, providerCompany: "A", providerId: "AAA"},
+  capacity: 5, horsePower: 34, providerCompany: "A", providerId: "AAA", description: "aaa"},
   {id: "1", brand: "Honda", model: "Civic", productionYear: 2019, category: "Small", capacity: 4,
-    horsePower: 134, providerCompany: "B", providerId: "AAA"},
+    horsePower: 134, providerCompany: "B", providerId: "AAA", description: "aaa"},
   {id: "2", brand: "Seat", model: "Ibiza", productionYear: 2014, category: "Big", capacity: 6, horsePower: 34,
-    providerCompany: "A", providerId: "AAA"},
+    providerCompany: "A", providerId: "AAA", description: "aaa"},
   {id: "3", brand: "Honda", model: "Escapado", productionYear: 2019, category: "XXL", capacity: 7,
-    horsePower: 104, providerCompany: "C", providerId: "AAA"},
+    horsePower: 104, providerCompany: "C", providerId: "AAA", description: "aaa"},
   {id: "4", brand: "Opel", model: "Insignia", productionYear: 2019, category: "Big", capacity: 6,
-    horsePower: 314, providerCompany: "D", providerId: "AAA"},
+    horsePower: 314, providerCompany: "D", providerId: "AAA", description: "aaa"},
   {id: "5", brand: "Opel", model: "Insignia", productionYear: 2019, category: "Big", capacity: 6,
-    horsePower: 324, providerCompany: "A", providerId: "AAA"},
+    horsePower: 324, providerCompany: "A", providerId: "AAA", description: "aaa"},
 ]
 
 

@@ -74,6 +74,9 @@ namespace CarRental.Domain.Services
 
         public async Task<ApiResponse<CarReturnResponse>> TryReturnCar(string carId, string providerId, CarReturnRequest carReturnRequest)
         {
+            if(carReturnRequest.HistoryEntryId == null)
+                return new ApiResponse<CarReturnResponse>() {Error = "HistoryEntryId cannot be null"};
+
             var provider = await _carProviderFactory.GetProviderAsync(providerId);
             if (provider == null)
             {
@@ -91,12 +94,11 @@ namespace CarRental.Domain.Services
             var result = await provider.TryReturnCar(carReturnRequest.RentId);
             if (result.Error != null)
                 return result;
-            
             var historyEntryId = int.Parse(carReturnRequest.HistoryEntryId);
             await _carReturnService.RegisterCarReturnAsync(carId, historyEntryId, carReturnRequest);
 
-            await _carHistoryService.UpdateCarToReturnedAsync(historyEntryId);
             await _emailService.NotifyUserAfterCarReturn(carReturnRequest.UserEmail);
+            await _carHistoryService.UpdateCarToReturnedAsync(historyEntryId);
             
             return result;
         }

@@ -122,5 +122,39 @@ namespace CarRental.Domain.Test.Services
                 It.IsAny<UserDetails>(), It.IsAny<string>()));
             Assert.Equal(expected, req);
         }
+        
+        [Fact]
+        public async Task ShouldReturnCarToProvider()
+        {
+            var expected = new ApiResponse<CarReturnResponse>() { Data = new CarReturnResponse(){} };
+
+            _emailService.Setup(p => p.NotifyUserAfterCarReturn(It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+            _carHistoryService.Setup(p => p.UpdateCarToReturnedAsync(It.IsAny<int>()))
+                .Returns(Task.CompletedTask);
+            _carReturnService
+                .Setup(p => p.RegisterCarReturnAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CarReturnRequest>()))
+                .Returns(Task.CompletedTask);
+            _carProvider.Setup(p => p.TryReturnCar(It.IsAny<string>()))
+                .Returns(Task.FromResult(expected));
+            _storageService.Setup(p => p.ExistsFile(It.IsAny<string>()))
+                .Returns(Task.FromResult(true));
+            _carProviderFactory.Setup(p => p.GetProviderAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(_carProvider.Object));
+
+            var req = await _carService.TryReturnCar("xxx", "xxx", new CarReturnRequest()
+            {
+                RentId = "1",
+                UserEmail = "xxx",
+                CarCondition = "xxx",
+                OdometerValue = 1,
+                PhotoFileId = "xxx",
+                PdfFileId = "xxx",
+                HistoryEntryId = "1"
+            });
+            _emailService.Verify(p => p.NotifyUserAfterCarReturn(It.IsAny<string>()));
+    
+            Assert.Equal(expected, req);
+        }
     }
 }

@@ -8,4 +8,5 @@ export interface Car {
     horsePower: number,
     providerCompany: string
     providerId: string;
+    description: string
 }

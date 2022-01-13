@@ -86,7 +86,26 @@ export class ReturnCarComponent {
   }
 
   tryReturnCar(): void {
-    if(this.historyEntry !== null && this.pdfFileId != "" && this.photoFileId != "") {
+    const odometerValue = Number(this.odometerValueControl.value);
+    this.snackBar.dismiss();
+    if(this.carConditionControl.value == null || this.carConditionControl.value == "" ||
+      this.odometerValueControl.value == null || this.odometerValueControl.value == "") {
+      this.snackBar.open(`Fields can't be empty`,
+        undefined, {duration: 10000, panelClass: 'snack-fail'})
+    }
+    else if(isNaN(odometerValue)) {
+      this.snackBar.open(`Odometer value has to be number`,
+        undefined, {duration: 10000, panelClass: 'snack-fail'})
+    }
+    else if(this.photoFileId == "") {
+      this.snackBar.open(`Choose photo file`,
+        undefined, {duration: 10000, panelClass: 'snack-fail'})
+    }
+    else if(this.pdfFileId == "") {
+      this.snackBar.open(`Choose pdf file`,
+        undefined, {duration: 10000, panelClass: 'snack-fail'})
+    }
+    else if(this.historyEntry !== null) {
       const carReturnRequest =  {
         rentId: this.historyEntry.rentId,
         historyEntryId: this.historyEntry.id.toString(),
@@ -94,7 +113,7 @@ export class ReturnCarComponent {
         rentDate: new Date(Date.parse(this.historyEntry.rentDate)),
         returnDate: new Date(Date.parse(this.historyEntry.returnDate)),
         carCondition: this.carConditionControl.value,
-        odometerValue: this.odometerValueControl.value,
+        odometerValue: odometerValue,
         photoFileId: this.photoFileId,
         pdfFileId: this.pdfFileId
       };

@@ -37,6 +37,12 @@
         <span [attr.cy-id]="'details-company'">{{car?.providerCompany}}</span>
       </div>
     </mat-list-item>
+    <mat-list-item datasrc="car">
+      <div class="div-detail">
+        <span>Description:</span>
+        <span [attr.cy-id]="'details-description'">{{car?.description}}</span>
+      </div>
+    </mat-list-item>
     <mat-list-item *ngIf="car">
       <app-check-price style="width: 100%;" *appVisibleFor="[Client, null]" [car]="car"></app-check-price>
     </mat-list-item>

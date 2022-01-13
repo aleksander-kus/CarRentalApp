@@ -22,5 +22,7 @@ namespace CarRental.Domain.Dto
         public string ProviderCompany { get; set; }
         [JsonPropertyName("providerId")]
         public string ProviderId { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
     }
 }
