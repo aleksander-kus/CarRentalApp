@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Domain.Dto;
-using CarRental.Domain.Ports.In;
 using CarRental.Domain.Ports.Out;
 
 namespace CarRental.Domain.Services
@@ -11,19 +10,32 @@ namespace CarRental.Domain.Services
     {
         private readonly IEmailApi _emailApi;
         private readonly UserService _userService;
+        private readonly IPdfGenerator _pdfGenerator;
+        private readonly StorageService _storageService;
 
-        public EmailService(IEmailApi emailApi, UserService userService)
+        public EmailService(IEmailApi emailApi, UserService userService, IPdfGenerator pdfGenerator, StorageService storageService)
         {
             _emailApi = emailApi;
             _userService = userService;
+            _pdfGenerator = pdfGenerator;
+            _storageService = storageService;
         }
 
-        public async Task NotifyUserAfterCarRent(UserDetails userDetails, CarRentRequest carRentRequest)
+        public async Task NotifyUserAfterCarRent(UserDetails userDetails, CarRentRequest carRentRequest, CarDetails car, string rentId)
         {
+            var pdfStream = await _pdfGenerator.GeneratePdf("Car rent confirmation",$"Car: {car.Brand} {car.Model}\n" +
+                                            $"Provider: {car.ProviderCompany}\n" +
+                                            $"Person renting: {userDetails.FirstName} {userDetails.LastName}\n" +
+                                            $"Rent date: {carRentRequest.RentFrom}\n" +
+                                            $"Return date: {carRentRequest.RentTo}\n");
+            var fileName = await _storageService.UploadFileAsync(pdfStream, $"rentConfirm{rentId}.pdf");
+            var uri = await _storageService.GetFileSasAsync(fileName);
             await _emailApi.SendEmail(new Email
             {
                 Subject = "Car rent confirmation",
-                PlainTextContent = $"Your car was booked from {carRentRequest.RentFrom} to {carRentRequest.RentTo}.",
+                PlainTextContent = $"Your {car.Brand} {car.Model} was booked from {carRentRequest.RentFrom} to {carRentRequest.RentTo}.\n\n" +
+                                   $"Car reservation confirmation (the link will expire after one hour from receiving this email)\n" +
+                                   uri,
                 HtmlContent = null
             }, userDetails.Email, $"{userDetails.FirstName} {userDetails.LastName}");
         }

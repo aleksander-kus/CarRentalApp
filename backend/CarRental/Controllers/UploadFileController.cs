@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
 {
-    [Route("api/files")]
     [ApiController]
+    [Route("api/files")]
     public class UploadFileController : ControllerBase
     {
         private readonly IUploadFileUseCase _uploadFileUseCase;
@@ -25,7 +25,7 @@ namespace CarRental.Controllers
         {
             var file = Request.Form.Files[0];
 
-            var fileId = await  _uploadFileUseCase.UploadFile(file);
+            var fileId = await  _uploadFileUseCase.UploadFileAsync(file.OpenReadStream(), file.Name);
             return Ok(new UploadFileResponse()
             {
                 FileId = fileId

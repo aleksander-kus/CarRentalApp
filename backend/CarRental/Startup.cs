@@ -6,6 +6,7 @@ using CarRental.Domain.Services;
 using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
 using CarRental.Infrastructure.Jobs;
+using CarRental.Infrastructure.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,12 +72,13 @@ namespace CarRental
             services.AddScoped<ICheckPriceUseCase, CarService>();
             services.AddScoped<IBookCarUseCase, CarService>();
             services.AddScoped<IReturnCarUseCase, CarService>();
-            services.AddScoped<IUploadFileUseCase, UploadFileService>();
+            services.AddScoped<IUploadFileUseCase, StorageService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
             services.AddScoped<IGetRentalHistoryUseCase, CarHistoryService>();
             services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
             services.AddScoped<ICarReturnEntryRepository, CarReturnEntryRepository>();
             services.AddScoped<ISendNewCarsEventUseCase, CarService>();
+            services.AddScoped<IPdfGenerator, PdfGenerator>();
             services.AddScoped<IStorageClient, BlobStorageClient>(conf => 
                 new BlobStorageClient(_configurationManager.StorageConnectionString, _configurationManager.StorageContainerName));
             services.AddScoped<CarService>();

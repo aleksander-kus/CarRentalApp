@@ -70,7 +70,7 @@ namespace CarRental.Domain.Services
                 throw new InvalidDataException();
 
             var userDetails = await _getUserDetailsUseCase.GetUserDetailsAsync(userId);
-            await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest);
+            await _emailService.NotifyUserAfterCarRent(userDetails, carRentRequest, car, result.Data.RentId);
             await _carHistoryService.MarkHistoryEntryAsConfirmed(providerId, carRentRequest.PriceId, result.Data.RentId, carRentRequest.RentFrom, carRentRequest.RentTo);
 
             return result;
