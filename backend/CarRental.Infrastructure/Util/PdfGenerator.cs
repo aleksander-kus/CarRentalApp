@@ -17,7 +17,7 @@ namespace CarRental.Infrastructure.Util
             var page = document.AddPage();
 
             var gfx = XGraphics.FromPdfPage(page);
-            var font = new XFont("OpenSans", 14, XFontStyle.Regular);
+            var font = new XFont("Arial", 14, XFontStyle.Regular);
             var tf = new XTextFormatter(gfx);
             var rect = new XRect(40, 70, 520, 100);
             tf.DrawString(description, font, XBrushes.Black, rect, XStringFormats.TopLeft);

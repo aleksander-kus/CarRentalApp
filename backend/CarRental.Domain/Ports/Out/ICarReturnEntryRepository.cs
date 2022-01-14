@@ -6,5 +6,6 @@ namespace CarRental.Domain.Ports.Out
     public interface ICarReturnEntryRepository
     {
         Task AddReturnEntryAsync(CarReturnEntry carReturnEntry);
+        Task<CarReturnEntry> GetReturnEntryAsync(int historyEntryId);
     }
 }

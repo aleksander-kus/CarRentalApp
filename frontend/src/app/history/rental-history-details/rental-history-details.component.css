@@ -1,0 +1,15 @@
+.container {
+  min-width: 500px;
+}
+
+.div-company {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.div-detail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

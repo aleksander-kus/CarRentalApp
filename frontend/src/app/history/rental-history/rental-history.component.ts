@@ -5,6 +5,10 @@ import {HistoryEntry} from "../model/history-entry.interface";
 import {Role} from "../../auth/model/role.enum";
 import {AuthService} from "../../auth/auth.service";
 import {RentalHistoryService} from "../rental-history.service";
+import { Car } from "../../car-search/model/car.interface";
+import { CarDetailsComponent } from "../../car-search/components/car-details/car-details.component";
+import { MatDialog } from "@angular/material/dialog";
+import { RentalHistoryDetailsComponent } from "../rental-history-details/rental-history-details.component";
 
 @Component({
   selector: 'app-rental-history',
@@ -14,13 +18,14 @@ import {RentalHistoryService} from "../rental-history.service";
 export class RentalHistoryComponent implements OnInit, AfterViewInit{
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'userEmail', 'showDetails'];
+  displayedColumns: string[] = ['brand', 'model', 'rentDate', 'returnDate', 'provider', 'userEmail', 'returned', 'showDetails'];
   dataSource: MatTableDataSource<HistoryEntry> = new MatTableDataSource<HistoryEntry>();
   public Client = Role.Client;
   loading$ = this.rentalHistory.loading$;
 
   constructor(private rentalHistory: RentalHistoryService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private detailsDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -39,6 +44,15 @@ export class RentalHistoryComponent implements OnInit, AfterViewInit{
       console.log(entries);
     });
 
+  }
+
+  openDetailsDialog(entry: HistoryEntry): void {
+    this.detailsDialog.open(RentalHistoryDetailsComponent, {
+      data: {
+        entry: entry
+      },
+      panelClass: 'details-dialog'
+    });
   }
 
   formatDate(date: string): string {

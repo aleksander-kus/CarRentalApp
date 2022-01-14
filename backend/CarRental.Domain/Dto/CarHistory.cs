@@ -22,7 +22,17 @@ namespace CarRental.Domain.Dto
         public DateTime? StartDate { get; set; }
         [JsonPropertyName("returnDate")]
         public DateTime? EndDate { get; set; }
+        [JsonPropertyName("returned")]
+        public bool Returned { get; set; }
         [JsonPropertyName("userEmail")]
         public string UserEmail { get; set; }
+        [JsonPropertyName("carCondition")]
+        public string CarCondition { get; set; }
+        [JsonPropertyName("odometerValue")]
+        public double OdometerValue { get; set; }
+        [JsonPropertyName("photoFileId")]
+        public string PhotoFileId { get; set; }
+        [JsonPropertyName("pdfFileId")]
+        public string PdfFileId { get; set; }
     }
 }

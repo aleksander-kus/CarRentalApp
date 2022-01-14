@@ -12,24 +12,45 @@ namespace CarRental.Domain.Services
     public class CarHistoryService : IGetCurrentlyRentedCarsUseCase, IGetRentalHistoryUseCase
     {
         private readonly ICarHistoryRepository _carHistoryRepository;
+        private readonly CarReturnService _carReturnService;
 
-        public CarHistoryService(ICarHistoryRepository carHistoryRepository)
+        public CarHistoryService(ICarHistoryRepository carHistoryRepository, CarReturnService carReturnService)
         {
             _carHistoryRepository = carHistoryRepository;
+            _carReturnService = carReturnService;
         }
 
+        private async Task<List<CarHistory>> ProcessToDto(List<CarHistoryEntry> history)
+        {
+            var ret = new List<CarHistory>();
+            foreach (var entry in history)
+            {
+                var dto = entry.ToDto();
+                var returnDetails = await _carReturnService.GetReturnEntryAsync(entry.ID);
+                if (returnDetails != null)
+                {
+                    dto.CarCondition = returnDetails.CarCondition;
+                    dto.OdometerValue = returnDetails.OdometerValue;
+                    dto.PhotoFileId = returnDetails.PhotoFileId;
+                    dto.PdfFileId = returnDetails.PdfFileId;
+                }
+                ret.Add(dto);
+            }
+            return ret;
+        }
+        
         public async Task<List<CarHistory>> GetRentalHistoryByUserAsync(string userId)
         {
             var history = await _carHistoryRepository.GetHistoryEntriesOfUserAsync(userId);
 
-            return history.Select(h => h.ToDto()).ToList();
+            return await ProcessToDto(history);
         }
 
         public async Task<List<CarHistory>> GetRentalHistoryAsync()
         {
             var history = await _carHistoryRepository.GetHistoryEntriesAsync();
 
-            return history.Select(h => h.ToDto()).ToList();
+            return await ProcessToDto(history);
         }
         
         public async Task<List<CarHistory>> GetCurrentlyRentedCarsOfUserAsync(string userId)

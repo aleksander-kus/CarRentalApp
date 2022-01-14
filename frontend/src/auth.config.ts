@@ -58,6 +58,10 @@ export const protectedResources = {
     endpoint: `${environment.apiUrl}/api/files/upload`,
     scopes: [environment.azureADApiScope]
   }),
+  fileUriApi: (fileName: string) => ({
+    endpoint: `${environment.apiUrl}/api/files/download/${fileName}`,
+    scopes: [environment.azureADApiScope]
+  }),
   currentlyRentedApi: (all: boolean) => ({
     endpoint: all ? `${environment.apiUrl}/api/cars/currentlyRented` : `${environment.apiUrl}/api/cars/currentlyRentedByUser`,
     scopes: [environment.azureADApiScope]

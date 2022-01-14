@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using CarRental.Domain.Entity;
 using CarRental.Domain.Ports.Out;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Database
 {
@@ -17,6 +19,12 @@ namespace CarRental.Infrastructure.Database
         {
             await _context.CarReturnEntries.AddAsync(carReturnEntry);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<CarReturnEntry> GetReturnEntryAsync(int historyEntryId)
+        {
+            return await _context.CarReturnEntries.Where(entry => entry.HistoryEntryId == historyEntryId)
+                .FirstOrDefaultAsync();
         }
     }
 }

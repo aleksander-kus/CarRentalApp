@@ -1,7 +1,8 @@
 export interface HistoryEntry
 {
-  rentDate: Date,
-  returnDate: Date,
+  rentDate: string;
+  returnDate: string;
+  returned: boolean;
   carModel: string;
   carBrand: string;
   carId: string;
@@ -9,4 +10,8 @@ export interface HistoryEntry
   rentId: string;
   id: string;
   userEmail: string;
+  carCondition: string;
+  odometerValue: string;
+  photoFileId: string;
+  pdfFileId: string;
 }

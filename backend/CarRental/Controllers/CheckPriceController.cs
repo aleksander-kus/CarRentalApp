@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
 {
+    [ApiController]
     [Route("/api/cars")]
     public class CheckPriceController: Controller
     {

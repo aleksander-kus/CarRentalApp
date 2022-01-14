@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace CarRental.Domain.Services
                                             $"Rent date: {carRentRequest.RentFrom}\n" +
                                             $"Return date: {carRentRequest.RentTo}\n");
             var fileName = await _storageService.UploadFileAsync(pdfStream, $"rentConfirm{rentId}.pdf");
-            var uri = await _storageService.GetFileSasAsync(fileName);
+            var uri = await _storageService.GetFileSasAsync(fileName, DateTimeOffset.Now.AddHours(1));
             await _emailApi.SendEmail(new Email
             {
                 Subject = "Car rent confirmation",

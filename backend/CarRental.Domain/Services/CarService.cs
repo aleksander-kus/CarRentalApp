@@ -14,24 +14,24 @@ namespace CarRental.Domain.Services
     public class CarService: IGetCarProvidersUseCase, IGetCarsFromProviderUseCase, IBookCarUseCase, IReturnCarUseCase, ICheckPriceUseCase, ISendNewCarsEventUseCase
     {
         private readonly ICarEmailedEventRepository _carEmailedEventRepository;
-        private readonly ICarReturnEntryRepository _carReturnEntryRepository;
         private readonly IGetUserDetailsUseCase _getUserDetailsUseCase;
         private readonly ICarProviderFactory _carProviderFactory;
         private readonly EmailService _emailService;
         private readonly CarHistoryService _carHistoryService;
+        private readonly CarReturnService _carReturnService;
         private readonly StorageService _storageService;
 
         public CarService(ICarProviderFactory carProviderFactory, IGetUserDetailsUseCase getUserDetailsUseCase,
             CarHistoryService carHistoryService, EmailService emailService, ICarEmailedEventRepository carEmailedEventRepository,
-            ICarReturnEntryRepository carReturnEntryRepository, StorageService storageService)
+            ICarReturnEntryRepository carReturnEntryRepository, StorageService storageService, CarReturnService carReturnService)
         {
             _carProviderFactory = carProviderFactory;
             _getUserDetailsUseCase = getUserDetailsUseCase;
             _carHistoryService = carHistoryService;
             _emailService = emailService;
             _carEmailedEventRepository = carEmailedEventRepository;
-            _carReturnEntryRepository = carReturnEntryRepository;
             _storageService = storageService;
+            _carReturnService = carReturnService;
         }
 
         public Task<List<CarProvider>> GetCarProvidersAsync()
@@ -97,19 +97,7 @@ namespace CarRental.Domain.Services
                 return result;
             
             var historyEntryId = int.Parse(carReturnRequest.HistoryEntryId);
-            await _carReturnEntryRepository.AddReturnEntryAsync(new CarReturnEntry()
-            {
-                PdfFileId = carReturnRequest.PdfFileId,
-                PhotoFileId = carReturnRequest.PhotoFileId,
-                OdometerValue = carReturnRequest.OdometerValue,
-                CarCondition = carReturnRequest.CarCondition,
-                CarId = carId,
-                RentId = carReturnRequest.RentId,
-                RentDate = carReturnRequest.RentDate,
-                ReturnDate = carReturnRequest.ReturnDate,
-                UserEmail = carReturnRequest.UserEmail,
-                HistoryEntryId = historyEntryId
-            });
+            await _carReturnService.RegisterCarReturnAsync(carId, historyEntryId, carReturnRequest);
 
             await _carHistoryService.UpdateCarToReturnedAsync(historyEntryId);
             await _emailService.NotifyUserAfterCarReturn(carReturnRequest.UserEmail);

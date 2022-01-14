@@ -32,7 +32,8 @@ namespace CarRental.Domain.Entity
                 RentId = RentId,
                 StartDate = StartDate,
                 EndDate = EndDate,
-                UserEmail = UserEmail
+                UserEmail = UserEmail,
+                Returned = Returned
             };
         }
     }

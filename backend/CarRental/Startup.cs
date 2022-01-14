@@ -73,6 +73,7 @@ namespace CarRental
             services.AddScoped<IBookCarUseCase, CarService>();
             services.AddScoped<IReturnCarUseCase, CarService>();
             services.AddScoped<IUploadFileUseCase, StorageService>();
+            services.AddScoped<IGetSasUriUseCase, StorageService>();
             services.AddScoped<IGetCurrentlyRentedCarsUseCase, CarHistoryService>();
             services.AddScoped<IGetRentalHistoryUseCase, CarHistoryService>();
             services.AddScoped<ICarHistoryRepository, CarHistoryRepository>();
@@ -83,6 +84,7 @@ namespace CarRental
                 new BlobStorageClient(_configurationManager.StorageConnectionString, _configurationManager.StorageContainerName));
             services.AddScoped<CarService>();
             services.AddScoped<CarHistoryService>();
+            services.AddScoped<CarReturnService>();
             services.AddScoped<EmailService>();
             services.AddScoped<UserService>();
             services.AddScoped<StorageService>();

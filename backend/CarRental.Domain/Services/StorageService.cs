@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CarRental.Domain.Services
 {
-    public class StorageService : IUploadFileUseCase
+    public class StorageService : IGetSasUriUseCase, IUploadFileUseCase
     {
         private readonly IStorageClient _storageClient;
 
@@ -30,9 +30,9 @@ namespace CarRental.Domain.Services
             return fileName;
         }
 
-        public async Task<string> GetFileSasAsync(string fileName)
+        public async Task<string> GetFileSasAsync(string fileName, DateTimeOffset expirationDate)
         {
-            return await _storageClient.GetFileSasAsync(fileName, DateTimeOffset.Now.AddHours(1));
+            return await _storageClient.GetFileSasAsync(fileName, expirationDate);
         }
     }
 }

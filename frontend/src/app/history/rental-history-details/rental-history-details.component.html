@@ -1,0 +1,47 @@
+<div class="container" xmlns="">
+  <mat-list>
+    <button mat-icon-button [attr.cy-id]="'details-close'" mat-button class="close" [mat-dialog-close]="true">
+      <mat-icon class="close-icon" color="black">close</mat-icon>
+    </button>
+    <h3 matSubheader>Details</h3>
+    <mat-list-item datasrc="entry">
+      <h1 style="font-size: 40px" [attr.cy-id]="'details-title'">{{entry?.carBrand}} {{entry?.carModel}}</h1>
+    </mat-list-item>
+    <mat-list-item datasrc="entry">
+      <div class="div-detail">
+        <span>Rent date:</span>
+        <span [attr.cy-id]="'details-production'">{{formatDate(entry?.rentDate)}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item datasrc="entry">
+      <div class="div-detail">
+        <span>Return date:</span>
+        <span [attr.cy-id]="'details-capacity'">{{formatDate(entry?.returnDate)}}</span>
+      </div>
+    </mat-list-item>
+    <div *appVisibleFor="[Client]">
+      <mat-list-item datasrc="entry">
+        <div class="div-detail">
+          <span>Car condition:</span>
+          <span [attr.cy-id]="'details-category'">{{entry?.carCondition}}</span>
+        </div>
+      </mat-list-item>
+      <mat-list-item datasrc="entry">
+        <div class="div-detail">
+          <span>Odometer value:</span>
+          <span [attr.cy-id]="'details-power'">{{entry?.odometerValue}}</span>
+        </div>
+      </mat-list-item>
+      <mat-list-item datasrc="entry">
+        <div class="div-detail">
+          <button type="button" mat-raised-button color="primary" (click)="getFileUri(entry?.photoFileId)">Download attached photo</button>
+        </div>
+      </mat-list-item>
+      <mat-list-item datasrc="entry">
+        <div class="div-detail">
+          <button type="button" mat-raised-button color="primary" (click)="getFileUri(entry?.pdfFileId)">Download attached documents</button>
+        </div>
+      </mat-list-item>
+    </div>
+  </mat-list>
+</div>

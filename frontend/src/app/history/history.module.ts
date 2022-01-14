@@ -16,12 +16,16 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { RentalHistoryDetailsComponent } from './rental-history-details/rental-history-details.component';
+import { MatListModule } from "@angular/material/list";
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     RentalHistoryComponent,
     CurrentlyRentedComponent,
-    ReturnCarComponent
+    ReturnCarComponent,
+    RentalHistoryDetailsComponent
   ],
   exports: [
     CurrentlyRentedComponent
@@ -29,21 +33,23 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
   providers: [
     CurrentlyRentedService
   ],
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatSortModule,
-        MatButtonModule,
-        AuthModule,
-        FlexModule,
-        MatProgressSpinnerModule,
-        RouterModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatToolbarModule,
-        FormsModule,
-        MatProgressBarModule
-    ]
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    AuthModule,
+    FlexModule,
+    MatProgressSpinnerModule,
+    RouterModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatToolbarModule,
+    FormsModule,
+    MatProgressBarModule,
+    MatListModule,
+    MatDialogModule
+  ]
 })
 export class HistoryModule { }
