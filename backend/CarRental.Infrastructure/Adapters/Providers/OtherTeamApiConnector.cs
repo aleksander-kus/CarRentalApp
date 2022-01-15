@@ -71,9 +71,22 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return new ApiResponse<CarRentResponse>() {Error = result.Error};
         }
 
-        public Task<ApiResponse<CarReturnResponse>> TryReturnCar(string rentId)
+        public async Task<ApiResponse<CarReturnResponse>> TryReturnCar(string rentId)
         {
-            throw new NotImplementedException();
+            var result = await SendPostAsync<string>($"/Cars/Return/{rentId}", false);
+
+            if (result.Error == null)
+            {
+                return new ApiResponse<CarReturnResponse>()
+                {
+                    Data = new CarReturnResponse()
+                    {
+                        Message = "Car returned"
+                    }
+                };
+            }
+
+            return new ApiResponse<CarReturnResponse>() {Error = result.Error};
         }
 
         public async Task<ApiResponse<CarPrice>> CheckPrice(string carId, int daysCount, UserDetails userDetails)
@@ -150,7 +163,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             return await JsonSerializer.DeserializeAsync<ApiResponse<T>>(content);
         }
         
-        private async Task<ApiResponse<T>> SendPostAsync<T>(string url) where T: class
+        private async Task<ApiResponse<T>> SendPostAsync<T>(string url, bool readResponse = true) where T: class
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_config.BaseUrl}{url}");
             request.Headers.Add("ApiKey", _apiKey);
@@ -161,7 +174,11 @@ namespace CarRental.Infrastructure.Adapters.Providers
 
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResponse<T>() {Data = await JsonSerializer.DeserializeAsync<T>(content)};
+                if (readResponse)
+                {
+                    return new ApiResponse<T>() {Data = await JsonSerializer.DeserializeAsync<T>(content)};
+                }
+                return new ApiResponse<T>();
             }
             if ((int) response.StatusCode >= 500)
             {
