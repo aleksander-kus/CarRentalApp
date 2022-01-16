@@ -128,5 +128,21 @@ namespace CarRental.Infrastructure.Test.Adapters.Providers
             Assert.NotNull(response.Data);
             Assert.Equal("2", response.Data.RentId);
         }
+        
+        [Fact]
+        public async Task ShouldSendReturnRequest()
+        {
+            _messageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage()
+                    {StatusCode = HttpStatusCode.OK, Content = new StringContent(JsonSerializer.Serialize(new { Message = "OK" }))});
+            
+            var response = await _provider.TryReturnCar("1");
+
+            Assert.Null(response.Error);
+        }
     }
 }

@@ -22,20 +22,20 @@ namespace CarRental.Domain.Services
             _storageClient = storageClient;
         }
 
-        public async Task<bool> ExistsFile(string fileName)
+        public virtual async Task<bool> ExistsFile(string fileName)
         {
             var result = await _storageClient.IsFileAsync(fileName);
             return result;
         }
 
-        public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
+        public virtual async Task<string> UploadFileAsync(Stream fileStream, string fileName)
         {
             fileName = Guid.NewGuid() + fileName;
             await _storageClient.UploadFileAsync(fileStream, fileName);
             return fileName;
         }
 
-        public async Task<string> GetFileSasAsync(string fileName, DateTimeOffset expirationDate)
+        public virtual async Task<string> GetFileSasAsync(string fileName, DateTimeOffset expirationDate)
         {
             return await _storageClient.GetFileSasAsync(fileName, expirationDate);
         }

@@ -19,7 +19,7 @@ namespace CarRental.Domain.Services
             _carReturnRepository = carReturnRepository;
         }
 
-        public async Task RegisterCarReturnAsync(string carId, int historyEntryId, CarReturnRequest request)
+        public virtual async Task RegisterCarReturnAsync(string carId, int historyEntryId, CarReturnRequest request)
         {
             await _carReturnRepository.AddReturnEntryAsync(new CarReturnEntry()
             {

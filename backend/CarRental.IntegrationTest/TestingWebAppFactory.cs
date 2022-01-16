@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using CarRental.Domain.Dto;
 using CarRental.Domain.Ports.Out;
 using CarRental.Infrastructure.Adapters;
 using CarRental.Infrastructure.Database;
@@ -15,6 +17,25 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.IntegrationTest
 {
+    public class MockUserRepo : IUserRepository
+    {
+        public Task<UserDetails> GetUserDetailsAsync(string userId)
+        {
+            return Task.FromResult(new UserDetails()
+            {
+                Age = 22,
+                YearsHavingDrivingLicense = 2,
+                Address = "Raszynska",
+                City = "Warszawa"
+            });
+        }
+
+        public Task<List<string>> GetAllEmailsAsync()
+        {
+            return Task.FromResult(new List<string>());
+        }
+    }
+    
     public class TestingWebAppFactory: WebApplicationFactory<Startup>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -32,6 +53,7 @@ namespace CarRental.IntegrationTest
                 {
                     options.UseInMemoryDatabase("CarRentalApp");
                 });
+                services.AddSingleton<IUserRepository, MockUserRepo>();
                 services.AddSingleton<ICarProviderFactory, CarProviderFactory>(conf => 
                     new CarProviderFactory(new Dictionary<string, CarProviderConfig>()
                         {

@@ -1,5 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import { Component, EventEmitter, Inject, Output } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {HistoryEntry} from "../model/history-entry.interface";
 import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
@@ -34,7 +34,7 @@ export class ReturnCarComponent {
               private returnCar: ReturnCarService,
               private uploadFile: UploadFileService,
               private snackBar: MatSnackBar,
-              private matModal: MatDialog) {
+              private matModal: MatDialogRef<ReturnCarComponent>) {
     this.historyEntry = data.historyEntry;
   }
 
@@ -106,7 +106,7 @@ export class ReturnCarComponent {
         ).subscribe(res => {
           this.snackBar.open(`Car successfully returned`, undefined,
             {duration: 10000, panelClass: 'snack-success'});
-          this.matModal.closeAll();
+          this.matModal.close(true);
         }, (errorRes: HttpErrorResponse) => this.snackBar.open(`Cannot return this car: ${errorRes.error.error}`,
         undefined, {duration: 10000, panelClass: 'snack-fail'}));
     }

@@ -2,6 +2,15 @@
 WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:5000
 
+RUN echo "deb http://deb.debian.org/debian stable main contrib non-free" > /etc/apt/sources.list \
+    && echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections \
+    && apt-get update \
+    && apt-get install -y \
+        ttf-mscorefonts-installer \
+    && apt-get clean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY *.sln ./

@@ -78,6 +78,27 @@ namespace CarRental.Domain.Test.Services
         }
         
         [Fact]
+        public async Task ShouldReturnCarInDatabaseAndCallProvider()
+        {
+            var expected = new ApiResponse<CarReturnResponse>() { Data = new CarReturnResponse() { } };
+
+            _carReturnService.Setup(p =>
+                    p.RegisterCarReturnAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CarReturnRequest>()))
+                .Returns(Task.CompletedTask);
+            _carHistoryService.Setup(p => p.UpdateCarToReturnedAsync(It.IsAny<int>()))
+                .Returns(Task.CompletedTask);
+            _emailService.Setup(p => p.NotifyUserAfterCarReturn(It.IsAny<string>()))
+                .Returns(Task.CompletedTask);
+            _carProvider.Setup(p => p.TryReturnCar(It.IsAny<string>())).Returns(Task.FromResult(expected));
+            _carProviderFactory.Setup(p => p.GetProviderAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(_carProvider.Object));
+            _storageService.Setup(p => p.ExistsFile(It.IsAny<string>())).Returns(Task.FromResult(true));
+
+            var req = await _carService.TryReturnCar("xxx", "xxx", new CarReturnRequest() { RentId = "xxx", HistoryEntryId = "2"});
+            Assert.Equal(expected, req);
+        }
+        
+        [Fact]
         public async Task ShouldCheckPriceInProvider()
         {
             var expected = new ApiResponse<CarPrice>() { Data = new CarPrice() { } };

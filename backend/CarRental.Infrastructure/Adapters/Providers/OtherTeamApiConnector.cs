@@ -98,7 +98,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
                 Location = userDetails.City,
                 CurrentlyRentedCount = 1,
                 OverallRentedCount = 1,
-                DaysCount = daysCount * 24
+                DaysCount = daysCount
             };
 
             var response = await SendPostAsync<OTCarPrice, OTCheckPriceRequest>($"/Cars/{carId}/GetPrice", dnzRequest);

@@ -212,8 +212,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
 
         private async Task<string> GetToken()
         {
-            var client = new HttpClient();
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            var tokenResponse = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = _config.Config["TokenUrl"],
                 ClientId = _clientId,
@@ -221,10 +220,10 @@ namespace CarRental.Infrastructure.Adapters.Providers
                 Scope = _config.Config["Scope"]
             });
             
-            return tokenResponse.IsError ? null : tokenResponse.AccessToken;
+            return tokenResponse.IsError ? null : (tokenResponse.AccessToken ?? "");
         }
 
-        private class LECCarDetails
+        public class LECCarDetails
         {
             [JsonPropertyName(("id"))]
             public string Id { get; set; }
@@ -248,7 +247,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public string Description { get; set; }
         }
         
-        private class LECCheckPriceRequest
+        public class LECCheckPriceRequest
         {
             [JsonPropertyName("yearsOfHavingLicense")]
             [Required, Range(0, int.MaxValue)]
@@ -266,7 +265,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public int DaysCount { get; set; }
         }
         
-        private class LECCarPrice
+        public class LECCarPrice
         {
             [Required, Range(0, long.MaxValue)]
             [JsonPropertyName("quotaId")]
@@ -285,7 +284,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public DateTime ExpiredAt { get; set; }
         }
 
-        private class LECRentCarResponse
+        public class LECRentCarResponse
         {
             [JsonPropertyName("rentId")]
             public string RentId { get; set; }
@@ -295,12 +294,12 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public DateTime EndDate { get; set; }
         }
 
-        private class LECRentCarRequest
+        public class LECRentCarRequest
         {
             [JsonPropertyName("startDate")] public DateTime StartDate { get; set; }
         }
         
-        private class LECCarsListResponse
+        public class LECCarsListResponse
         {
             [Required]
             [JsonPropertyName("vehiclesCount")]

@@ -9,6 +9,7 @@ using CarRental.Domain.Dto;
 using CarRental.Domain.Ports.Out;
 using CarRental.Infrastructure.Adapters.Providers;
 using CarRental.Infrastructure.Util;
+using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Moq.Protected;
@@ -16,21 +17,27 @@ using Xunit;
 
 namespace CarRental.Infrastructure.Test.Adapters.Providers
 {
-    public class OtherTeamApiConnectorTest
+    public class LecturerApiConnectorTest
     {
-         private readonly Mock<HttpMessageHandler> _messageHandler = new Mock<HttpMessageHandler>();
+        private readonly Mock<HttpMessageHandler> _messageHandler = new Mock<HttpMessageHandler>();
         private readonly ICarProvider _provider;
 
-        public OtherTeamApiConnectorTest()
+        public LecturerApiConnectorTest()
         {
             var client = new HttpClient(_messageHandler.Object);
             var factory = new Mock<IHttpClientFactory>();
             factory.Setup(p => p.CreateClient(It.IsAny<string>())).Returns(client);
-            _provider = new OtherTeamApiConnector(factory.Object,
+            _provider = new LecturerApiConnector(factory.Object,
                 new CarProviderConfig()
                 {
                     BaseUrl = "http://example.com",
-                    Config = new Dictionary<string, string>() { {"ApiKey", "123"} }
+                    Config = new Dictionary<string, string>()
+                    {
+                        {"ClientSecret","xxx"},
+                        {"ClientId", "xxx"},
+                        {"TokenUrl", "http://example.com"},
+                        {"Scope", "test"}
+                    }
                 },
                 (new Mock<IConfiguration>()).Object);
         }
@@ -38,26 +45,30 @@ namespace CarRental.Infrastructure.Test.Adapters.Providers
         [Fact]
         public async Task ShouldQueryAndFilterListOfCars()
         {
-            var cars = new List<OtherTeamApiConnector.OTCarDetails>()
+            var cars = new LecturerApiConnector.LECCarsListResponse()
             {
-                new()
+                Count = 1,
+                Cars = new List<LecturerApiConnector.LECCarDetails>()
                 {
-                    Id = 1,
-                    Brand = "ABC",
-                    Model = "DEF",
-                    ProductionYear = 2000,
-                    Capacity = 4,
-                    HorsePower = 1
-                },
-                new()
-                {
-                    Id = 1,
-                    Brand = "AA",
-                    Model = "BB",
-                    ProductionYear = 2000,
-                    Capacity = 4,
-                    HorsePower = 1
-                },
+                    new()
+                    {
+                        Id = "1",
+                        Brand = "ABC",
+                        Model = "DEF",
+                        ProductionYear = 2000,
+                        Capacity = 4,
+                        HorsePower = 1,
+                    },
+                    new()
+                    {
+                        Id = "2",
+                        Brand = "AA",
+                        Model = "BB",
+                        ProductionYear = 2000,
+                        Capacity = 4,
+                        HorsePower = 1
+                    },
+                }
             };
             _messageHandler
                 .Protected()
@@ -77,12 +88,13 @@ namespace CarRental.Infrastructure.Test.Adapters.Providers
         [Fact]
         public async Task ShouldSendCheckPriceRequestAndParseResult()
         {
-            var price = new OtherTeamApiConnector.OTCarPrice()
+            var price = new LecturerApiConnector.LECCarPrice()
             {
                 Currency = "PLN",
                 Price = 10,
                 ExpiredAt = new DateTime(),
-                Id = 1
+                GeneratedAt = new DateTime(),
+                Id = "1"
             };
             _messageHandler
                 .Protected()
@@ -101,9 +113,9 @@ namespace CarRental.Infrastructure.Test.Adapters.Providers
         [Fact]
         public async Task ShouldSendBookCarRequestAndParseResult()
         {
-            var rent = new OtherTeamApiConnector.OTRentCarResponse()
+            var rent = new LecturerApiConnector.LECRentCarResponse()
             {
-                RentId = 2
+                RentId = "2"
             };
             _messageHandler
                 .Protected()

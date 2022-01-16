@@ -102,7 +102,7 @@ namespace CarRental.Domain.Services
             await _carHistoryRepository.AddHistoryEntryAsync(entry);
         }
 
-        public async Task UpdateCarToReturnedAsync(int historyEntryId)
+        public virtual async Task UpdateCarToReturnedAsync(int historyEntryId)
         {
             await _carHistoryRepository.UpdateHistoryEntryToReturnedAsync(historyEntryId);
         }
