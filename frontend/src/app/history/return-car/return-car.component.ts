@@ -5,10 +5,10 @@ import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../auth/auth.service";
 import {filter, map, switchAll} from "rxjs/operators";
-import {ReturnCarService} from "../return-car.service";
+import {ReturnCarService} from "../services/return-car.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
-import {UploadFileService} from "../upload-file.service";
+import {UploadFileService} from "../services/upload-file.service";
 import {UploadFileResponse} from "../model/upload-file-response.inteface";
 
 @Component({

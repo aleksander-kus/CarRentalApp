@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
-import { protectedResources } from "../../auth.config";
-import { ApiResponse } from "../common/api-response.interface";
-import {CarReturnResponse} from "./model/car-return-response.interface";
-import {CarReturnRequest} from "./model/car-return-request.interface";
+import { protectedResources } from "../../../auth.config";
+import { ApiResponse } from "../../common/api-response.interface";
+import {CarReturnResponse} from "../model/car-return-response.interface";
+import {CarReturnRequest} from "../model/car-return-request.interface";
 import {finalize} from "rxjs/operators";
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {HistoryEntry} from "./model/history-entry.interface";
-import {protectedResources} from "../../auth.config";
+import {HistoryEntry} from "../model/history-entry.interface";
+import {protectedResources} from "../../../auth.config";
 import {finalize} from "rxjs/operators";
 
 @Injectable({

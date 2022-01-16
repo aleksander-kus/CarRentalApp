@@ -4,9 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {HistoryEntry} from "../model/history-entry.interface";
 import {Role} from "../../auth/model/role.enum";
 import {AuthService} from "../../auth/auth.service";
-import {RentalHistoryService} from "../rental-history.service";
-import { Car } from "../../car-search/model/car.interface";
-import { CarDetailsComponent } from "../../car-search/components/car-details/car-details.component";
+import {RentalHistoryService} from "../services/rental-history.service";
 import { MatDialog } from "@angular/material/dialog";
 import { RentalHistoryDetailsComponent } from "../rental-history-details/rental-history-details.component";
 
