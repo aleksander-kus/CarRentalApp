@@ -43,6 +43,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
                     Capacity = dnz.Capacity,
                     Category = dnz.Capacity > 4 ? "Big" : "Small",
                     HorsePower = dnz.HorsePower,
+                    Description = dnz.Description,
                     Id = dnz.Id,
                     Model = dnz.Model,
                     ProductionYear = dnz.ProductionYear,

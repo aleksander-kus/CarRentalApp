@@ -50,6 +50,10 @@ export class CurrentlyRentedComponent implements AfterViewInit, OnInit{
         historyEntry: entry
       },
       panelClass: 'return-me-dialog'
-    });
+    }).afterClosed().subscribe(r => {
+      if (r) {
+        this.ngOnInit();
+      }
+    })
   }
 }

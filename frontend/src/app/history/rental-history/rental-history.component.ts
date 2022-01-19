@@ -49,11 +49,7 @@ export class RentalHistoryComponent implements OnInit, AfterViewInit{
         entry: entry
       },
       panelClass: 'details-dialog'
-    }).afterClosed().subscribe(r => {
-      if (r) {
-        this.ngOnInit();
-      }
-    })
+    });
   }
 
   formatDate(date: string): string {

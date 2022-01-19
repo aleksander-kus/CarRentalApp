@@ -40,6 +40,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
                     Capacity = dnz.Capacity,
                     Category = dnz.Category,
                     HorsePower = dnz.HorsePower,
+                    Description = dnz.Description,
                     Id = dnz.Id.ToString(),
                     Model = dnz.Model,
                     ProductionYear = dnz.ProductionYear,
@@ -200,6 +201,8 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public string Brand { get; set; }
             [JsonPropertyName(("model"))]
             public string Model { get; set; }
+            [JsonPropertyName("description")]
+            public string Description { get; set; }
             [JsonPropertyName(("productionYear"))]
             public int ProductionYear { get; set; }
             [JsonPropertyName(("capacity"))]

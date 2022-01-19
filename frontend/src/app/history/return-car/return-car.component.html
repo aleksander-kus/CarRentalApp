@@ -31,5 +31,5 @@
     <input hidden (change)="selectPdfFile($event)" #pdfInput type="file" id="pdfFile" accept=".pdf">
     <mat-progress-bar mode="determinate" [value]="pdfProgress"></mat-progress-bar>
   </mat-form-field>
-  <button mat-raised-button style="margin-left: 10px" color="primary" (click)="tryReturnCar()">Return Car</button>
+  <button [disabled]="loading$ | async" mat-raised-button style="margin-left: 10px" color="primary" (click)="tryReturnCar()">Return Car</button>
 </div>

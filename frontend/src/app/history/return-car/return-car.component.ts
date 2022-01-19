@@ -18,6 +18,7 @@ import {UploadFileResponse} from "../model/upload-file-response.inteface";
 })
 export class ReturnCarComponent {
   historyEntry : HistoryEntry;
+  loading$ = this.returnCar.loading$;
 
   carConditionControl = new FormControl();
   odometerValueControl = new FormControl();

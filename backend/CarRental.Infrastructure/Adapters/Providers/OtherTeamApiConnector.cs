@@ -41,6 +41,7 @@ namespace CarRental.Infrastructure.Adapters.Providers
                     Category = null,
                     HorsePower = obj.HorsePower,
                     Id = obj.Id.ToString(),
+                    Description = obj.Description,
                     Model = obj.Model,
                     ProductionYear = obj.ProductionYear,
                     ProviderCompany = _config.Name,
@@ -201,16 +202,15 @@ namespace CarRental.Infrastructure.Adapters.Providers
             public string Model { get; set; }
             [Required]
             [JsonPropertyName(("productionYear"))]
-            [Range(1900, 2100)]
             public int ProductionYear { get; set; }
             [Required]
             [JsonPropertyName(("capacity"))]
-            [Range(0, 10)]
             public int Capacity { get; set; }
             [Required]
             [JsonPropertyName("horsePower")]
-            [Range(0, 1000)]
             public int HorsePower { get; set; }
+            [JsonPropertyName("description")]
+            public string Description { get; set; }
         }
         
         public class OTCheckPriceRequest
