@@ -34,7 +34,11 @@ context("Car list", () => {
 
     cy.get('[cy-id="category-filter-checkbox"]').first().then(brand => {
       cy.get('td[cy-id="category-col"]').each(
-        col => cy.wrap(col).should('contain.text', brand.first().attr('data-value')));
+        col => {
+          if (col.text().trim()) {
+            cy.wrap(col).should('contain.text', brand.first().attr('data-value'));
+          }
+        });
     });
   });
 
@@ -43,7 +47,9 @@ context("Car list", () => {
     cy.get('button[cy-id="search-button"]').click();
 
     cy.get('td[cy-id="capacity-col"]').each(col => {
-      cy.wrap(parseInt(col.text())).should('be.gte', 5);
+      if (!isNaN(parseInt(col.text()))) {
+        cy.wrap(parseInt(col.text())).should('be.gte', 5);
+      }
     });
   });
 

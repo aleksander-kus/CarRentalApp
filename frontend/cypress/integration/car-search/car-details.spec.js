@@ -27,8 +27,6 @@ context("Car details", () => {
       power => cy.get('span[cy-id="details-power"]').should('have.text', power.text().trim()));
     cy.get('td[cy-id="category-col"]').first().then(
       cat => cy.get('span[cy-id="details-category"]').should('have.text', cat.text().trim()));
-    cy.get('td[cy-id="category-col"]').first().then(
-      cat => cy.get('span[cy-id="details-description"]').should('have.text', description.text().trim()));
 
   });
 
