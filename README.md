@@ -10,6 +10,6 @@ A car rental system pulling information about available cars from many APIs. The
 - Backend:
   - .NET 5
   - ASP.NET Core
-  - SQL Database with Entity Framework
+  - SQL Database with Entity Framework Core
   - Azure Blob for storing files
   - SendGrid for sending emails
