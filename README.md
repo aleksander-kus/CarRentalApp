@@ -1,13 +1,14 @@
 # CarRentalApp
 
+A car rental system pulling information about available cars from many APIs. The client can filter a list of available models, select one and check its price. Afterwards he can decide to rent it for the specified period of time. Clients can see their rental history alongside with prices and documents. Rental employees are responsible for returning cars and submitting necessary documents.
 
-## For development You can either:
-* Run each part separately (SQLServer local instance)
-* Use ```docker-compose up``` (it will setup BE, FE and database)
-
-## Working with GIT
-* Each task should be one commit, commit message schema: 'CRA-{azure devops id}': {Shortly what this change is}
-* A single pull request can consist of one commit (task) or the whole user story (the whole user story is preferred)
-* Each branch which contains task/user story should be named 'feature/CRA-{azure devops id}'
-* Pull requests should be made to master
-* When You are implementing code review amend you commit and force push
+Technologies used:
+- Git
+- Azure DevOps
+- Frontend - Angular, Typescript
+- Backend:
+  - .NET 5
+  - ASP.NET Core
+  - SQL Database with Entity Framework
+  - Azure Blob for storing files
+  - SendGrid for sending emails
